@@ -20,3 +20,7 @@ body {
 *:after {
   box-sizing: inherit;
 }
+
+.is-collapsed {
+    display: none;
+}
