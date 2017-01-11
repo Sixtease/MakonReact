@@ -1,9 +1,11 @@
 [
     {
         "name": "kazety",
+        "key": "kazety",
         "items": [
             {
                 "name": "označené ročníkem",
+                "key": "kazety/označené ročníkem",
                 "items": [
                     { "name": "73", "section": "kazety-rocnik-73" },
                     { "name": "74", "section": "kazety-rocnik-74" },
@@ -29,6 +31,7 @@
             },
             {
                 "name": "označené číslem",
+                "key": "kazety/označené číslem",
                 "items": [
                     { "name": "1", "section": "kazety-cislo-1" },
                     { "name": "2", "section": "kazety-cislo-2" },
@@ -39,6 +42,7 @@
             },
             {
                 "name": "ostatní",
+                "key": "kazety/ostatní",
                 "items": [
                     { "name": "X",       "section": "kazety-ostatni-x"       },
                     { "name": "ostatní", "section": "kazety-ostatni-ostatni" }
@@ -51,6 +55,7 @@
         "items": [
             {
                 "name": "označené písmenem",
+                "key": "kotouče/označené písmenem",
                 "items": [
                     { "name": "A", "section": "kotouc-pismeno-A" },
                     { "name": "B", "section": "kotouc-pismeno-B" },
@@ -75,6 +80,7 @@
             },
             {
                 "name": "označené ročníkem",
+                "key": "kotouče/označené ročníkem",
                 "items": [
                     { "name": "73",    "section": "kotouc-rocnik-73"    },
                     { "name": "74",    "section": "kotouc-rocnik-74"    },
@@ -92,6 +98,7 @@
             },
             {
                 "name": "označené číslem",
+                "key": "kotouče/označené číslem",
                 "items": [
                     { "name": "1", "section": "kotouc-cislo-1" },
                     { "name": "2", "section": "kotouc-cislo-2" },
@@ -102,6 +109,7 @@
             },
             {
                 "name": "ostatní",
+                "key": "kotouče/ostatní",
                 "items": [
                     { "name": "neident", "section": "kotouc-ostatni-neident" },
                     { "name": "jiřetín", "section": "kotouc-ostatni-jir"     }
@@ -111,9 +119,11 @@
     },
     {
         "name": "CD",
+        "key": "CD",
         "items": [
             {
                 "name": "Kaly 78",
+                "key": "CD/Kaly 78",
                 "items": [
                     { "name": "01", "section": "cd-kaly78-01" },
                     { "name": "02", "section": "cd-kaly78-02" },

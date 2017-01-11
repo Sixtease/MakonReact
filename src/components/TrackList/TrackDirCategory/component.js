@@ -1,7 +1,14 @@
 import React from 'react';
 
-export const TrackDirCategoryView = ({cat}) => (
-    <li key={cat.name}>
+const is_visible = (cat, state) => {
+    if (!state[cat.key]) {
+        return 'none';
+    }
+    return state[cat.key].visible ? 'block' : 'none';
+};
+
+export const TrackDirCategoryView = ({cat, visible, toggle_visible}) => (
+    <li>
         { cat.section
             ? (
                 <a href={'#'+cat.section}>
@@ -10,10 +17,10 @@ export const TrackDirCategoryView = ({cat}) => (
             )
             : (
                 <div>
-                    <label>{cat.name}</label>
-                    <ul>
+                    <label onClick={toggle_visible.bind(this,cat)}>{cat.name}</label>
+                    <ul style={{display: is_visible(cat, visible)}}>
                         { cat.items.map((subcat) => (
-                            <TrackDirCategoryView cat={subcat} />
+                            <TrackDirCategoryView cat={subcat} visible={visible} toggle_visible={toggle_visible} />
                         ))}
                     </ul>
                 </div>
@@ -21,9 +28,5 @@ export const TrackDirCategoryView = ({cat}) => (
         }
     </li>
 );
-
-TrackDirCategoryView.contextTypes = {
-    store: React.PropTypes.object,
-};
 
 export default TrackDirCategoryView;

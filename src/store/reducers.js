@@ -4,6 +4,7 @@ import locationReducer from './location';
 export const makeRootReducer = (asyncReducers) => {
     return combineReducers({
         location: locationReducer,
+        nic: (action,state)=>{console.log('called reducer',state,action);return state;},
         ...asyncReducers,
     });
 };
