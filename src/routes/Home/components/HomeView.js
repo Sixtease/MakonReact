@@ -4,7 +4,7 @@ import './HomeView.scss';
 
 export const HomeView = () => (
     <div>
-        <h4>Welcome!</h4>
+        <h4>Seznam nahrávek</h4>
         <TrackList />
     </div>
 );
