@@ -1,32 +1,40 @@
 import React from 'react';
 
-const is_visible = (cat, state) => {
-    if (!state[cat.key]) {
-        return 'none';
-    }
-    return state[cat.key].visible ? 'block' : 'none';
-};
-
-export const TrackDirCategoryView = ({cat, visible, toggle_visible}) => (
-    <li>
-        { cat.section
-            ? (
-                <a href={'#'+cat.section}>
-                    {cat.name}
-                </a>
-            )
-            : (
-                <div>
-                    <label onClick={toggle_visible.bind(this,cat)}>{cat.name}</label>
-                    <ul style={{display: is_visible(cat, visible)}}>
-                        { cat.items.map((subcat) => (
-                            <TrackDirCategoryView cat={subcat} visible={visible} toggle_visible={toggle_visible} />
-                        ))}
-                    </ul>
-                </div>
-            )
+export class TrackDirCategoryView extends React.Component {
+    is_visible() {
+        const {cat, visible} = this.props;
+        if (!visible[cat.key]) {
+            return 'none';
         }
-    </li>
-);
+        return visible[cat.key].visible ? 'block' : 'none';
+    }
+    render() {
+        const me = this;
+        const {cat, visible, toggle_visible} = me.props;
+        return (<li>
+            { cat.section
+                ? (
+                    <a href={'#'+cat.section}>
+                        {cat.name}
+                    </a>
+                )
+                : (
+                    <div>
+                        <label onClick={toggle_visible.bind(me,cat)}>{cat.name}</label>
+                        <ul style={{display: me.is_visible()}}>
+                            { cat.items.map((subcat) => (
+                                <TrackDirCategoryView
+                                    cat={subcat}
+                                    visible={visible}
+                                    toggle_visible={toggle_visible}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
+        </li>);
+    }
+};
 
 export default TrackDirCategoryView;

@@ -32,11 +32,11 @@ const ACTION_HANDLERS = {
         ...state,
         current_section: action.section_id
     }),
-    make_dir_fixed: (state, action) => ({
+    [MAKE_DIR_FIXED]: (state, action) => ({
         ...state,
         is_dir_fixed: true,
     }),
-    make_dir_static: (state, action) => ({
+    [MAKE_DIR_STATIC]: (state, action) => ({
         ...state,
         is_dir_fixed: false,
     }),

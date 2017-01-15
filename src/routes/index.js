@@ -2,18 +2,25 @@
 import CoreLayout from '../layouts/CoreLayout';
 import Home from './Home';
 import CounterRoute from './Counter';
+import { injectReducer } from '../store/reducers';
+import { reducer as track_list_reducer } from '../components/TrackList/module';
+import { reducer as track_dir_reducer  } from '../components/TrackList/TrackDirCategory/module';
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
 
-export const createRoutes = (store) => ({
-    path        : '/',
-    component   : CoreLayout,
-    indexRoute  : Home,
-    childRoutes : [
-        CounterRoute(store),
-    ],
-});
+export const createRoutes = (store) => {
+    injectReducer(store, { key: 'track_list', reducer: track_list_reducer });
+    injectReducer(store, { key: 'track_dir',  reducer: track_dir_reducer  });
+    return {
+        path        : '/',
+        component   : CoreLayout,
+        indexRoute  : Home,
+        childRoutes : [
+            CounterRoute(store),
+        ],
+    };
+};
 
 /*  Note: childRoutes can be chunked or otherwise loaded programmatically
     using getChildRoutes with the following signature:
