@@ -5,12 +5,16 @@ import {
     set_current_section,
     make_dir_fixed,
     make_dir_static,
+    scrolled_to,
+    set_offset,
+    set_section_offset,
 } from './module';
 
 const map_dispatch_to_props = {
     set_current_section,
-    make_dir_fixed,
-    make_dir_static,
+    scrolled_to,
+    set_offset,
+    set_section_offset,
 };
 
 const map_state_to_props = (state) => ({
