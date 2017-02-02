@@ -62,7 +62,7 @@ function handle_scrolled_to(state, action) {
     Object.keys(state.section_offsets).forEach((section) => {
         let section_offset = state.section_offsets[section];
         if (
-            section_offset > action.offset
+            section_offset > action.offset - 100
             && section_offset < current_section.offset
         ) {
             current_section = { section, offset: section_offset };

@@ -7,7 +7,7 @@ import stemsec from '../../store/stemsec.json';
 export class TrackList extends React.Component {
     render() {
         const context = this.context;
-        const {is_dir_fixed,set_section_offset} = this.props;
+        const {is_dir_fixed,set_section_offset,current_section} = this.props;
         window.STORE = context.store;
         return (
             <div className='row tracklist'>
@@ -38,6 +38,7 @@ export class TrackList extends React.Component {
                             id={sec.section}
                             key={sec.section}
                             ref={(el)=>{if (el) set_section_offset(sec.section,el.offsetTop)}}
+                            className={sec.section === current_section ? 'is-current' : ''}
                         >
                             { sec.items.map( (item) => (
                                 <a href={item} key={item}>{item}</a>
