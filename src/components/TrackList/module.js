@@ -5,6 +5,8 @@ export const SET_OFFSET = 'SET_OFFSET';
 export const SET_SECTION_OFFSET = 'SET_SECTION_OFFSET';
 export const SCROLLED_TO = 'SCROLLED_TO';
 
+import stemsec from '../../store/stemsec.json';
+
 export function set_current_section(section_id) {
     return {
         type: SET_CURRENT_SECTION,
@@ -47,6 +49,7 @@ export function set_section_offset(section,offset) {
 };
 
 function handle_scrolled_to(state, action) {
+    ;;; console.log(action.offset - 168);
     let new_state;
     if (action.offset > state.initial_offset) {
         new_state = reducer(state, {
@@ -58,15 +61,15 @@ function handle_scrolled_to(state, action) {
             type: MAKE_DIR_STATIC,
         });
     }
-    var current_section = { section: null, offset: Infinity };
-    Object.keys(state.section_offsets).forEach((section) => {
+    var current_section = { section: stemsec[0].section, offset: 0 };
+    stemsec.some((item) => {
+        let section = item.section;
         let section_offset = state.section_offsets[section];
-        if (
-            section_offset > action.offset - 100
-            && section_offset < current_section.offset
-        ) {
-            current_section = { section, offset: section_offset };
+        if (section_offset > action.offset - 128) {
+            return true;
         }
+        current_section = { section, offset: section_offset };
+        return false;
     });
     return reducer(new_state, {
         type: SET_CURRENT_SECTION,

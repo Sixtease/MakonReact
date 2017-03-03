@@ -47,5 +47,6 @@ export default (initialState = {}) => {
         });
     }
 
+    ;;; window.store = store;
     return store;
 };
