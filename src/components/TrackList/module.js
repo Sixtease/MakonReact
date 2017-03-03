@@ -49,7 +49,6 @@ export function set_section_offset(section,offset) {
 };
 
 function handle_scrolled_to(state, action) {
-    ;;; console.log(action.offset - 168);
     let new_state;
     if (action.offset > state.initial_offset) {
         new_state = reducer(state, {

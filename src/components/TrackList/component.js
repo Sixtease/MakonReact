@@ -37,10 +37,7 @@ export class TrackList extends React.Component {
                             id={sec.section}
                             key={sec.section}
                             ref={(el)=>{
-                                if (el) {
-                                    set_section_offset(sec.section,el.offsetTop);
-                                    ;;; el.setAttribute('title',el.offsetTop);
-                                }
+                                if (el) set_section_offset(sec.section,el.offsetTop);
                             }}
                             className={sec.section === current_section ? 'is-current' : ''}
                         >
