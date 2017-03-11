@@ -7,7 +7,7 @@ import stemsec from '../../store/stemsec.json';
 export class TrackList extends React.Component {
     render() {
         const context = this.context;
-        const {is_dir_fixed,set_section_offset,current_section} = this.props;
+        const {is_dir_fixed,current_section} = this.props;
         return (
             <div className='row tracklist'>
 
@@ -17,6 +17,7 @@ export class TrackList extends React.Component {
                     <ul
                         id="tracklist-directory-top-list"
                         className={is_dir_fixed ? 'is-fixed' : ''}
+                        ref={(el)=>{this.tracklist_directory_top_list=el;}}
                     >
                         { stemdir.map((cat1) => {
                             return (
@@ -37,7 +38,9 @@ export class TrackList extends React.Component {
                             id={sec.section}
                             key={sec.section}
                             ref={(el)=>{
-                                if (el) set_section_offset(sec.section,el.offsetTop);
+                                if (el) {
+                                    this.section_offsets[sec.section] = el.offsetTop;
+                                }
                             }}
                             className={sec.section === current_section ? 'is-current' : ''}
                         >
@@ -52,23 +55,53 @@ export class TrackList extends React.Component {
         );
     }
 
+    componentWillMount() {
+        this.section_offsets = {};
+    }
+
     componentDidMount() {
-        const {set_offset,scrolled_to} = this.props;
+        let me = this;
+        const {set_offset,scrolled_to} = me.props;
         if (!window.TRACKLIST_SCROLL_HANDLER) {
-            const list = document.getElementById('tracklist-directory-top-list');
+            const list = me.tracklist_directory_top_list;
             if (list) {
                 let offset = -window.scrollY - 55;
                 for (let offsetEl = list; offsetEl; offsetEl = offsetEl.offsetParent) {
                     offset += offsetEl.offsetTop;
                 }
-                set_offset(offset);
+                me.initial_offset = offset;
                 window.TRACKLIST_SCROLL_HANDLER = window.onscroll = function (evt) {
-                    scrolled_to(evt.pageY);
+                    me.scrolled_to(evt.pageY);
                 };
             }
         }
     }
+
+    scrolled_to(offset) {
+        let me = this;
+        let {make_dir_fixed,make_dir_static,set_current_section} = me.props;
+        let new_state;
+        if (offset > me.initial_offset) {
+            make_dir_fixed();
+        }
+        else {
+            make_dir_static();
+        }
+        var current_section = { section: stemsec[0].section, offset: 0 };
+        stemsec.some((item) => {
+            let section = item.section;
+            let section_offset = me.section_offsets[section];
+            if (section_offset > offset - 128) {
+                return true;
+            }
+            current_section = { section, offset: section_offset };
+            return false;
+        });
+        set_current_section(current_section.section);
+    }
 };
+
+
 
 TrackList.contextTypes = {
     store: React.PropTypes.object,
