@@ -28,7 +28,7 @@ export class TrackDirCategoryView extends React.Component {
                     { cat.items.map((subcat) => (
                         <TrackDirCategoryView
                             cat={subcat}
-                            key={subcat.key}
+                            key={subcat.key || subcat.section}
                             visible={visible}
                             toggle_visible={toggle_visible}
                             current_section={current_section}
