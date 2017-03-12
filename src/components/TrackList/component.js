@@ -64,7 +64,7 @@ export class TrackList extends React.Component {
         if (!window.TRACKLIST_SCROLL_HANDLER) {
             const list = me.tracklist_directory_top_list;
             if (list) {
-                let offset = -window.scrollY - 55;
+                let offset = -55;
                 for (let offsetEl = list; offsetEl; offsetEl = offsetEl.offsetParent) {
                     offset += offsetEl.offsetTop;
                 }
