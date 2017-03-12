@@ -1,5 +1,8 @@
 @import 'base';
 .tracklist-directory {
+    ul {
+        padding-left: 16px;
+    }
     .is-current {
         font-weight: bold;
         color: $active-link-color;

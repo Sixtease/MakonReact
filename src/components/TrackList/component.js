@@ -11,7 +11,7 @@ export class TrackList extends React.Component {
             <div className='row tracklist'>
 
                 <div
-                    className='col-md-4 tracklist-directory'
+                    className='col-xs-6 col-sm-4 tracklist-directory'
                 >
                     <ul
                         id="tracklist-directory-top-list"
@@ -31,7 +31,7 @@ export class TrackList extends React.Component {
                     </ul>
                 </div>
 
-                <div className='col-md-8 tracklist-sections'>
+                <div className='col-xs-6 col-sm-8 tracklist-sections'>
                     { stemsec.map( (sec) => (
                         <section
                             id={sec.section}
