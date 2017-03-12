@@ -1,7 +1,7 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout';
 import Home from './Home';
-import CounterRoute from './Counter';
+import TrackDetailRoute from './TrackDetail/index.js';
 import { injectReducer } from '../store/reducers';
 import { reducer as track_list_reducer } from '../components/TrackList/module';
 import { reducer as track_dir_reducer  } from '../components/TrackList/TrackDirCategory/module';
@@ -17,7 +17,7 @@ export const createRoutes = (store) => {
         component   : CoreLayout,
         indexRoute  : Home,
         childRoutes : [
-            CounterRoute(store),
+            TrackDetailRoute(store),
         ],
     };
 };

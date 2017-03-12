@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import TrackDirCategory from './TrackDirCategory';
 import stemdir from '../../store/stemdir.json';
 import stemsec from '../../store/stemsec.json';
@@ -44,7 +45,9 @@ export class TrackList extends React.Component {
                             className={sec.section === current_section ? 'is-current' : ''}
                         >
                             { sec.items.map( (item) => (
-                                <a href={item} key={item}>{item}</a>
+                                <Link to={`/zaznam/${item}`} key={item}>
+                                    {item}
+                                </Link>
                             ))}
                         </section>
                     )) }
