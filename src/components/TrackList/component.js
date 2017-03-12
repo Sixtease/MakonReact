@@ -1,5 +1,4 @@
 import React from 'react';
-import './TrackList.scss';
 import TrackDirCategory from './TrackDirCategory';
 import stemdir from '../../store/stemdir.json';
 import stemsec from '../../store/stemsec.json';

@@ -24,3 +24,7 @@ body {
 .is-collapsed {
     display: none;
 }
+
+body a:hover {
+    color: $active-link-color;
+}

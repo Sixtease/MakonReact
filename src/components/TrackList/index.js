@@ -6,6 +6,7 @@ import {
     make_dir_static,
     set_offset,
 } from './module';
+import './TrackList.scss';
 
 const map_dispatch_to_props = {
     set_current_section,

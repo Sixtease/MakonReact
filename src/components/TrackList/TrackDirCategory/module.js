@@ -20,7 +20,9 @@ const ACTION_HANDLERS = {
         const newly_collapsed = (Object.keys(state)
             .filter((key) => state[key].visible === true)
         );
-        const newly_expanded = section_stemdir_map[action.section_id];
+        const newly_expanded = (section_stemdir_map[action.section_id]
+            .filter((key) => state[key] ? state[key].visible !== 1 : true)
+        );
         var state_update = {};
         newly_collapsed.forEach((key) => { state_update[key] = {visible:false}; } );
         newly_expanded .forEach((key) => { state_update[key] = {visible:true }; } );

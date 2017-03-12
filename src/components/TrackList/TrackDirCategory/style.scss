@@ -1,0 +1,15 @@
+@import 'base';
+.tracklist-directory {
+    .is-current {
+        font-weight: bold;
+        color: $active-link-color;
+        list-style-type: disc;
+        a {
+            color: inherit;
+        }
+    }
+    li {
+        color: #337ab7;
+        list-style-type: circle;
+    }
+}
