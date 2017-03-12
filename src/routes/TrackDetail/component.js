@@ -1,8 +1,12 @@
 import React from 'react';
 
 export class TrackDetail extends React.Component {
-    render() {
-        return (<h1>zaznam</h1>);
+    render(arg) {
+        const {stem} = this.props.params;
+        return (<div>
+            <h1>zaznam</h1>
+            {stem}
+        </div>);
     }
 };
 
