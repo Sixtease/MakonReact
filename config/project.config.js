@@ -85,6 +85,7 @@ config.globals = {
     '__COVERAGE__' : !argv.watch && config.env === 'test',
     '__BASENAME__' : JSON.stringify(process.env.BASENAME || ''),
     API_BASE       : '"http://rock.positron.cz:8080"',
+    MP3_BASE       : '"http://commondatastorage.googleapis.com/karel-makon-mp3/"',
 };
 
 // ------------------------------------

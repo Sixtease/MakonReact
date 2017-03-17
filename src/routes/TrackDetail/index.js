@@ -5,9 +5,9 @@ export default (store) => ({
     getComponent (nextState, cb) {
         require.ensure([], (require) => {
             const container = require('./container.js').default;
-            const reducerModule = require('./module.js');
-            const reducer = reducerModule.default;
-            reducerModule.init(store, nextState.params.stem);
+            const reducer_module = require('./module.js');
+            const reducer = reducer_module.default;
+            reducer_module.init(store, nextState.params.stem);
             injectReducer(store, { key: 'track_detail', reducer });
             cb(null, container);
         }, 'track_detail');
