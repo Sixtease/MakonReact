@@ -4,10 +4,14 @@ export class TrackDetail extends React.Component {
     render() {
         const me = this;
         const {stem} = me.props.params;
-        const {subs, toggle_play} = me.props;
+        const {subs, is_playing, toggle_play} = me.props;
+        const button_class = 'glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
         return (<div>
             <h1>{stem}</h1>
-            <span onClick={toggle_play.bind(me,me.audio)} className="glyphicon glyphicon-play"></span>
+            <span
+                onClick={toggle_play.bind(me,me.audio)}
+                className={button_class}
+            ></span>
             <input type="range" min="0" max="100" />
             <p>{subs.map((sub) => sub.occurrence).join(' ')}</p>
         </div>);

@@ -8,7 +8,8 @@ const map_dispatch_to_props = {
 };
 
 const map_state_to_props = (state) => ({
-    subs: state.track_detail.subs,
+    subs:       state.track_detail.subs,
+    is_playing: state.track_detail.is_playing,
 });
 
 let track_detail = connect(
