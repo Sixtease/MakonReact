@@ -1,4 +1,5 @@
 import fetch_jsonp from 'fetch-jsonp';
+import { createSelector } from 'reselect';
 
 const ACTION_HANDLERS = {
     set_subs: (state, action) => ({
@@ -55,12 +56,27 @@ export const init = (store, stem) => {
     )
     .then((res) => res.json())
     .then((sub_data) => {
+        calculate_word_positions(sub_data.data);
         store.dispatch({
             type: 'set_subs',
             subs: sub_data.data,
         });
     });
 };
+
+function calculate_word_positions(subs) {
+    var pos = 0;
+    subs.forEach((word) => {
+        word.position = pos;
+        pos += word.occurrence.length + 1;
+    });
+}
+
+const get_subs = (state) => state.track_detail.subs;
+export const get_subs_str = createSelector(
+    [get_subs],
+    (subs) => subs.map((sub) => sub.occurrence).join(' '),
+);
 
 export function toggle_play(audio) {
     return {

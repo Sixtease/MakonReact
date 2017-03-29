@@ -5,7 +5,7 @@ export class TrackDetail extends React.Component {
         const me = this;
         const {stem} = me.props.params;
         const {
-            subs, is_playing, frame_cnt, current_frame,
+            subs_str, is_playing, frame_cnt, current_frame,
             toggle_play, force_current_frame,
         } = me.props;
         const button_class = 'glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
@@ -22,7 +22,7 @@ export class TrackDetail extends React.Component {
                 value={current_frame}
                 onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
             />
-            <p>{subs.map((sub) => sub.occurrence).join(' ')}</p>
+            <p>{subs_str}</p>
         </div>);
     }
     componentDidMount() {
