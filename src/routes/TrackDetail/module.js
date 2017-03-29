@@ -1,6 +1,10 @@
 import fetch_jsonp from 'fetch-jsonp';
 import { createSelector } from 'reselect';
 
+export const FRAME_RATE = 44100;
+export const frame_to_time = (frame) => frame / FRAME_RATE;
+export const time_to_frame = (time)  => time  * FRAME_RATE;
+
 const ACTION_HANDLERS = {
     set_subs: (state, action) => ({
         ...state,
@@ -22,7 +26,7 @@ const ACTION_HANDLERS = {
     set_audio_metadata: (state, action) => {
         return {
             ...state,
-            frame_cnt: action.audio.duration * 44100,
+            frame_cnt: time_to_frame(action.audio.duration),
         };
     },
     sync_current_frame: (state, action) => {
@@ -32,7 +36,7 @@ const ACTION_HANDLERS = {
         };
     },
     force_current_frame: (state, action) => {
-        action.audio.currentTime = action.current_frame / 44100;
+        action.audio.currentTime = frame_to_time(action.current_frame);
         return {
             ...state,
             current_frame: action.current_frame,
@@ -72,10 +76,31 @@ function calculate_word_positions(subs) {
     });
 }
 
-const get_subs = (state) => state.track_detail.subs;
+const get_subs         = (state) => state.track_detail.subs;
+const get_current_time = (state) => frame_to_time(state.track_detail.current_frame);
 export const get_subs_str = createSelector(
     [get_subs],
     (subs) => subs.map((sub) => sub.occurrence).join(' '),
+);
+export const get_word_timestamps = createSelector(
+    [get_subs],
+    (subs) => subs.map((sub, i) => sub.timestamp).concat(Infinity),
+);
+let current_word;
+export const get_current_word = createSelector(
+    [get_word_timestamps, get_current_time, get_subs],
+    (word_timestamps, current_time, subs) => {
+        if (subs.length === 0) {
+            return {occurrence: ''};
+        }
+        let i = current_word ? current_word.i : 0;
+        while (word_timestamps[i+1] <= current_time) i++;
+        while (word_timestamps[i  ] >  current_time) i--;
+        return {
+            i,
+            ...subs[i],
+        };
+    }
 );
 
 export function toggle_play(audio) {
