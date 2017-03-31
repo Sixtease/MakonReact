@@ -54,6 +54,7 @@ const initial_state = {
 export const init = (store, stem) => {
     fetch_jsonp(
         API_BASE + '/static/subs/' + stem + '.sub.js', {
+            timeout:               30000,
             jsonpCallback:         'jsonp_subtitles',
             jsonpCallbackFunction: 'jsonp_subtitles',
         }
