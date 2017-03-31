@@ -5,6 +5,8 @@ import {
 
 import TrackDetail from './component.js';
 
+import './style.scss';
+
 const map_dispatch_to_props = {
     toggle_play,
     set_audio_metadata,
