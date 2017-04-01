@@ -141,7 +141,7 @@ export function sync_current_frame(audio, subs_txt) {
     };
 };
 export function force_current_frame(current_frame, audio) {
-    action.audio.currentTime = frame_to_time(action.current_frame);
+    audio.currentTime = frame_to_time(current_frame);
     return {
         type: 'force_current_frame',
         current_frame,
