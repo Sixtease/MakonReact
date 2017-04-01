@@ -111,7 +111,7 @@ export const get_current_word = createSelector(
             sel.removeAllRanges();
             sel.addRange(range);
         }
-        return {
+        return current_word = {
             i,
             start_offset: sub?sub.position:null,
             end_offset: sub?sub.position+sub.occurrence.length:null,
