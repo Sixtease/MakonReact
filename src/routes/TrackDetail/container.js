@@ -1,6 +1,11 @@
 import { connect } from 'react-redux';
 import {
-    toggle_play, set_audio_metadata, sync_current_frame, force_current_frame, get_subs_str, get_current_word,
+    toggle_play,
+    set_audio_metadata,
+    sync_current_frame,
+    force_current_frame,
+    get_subs_str,
+    get_current_word,
 } from './module.js';
 
 import TrackDetail from './component.js';

@@ -22,8 +22,8 @@ export class TrackDetail extends React.Component {
                 value={current_frame}
                 onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
             />
-            <p>{current_word.occurrence}</p>
-            <p>{subs_str}</p>
+            <p>{current_word.occurrence} ({current_word.start_offset}..{current_word.end_offset})</p>
+            <p ref={(el)=>this.subs_txt=el?el.childNodes[0]:null}>{subs_str}</p>
         </div>);
     }
     componentDidMount() {
@@ -36,7 +36,7 @@ export class TrackDetail extends React.Component {
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
         me.audio.addEventListener(
-            'timeupdate', (evt) => sync_current_frame(evt.target),
+            'timeupdate', (evt) => sync_current_frame(evt.target,me.subs_txt),
         );
     }
 };

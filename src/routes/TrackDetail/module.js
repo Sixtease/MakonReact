@@ -33,10 +33,10 @@ const ACTION_HANDLERS = {
         return {
             ...state,
             current_frame: action.current_frame,
+            subs_txt:      action.subs_txt,
         };
     },
     force_current_frame: (state, action) => {
-        action.audio.currentTime = frame_to_time(action.current_frame);
         return {
             ...state,
             current_frame: action.current_frame,
@@ -79,6 +79,7 @@ function calculate_word_positions(subs) {
 
 const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => frame_to_time(state.track_detail.current_frame);
+const get_subs_txt     = (state) => state.track_detail.subs_txt;
 export const get_subs_str = createSelector(
     [get_subs],
     (subs) => subs.map((sub) => sub.occurrence).join(' '),
@@ -88,20 +89,35 @@ export const get_word_timestamps = createSelector(
     (subs) => subs.map((sub, i) => sub.timestamp).concat(Infinity),
 );
 let current_word;
+const range = document.createRange();
+const sel   = document.getSelection();
 export const get_current_word = createSelector(
-    [get_word_timestamps, get_current_time, get_subs],
-    (word_timestamps, current_time, subs) => {
+    [get_word_timestamps, get_current_time, get_subs, get_subs_txt],
+    (word_timestamps, current_time, subs, subs_txt) => {
         if (subs.length === 0) {
             return {occurrence: ''};
         }
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i+1] <= current_time) i++;
         while (word_timestamps[i  ] >  current_time) i--;
-        return {
+        const sub = subs[i];
+        let start_offset = null;
+        let end_offset   = null;
+        if (sub && subs_txt && current_word) {
+            start_offset = sub.position;
+            end_offset   = sub.position+sub.occurrence.length;
+            range.setStart(subs_txt, current_word.start_offset);
+            range.setEnd  (subs_txt, current_word.end_offset  );
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        return current_word = {
             i,
-            ...subs[i],
+            start_offset: sub?sub.position:null,
+            end_offset: sub?sub.position+sub.occurrence.length:null,
+            ...sub,
         };
-    }
+    },
 );
 
 export function toggle_play(audio) {
@@ -116,14 +132,16 @@ export function set_audio_metadata(audio) {
         audio,
     };
 };
-export function sync_current_frame(audio) {
+export function sync_current_frame(audio, subs_txt) {
     return {
         type: 'sync_current_frame',
         current_frame: audio.currentTime * 44100,
         audio,
+        subs_txt,
     };
 };
 export function force_current_frame(current_frame, audio) {
+    audio.currentTime = frame_to_time(current_frame);
     return {
         type: 'force_current_frame',
         current_frame,
