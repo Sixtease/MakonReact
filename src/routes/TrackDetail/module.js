@@ -97,11 +97,14 @@ export const get_current_word = createSelector(
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i+1] <= current_time) i++;
         while (word_timestamps[i  ] >  current_time) i--;
+        let sub = subs[i];
         return {
             i,
-            ...subs[i],
+            start_offset: sub?sub.position:null,
+            end_offset: sub?sub.position+sub.occurrence.length:null,
+            ...sub,
         };
-    }
+    },
 );
 
 export function toggle_play(audio) {
