@@ -103,7 +103,7 @@ export const get_current_word = createSelector(
         const sub = subs[i];
         let start_offset = null;
         let end_offset   = null;
-        if (sub && subs_txt) {
+        if (sub && subs_txt && current_word) {
             start_offset = sub.position;
             end_offset   = sub.position+sub.occurrence.length;
             range.setStart(subs_txt, current_word.start_offset);
