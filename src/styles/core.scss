@@ -28,3 +28,7 @@ body {
 body a:hover {
     color: $active-link-color;
 }
+
+.clickable {
+    cursor: pointer;
+}

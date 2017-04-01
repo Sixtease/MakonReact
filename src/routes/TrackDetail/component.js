@@ -8,7 +8,7 @@ export class TrackDetail extends React.Component {
             subs_str, is_playing, frame_cnt, current_frame, current_word,
             toggle_play, force_current_frame,
         } = me.props;
-        const button_class = 'glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
+        const button_class = 'clickable glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
         return (<div>
             <h1>{stem}</h1>
             <span
