@@ -36,7 +36,6 @@ const ACTION_HANDLERS = {
         };
     },
     force_current_frame: (state, action) => {
-        action.audio.currentTime = frame_to_time(action.current_frame);
         return {
             ...state,
             current_frame: action.current_frame,
@@ -127,6 +126,7 @@ export function sync_current_frame(audio) {
     };
 };
 export function force_current_frame(current_frame, audio) {
+    action.audio.currentTime = frame_to_time(action.current_frame);
     return {
         type: 'force_current_frame',
         current_frame,
