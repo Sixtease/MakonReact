@@ -1,4 +1,5 @@
 import React from 'react';
+import {HEADER_HEIGHT} from '../../components/Header/index.js';
 
 export class TrackDetail extends React.Component {
     render() {
@@ -23,7 +24,23 @@ export class TrackDetail extends React.Component {
                 onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
             />
             <p>{current_word.occurrence} ({current_word.start_offset}..{current_word.end_offset})</p>
-            <p ref={(el)=>this.subs_txt=el?el.childNodes[0]:null}>{subs_str}</p>
+            <p  ref={(el)=>this.subs_txt=el?el.childNodes[0]:null}
+                className="subs"
+            >{subs_str}</p>
+            <div className="sub-rects">
+                {current_word.rects.map((rect,i) => (
+                    <span
+                        key={'sub-rect-'+i}
+                        className="sub-rect"
+                        style={{
+                            top:    rect.top - HEADER_HEIGHT + window.scrollY,
+                            left:   rect.left,
+                            width:  rect.right - rect.left,
+                            height: rect.bottom - rect.top
+                        }}
+                    ></span>
+                ))}
+            </div>
         </div>);
     }
     componentDidMount() {

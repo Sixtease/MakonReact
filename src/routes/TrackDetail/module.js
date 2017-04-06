@@ -90,12 +90,17 @@ export const get_word_timestamps = createSelector(
 );
 let current_word;
 const range = document.createRange();
-const sel   = document.getSelection();
+//const sel   = document.getSelection();
 export const get_current_word = createSelector(
     [get_word_timestamps, get_current_time, get_subs, get_subs_txt],
     (word_timestamps, current_time, subs, subs_txt) => {
         if (subs.length === 0) {
-            return {occurrence: ''};
+            return {
+                occurrence: '',
+                rects: [],
+                start_offset: null,
+                end_offset: null,
+            };
         }
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i+1] <= current_time) i++;
@@ -103,18 +108,21 @@ export const get_current_word = createSelector(
         const sub = subs[i];
         let start_offset = null;
         let end_offset   = null;
+        let rects = [];
         if (sub && subs_txt && current_word) {
             start_offset = sub.position;
             end_offset   = sub.position+sub.occurrence.length;
             range.setStart(subs_txt, current_word.start_offset);
             range.setEnd  (subs_txt, current_word.end_offset  );
-            sel.removeAllRanges();
-            sel.addRange(range);
+            //sel.removeAllRanges();
+            //sel.addRange(range);
+            rects = range.getClientRects();
         }
         return current_word = {
             i,
             start_offset: sub?sub.position:null,
             end_offset: sub?sub.position+sub.occurrence.length:null,
+            rects,
             ...sub,
         };
     },
