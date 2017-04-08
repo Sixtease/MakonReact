@@ -1,7 +1,10 @@
 import React from 'react';
-import {HEADER_HEIGHT} from '../../components/Header/index.js';
 
 export class TrackDetail extends React.Component {
+    state: {
+        subs_offset: 0,
+    }
+
     render() {
         const me = this;
         const {stem} = me.props.params;
@@ -24,22 +27,26 @@ export class TrackDetail extends React.Component {
                 onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
             />
             <p>{current_word.occurrence} ({current_word.start_offset}..{current_word.end_offset})</p>
-            <p  ref={(el)=>this.subs_txt=el?el.childNodes[0]:null}
-                className="subs"
-            >{subs_str}</p>
-            <div className="sub-rects">
-                {current_word.rects.map((rect,i) => (
-                    <span
-                        key={'sub-rect-'+i}
-                        className="sub-rect"
-                        style={{
-                            top:    rect.top - HEADER_HEIGHT + window.scrollY,
-                            left:   rect.left,
-                            width:  rect.right - rect.left,
-                            height: rect.bottom - rect.top
-                        }}
-                    ></span>
-                ))}
+            <div className="subs">
+                <p  ref={(el) => {
+                        this.subs_txt = el ? el.childNodes[0] : null;
+                        this.subs_el  = el;
+                    }}
+                >{subs_str}</p>
+                <div className="sub-rects">
+                    {current_word.rects.map((rect,i) => (
+                        <span
+                            key={'sub-rect-'+i}
+                            className="sub-rect"
+                            style={{
+                                top:    rect.top  - this.state.subs_offset.top + window.scrollY,
+                                left:   rect.left - this.state.subs_offset.left,
+                                width:  rect.right - rect.left,
+                                height: rect.bottom - rect.top
+                            }}
+                        ></span>
+                    ))}
+                </div>
             </div>
         </div>);
     }
@@ -55,6 +62,13 @@ export class TrackDetail extends React.Component {
         me.audio.addEventListener(
             'timeupdate', (evt) => sync_current_frame(evt.target,me.subs_txt),
         );
+
+        const subs_rect = me.subs_el.getClientRects();
+        if (subs_rect.length > 0) {
+            me.setState({
+                subs_offset: subs_rect[0]
+            });
+        }
     }
 };
 
