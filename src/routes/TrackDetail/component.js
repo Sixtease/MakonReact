@@ -26,7 +26,7 @@ export class TrackDetail extends React.Component {
                 value={current_frame}
                 onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
             />
-            <p>{current_word.occurrence} ({current_word.start_offset}..{current_word.end_offset})</p>
+            <p></p>
             <div className="subs">
                 <p  ref={(el) => {
                         this.subs_txt = el ? el.childNodes[0] : null;
