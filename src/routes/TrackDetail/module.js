@@ -135,17 +135,18 @@ export const get_current_word = createSelector(
 export const get_selected_words = createSelector(
     [get_subs, get_selection_boundaries, get_current_word],
     (subs, selection_boundaries, current_word) => {
+        const l = subs.length - 1;
         const start_pos = selection_boundaries.start;
         const end_pos   = selection_boundaries.end;
         if (start_pos === null || end_pos === null || end_pos <= start_pos) {
             return [];
         }
         var i = current_word ? current_word.i : 0;
-        while (subs[i] && subs[i-1] && subs[i].position > end_pos) i--;
-        while (subs[i] && subs[i+i] && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
+        while (subs[i] && i>0 && subs[i].position > end_pos) i--;
+        while (subs[i] && i<l && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
         const end_index = i;
-        while (subs[i] && subs[i+1] && subs[i].position + subs[i].occurrence.length < start_pos) i++;
-        while (subs[i] && subs[i-1] && subs[i].position - 1 > start_pos) i--;
+        while (subs[i] && i<l && subs[i].position + subs[i].occurrence.length < start_pos) i++;
+        while (subs[i] && i>0 && subs[i].position - 1 > start_pos) i--;
         const start_index = i;
         return subs.slice(start_index, end_index+1);
     },
