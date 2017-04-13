@@ -23,25 +23,19 @@ const ACTION_HANDLERS = {
             is_playing: !state.is_playing,
         };
     },
-    set_audio_metadata: (state, action) => {
-        return {
-            ...state,
-            frame_cnt: time_to_frame(action.audio.duration),
-        };
-    },
-    sync_current_frame: (state, action) => {
-        return {
-            ...state,
-            current_frame: action.current_frame,
-            subs_txt:      action.subs_txt,
-        };
-    },
-    force_current_frame: (state, action) => {
-        return {
-            ...state,
-            current_frame: action.current_frame,
-        };
-    },
+    set_audio_metadata: (state, action) => ({
+        ...state,
+        frame_cnt: time_to_frame(action.audio.duration),
+    }),
+    sync_current_frame: (state, action) => ({
+        ...state,
+        current_frame: action.current_frame,
+        subs_txt:      action.subs_txt,
+    }),
+    force_current_frame: (state, action) => ({
+        ...state,
+        current_frame: action.current_frame,
+    }),
 };
 
 const initial_state = {
