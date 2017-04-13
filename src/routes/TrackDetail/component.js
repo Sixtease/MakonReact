@@ -10,7 +10,7 @@ export class TrackDetail extends React.Component {
         const {stem} = me.props.params;
         const {
             subs_str, is_playing, frame_cnt, current_frame, current_word,
-            toggle_play, force_current_frame,
+            toggle_play, force_current_frame, selected_words,
         } = me.props;
         const button_class = 'clickable glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
         return (<div>
@@ -26,12 +26,13 @@ export class TrackDetail extends React.Component {
                 value={current_frame}
                 onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
             />
-            <p></p>
+            <p>{selected_words.map((w)=>w.occurrence).join(' ')}</p>
             <div className="subs">
                 <p  ref={(el) => {
                         this.subs_txt = el ? el.childNodes[0] : null;
                         this.subs_el  = el;
                     }}
+                    onMouseUp={this.props.set_selection}
                 >{subs_str}</p>
                 <div className="sub-rects">
                     {current_word.rects.map((rect,i) => (

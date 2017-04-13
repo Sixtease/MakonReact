@@ -36,6 +36,11 @@ const ACTION_HANDLERS = {
         ...state,
         current_frame: action.current_frame,
     }),
+    set_selection: (state, action) => ({
+        ...state,
+        selection_start: action.start_offset,
+        selection_end:   action.end_offset,
+    }),
 };
 
 const initial_state = {
@@ -43,6 +48,8 @@ const initial_state = {
     frame_cnt: 0,
     current_frame: 0,
     is_playing: false,
+    selection_start: null,
+    selection_end:   null,
 };
 
 export const init = (store, stem) => {
@@ -74,6 +81,11 @@ function calculate_word_positions(subs) {
 const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => frame_to_time(state.track_detail.current_frame);
 const get_subs_txt     = (state) => state.track_detail.subs_txt;
+const get_selection_boundaries
+                       = (state) => ({
+    start: state.track_detail.selection_start,
+    end:   state.track_detail.selection_end,
+});
 export const get_subs_str = createSelector(
     [get_subs],
     (subs) => subs.map((sub) => sub.occurrence).join(' '),
@@ -84,7 +96,6 @@ export const get_word_timestamps = createSelector(
 );
 let current_word;
 const range = document.createRange();
-//const sel   = document.getSelection();
 export const get_current_word = createSelector(
     [get_word_timestamps, get_current_time, get_subs, get_subs_txt],
     (word_timestamps, current_time, subs, subs_txt) => {
@@ -99,6 +110,7 @@ export const get_current_word = createSelector(
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i+1] <= current_time) i++;
         while (word_timestamps[i  ] >  current_time) i--;
+        if (i < 0) i = 0;
         const sub = subs[i];
         let start_offset = null;
         let end_offset   = null;
@@ -108,8 +120,6 @@ export const get_current_word = createSelector(
             end_offset   = sub.position+sub.occurrence.length;
             range.setStart(subs_txt, current_word.start_offset);
             range.setEnd  (subs_txt, current_word.end_offset  );
-            //sel.removeAllRanges();
-            //sel.addRange(range);
             rects = range.getClientRects();
         }
         return current_word = {
@@ -121,6 +131,39 @@ export const get_current_word = createSelector(
         };
     },
 );
+export const get_selected_words = createSelector(
+    [get_subs, get_selection_boundaries, get_current_word],
+    (subs, selection_boundaries, current_word) => {
+        const start_pos = selection_boundaries.start;
+        const end_pos   = selection_boundaries.end;
+        if (start_pos === null || end_pos === null || end_pos <= start_pos) {
+            return [];
+        }
+        var i = current_word ? current_word.i : 0;
+        while (subs[i] && subs[i-1] && subs[i].position > end_pos) i--;
+        while (subs[i] && subs[i+i] && subs[i].position + subs[i].occurrence.length < end_pos) i++;
+        const end_index = i;
+        while (subs[i] && subs[i+1] && subs[i].position + subs[i].occurrence.length < start_pos) i++;
+        while (subs[i] && subs[i-1] && subs[i].position > start_pos) i--;
+        const start_index = i;
+        return subs.slice(start_index, end_index+1);
+    },
+);
+
+const sel = document.getSelection();
+export function set_selection() {
+    const sel_range = sel.getRangeAt(0);
+    let start_offset = null, end_offset = null;
+    if (sel_range) {
+        start_offset = sel_range.startOffset;
+        end_offset   = sel_range.endOffset;
+    }
+    return {
+        type: 'set_selection',
+        start_offset,
+        end_offset,
+    };
+};
 
 export function toggle_play(audio) {
     return {
