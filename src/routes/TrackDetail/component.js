@@ -1,4 +1,5 @@
 import React from 'react';
+import EditWindow from 'components/EditWindow/index.js';
 
 export class TrackDetail extends React.Component {
     state: {
@@ -49,13 +50,15 @@ export class TrackDetail extends React.Component {
                     ))}
                 </div>
             </div>
+            <EditWindow />
         </div>);
     }
     componentDidMount() {
         const me = this;
         const {stem} = me.props.params;
-        const {set_audio_metadata, sync_current_frame} = me.props;
+        const {set_audio_metadata, sync_current_frame, set_selection} = me.props;
         const src = MP3_BASE + stem + '.mp3';
+        set_selection();
         me.audio = new Audio(src);
         me.audio.addEventListener(
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
