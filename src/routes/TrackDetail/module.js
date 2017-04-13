@@ -72,7 +72,8 @@ export const init = (store, stem) => {
 
 function calculate_word_positions(subs) {
     var pos = 0;
-    subs.forEach((word) => {
+    subs.forEach((word,i) => {
+        word.index = i;
         word.position = pos;
         pos += word.occurrence.length + 1;
     });
