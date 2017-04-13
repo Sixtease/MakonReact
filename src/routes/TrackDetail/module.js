@@ -141,10 +141,10 @@ export const get_selected_words = createSelector(
         }
         var i = current_word ? current_word.i : 0;
         while (subs[i] && subs[i-1] && subs[i].position > end_pos) i--;
-        while (subs[i] && subs[i+i] && subs[i].position + subs[i].occurrence.length < end_pos) i++;
+        while (subs[i] && subs[i+i] && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
         const end_index = i;
         while (subs[i] && subs[i+1] && subs[i].position + subs[i].occurrence.length < start_pos) i++;
-        while (subs[i] && subs[i-1] && subs[i].position > start_pos) i--;
+        while (subs[i] && subs[i-1] && subs[i].position - 1 > start_pos) i--;
         const start_index = i;
         return subs.slice(start_index, end_index+1);
     },
