@@ -153,11 +153,13 @@ export const get_selected_words = createSelector(
 
 const sel = document.getSelection();
 export function set_selection() {
-    const sel_range = sel.getRangeAt(0);
     let start_offset = null, end_offset = null;
-    if (sel_range) {
-        start_offset = sel_range.startOffset;
-        end_offset   = sel_range.endOffset;
+    if (sel.rangeCount > 0) {
+        const sel_range = sel.getRangeAt(0);
+        if (sel_range) {
+            start_offset = sel_range.startOffset;
+            end_offset   = sel_range.endOffset;
+        }
     }
     return {
         type: 'set_selection',
