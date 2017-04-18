@@ -1,5 +1,6 @@
 import React from 'react';
 import EditWindow from 'components/EditWindow/index.js';
+import audio from 'store/audio.js';
 
 export class TrackDetail extends React.Component {
     state: {
@@ -20,13 +21,13 @@ export class TrackDetail extends React.Component {
                 ? (
                     <button
                         className="glyphicon glyphicon-pause"
-                        onClick={playback_off.bind(me,me.audio)}
+                        onClick={playback_off}
                     ></button>
                 )
                 : (
                     <button
                         className="glyphicon glyphicon-play"
-                        onClick={playback_on.bind(me,me.audio)}
+                        onClick={playback_on}
                     ></button>
                 )
             }
@@ -35,7 +36,7 @@ export class TrackDetail extends React.Component {
                 min="0"
                 max={frame_cnt}
                 value={current_frame}
-                onChange={(evt) => force_current_frame(evt.target.value, me.audio)}
+                onChange={(evt) => force_current_frame(evt.target.value)}
             />
             <p>{selected_words.map((w)=>w.occurrence).join(' ')}</p>
             <div className="subs">
@@ -60,7 +61,7 @@ export class TrackDetail extends React.Component {
                     ))}
                 </div>
             </div>
-            <EditWindow get_audio={()=>me.audio} audio={me.audio} />
+            <EditWindow />
         </div>);
     }
     componentDidMount() {
@@ -69,12 +70,12 @@ export class TrackDetail extends React.Component {
         const {set_audio_metadata, sync_current_frame, set_selection} = me.props;
         const src = MP3_BASE + stem + '.mp3';
         set_selection();
-        me.audio = new Audio(src);
+        me.audio = audio(src);
         me.audio.addEventListener(
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
         me.audio.addEventListener(
-            'timeupdate', (evt) => sync_current_frame(evt.target,me.subs_txt),
+            'timeupdate', (evt) => sync_current_frame(me.subs_txt),
         );
 
         const subs_rect = me.subs_el.getClientRects();

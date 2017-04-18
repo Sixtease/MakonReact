@@ -5,6 +5,8 @@ export const FRAME_RATE = 44100;
 export const frame_to_time = (frame) => frame / FRAME_RATE;
 export const time_to_frame = (time)  => time  * FRAME_RATE;
 
+import audio from 'store/audio.js';
+
 const ACTION_HANDLERS = {
     set_subs: (state, action) => ({
         ...state,
@@ -24,7 +26,7 @@ const ACTION_HANDLERS = {
     },
     set_audio_metadata: (state, action) => ({
         ...state,
-        frame_cnt: time_to_frame(action.audio.duration),
+        frame_cnt: time_to_frame(audio().duration),
     }),
     sync_current_frame: (state, action) => ({
         ...state,
@@ -168,40 +170,35 @@ export function set_selection() {
     };
 };
 
-export function playback_on(audio) {
-    audio.play();
+export function playback_on() {
+    audio().play();
     return {
         type: 'playback_on',
-        audio,
     };
 };
-export function playback_off(audio) {
-    audio.pause();
+export function playback_off() {
+    audio().pause();
     return {
         type: 'playback_off',
-        audio,
     };
 };
-export function set_audio_metadata(audio) {
+export function set_audio_metadata() {
     return {
         type: 'set_audio_metadata',
-        audio,
     };
 };
-export function sync_current_frame(audio, subs_txt) {
+export function sync_current_frame(subs_txt) {
     return {
         type: 'sync_current_frame',
-        current_frame: audio.currentTime * 44100,
-        audio,
+        current_frame: audio().currentTime * 44100,
         subs_txt,
     };
 };
-export function force_current_frame(current_frame, audio) {
-    audio.currentTime = frame_to_time(current_frame);
+export function force_current_frame(current_frame) {
+    audio().currentTime = frame_to_time(current_frame);
     return {
         type: 'force_current_frame',
         current_frame,
-        audio,
     };
 };
 

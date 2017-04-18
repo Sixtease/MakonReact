@@ -1,3 +1,5 @@
+import audio from 'store/audio.js';
+
 const ACTION_HANDLERS = {
     edit_window_playback_on: (state, action) => ({
         ...state, is_playing: true,
@@ -7,19 +9,15 @@ const ACTION_HANDLERS = {
     }),
 };
 
-export function playback_on(audio) {
-    audio.play();
+export function playback_on() {
     return {
         type: 'edit_window_playback_on',
-        audio,
     }
 }
 
 export function playback_off(audio) {
-    audio.pause();
     return {
         type: 'edit_window_playback_off',
-        audio,
     }
 }
 
