@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import {
-    toggle_play,
+    playback_on,
+    playback_off,
     set_audio_metadata,
     sync_current_frame,
     force_current_frame,
@@ -14,7 +15,8 @@ import TrackDetail from './component.js';
 import './style.scss';
 
 const map_dispatch_to_props = {
-    toggle_play,
+    playback_on,
+    playback_off,
     set_audio_metadata,
     sync_current_frame,
     force_current_frame,

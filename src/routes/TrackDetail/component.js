@@ -11,15 +11,25 @@ export class TrackDetail extends React.Component {
         const {stem} = me.props.params;
         const {
             subs_str, is_playing, frame_cnt, current_frame, current_word,
-            toggle_play, force_current_frame, selected_words,
+            playback_on, playback_off, force_current_frame, selected_words,
         } = me.props;
         const button_class = 'clickable glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
         return (<div>
             <h1>{stem}</h1>
-            <span
-                onClick={toggle_play.bind(me,me.audio)}
-                className={button_class}
-            ></span>
+            {   is_playing
+                ? (
+                    <button
+                        className="glyphicon glyphicon-pause"
+                        onClick={playback_off.bind(me,me.audio)}
+                    ></button>
+                )
+                : (
+                    <button
+                        className="glyphicon glyphicon-play"
+                        onClick={playback_on.bind(me,me.audio)}
+                    ></button>
+                )
+            }
             <input
                 type="range"
                 min="0"
@@ -50,7 +60,7 @@ export class TrackDetail extends React.Component {
                     ))}
                 </div>
             </div>
-            <EditWindow />
+            <EditWindow get_audio={()=>me.audio} audio={me.audio} />
         </div>);
     }
     componentDidMount() {

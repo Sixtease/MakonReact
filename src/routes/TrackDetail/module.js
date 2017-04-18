@@ -10,17 +10,16 @@ const ACTION_HANDLERS = {
         ...state,
         subs: action.subs,
     }),
-    toggle_play: (state, action) => {
-        const should_play = !state.is_playing;
-        if (should_play) {
-            action.audio.play();
-        }
-        else {
-            action.audio.pause();
-        }
+    playback_on: (state, action) => {
         return {
             ...state,
-            is_playing: !state.is_playing,
+            is_playing: true,
+        };
+    },
+    playback_off: (state, action) => {
+        return {
+            ...state,
+            is_playing: false,
         };
     },
     set_audio_metadata: (state, action) => ({
@@ -169,9 +168,17 @@ export function set_selection() {
     };
 };
 
-export function toggle_play(audio) {
+export function playback_on(audio) {
+    audio.play();
     return {
-        type: 'toggle_play',
+        type: 'playback_on',
+        audio,
+    };
+};
+export function playback_off(audio) {
+    audio.pause();
+    return {
+        type: 'playback_off',
         audio,
     };
 };
