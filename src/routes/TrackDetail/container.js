@@ -3,7 +3,7 @@ import {
     playback_on,
     playback_off,
     set_audio_metadata,
-    sync_current_frame,
+    sync_current_time,
     force_current_frame,
     get_subs_str,
     get_current_word,
@@ -18,7 +18,7 @@ const map_dispatch_to_props = {
     playback_on,
     playback_off,
     set_audio_metadata,
-    sync_current_frame,
+    sync_current_time,
     force_current_frame,
     set_selection,
 };

@@ -28,15 +28,15 @@ const ACTION_HANDLERS = {
         ...state,
         frame_cnt: time_to_frame(audio().duration),
     }),
-    sync_current_frame: (state, action) => ({
+    sync_current_time: (state, action) => ({
         ...state,
-        current_frame: action.current_frame,
-        subs_txt:      action.subs_txt,
+        current_time: action.current_time,
+        subs_txt:     action.subs_txt,
     }),
-    force_current_frame: (state, action) => ({
+    force_current_time: (state, action) => ({
         ...state,
-        current_frame: action.current_frame,
-        forced_frame:  action.current_frame,
+        current_time: action.current_time,
+        forced_time:  action.current_time,
     }),
     set_selection: (state, action) => ({
         ...state,
@@ -48,8 +48,8 @@ const ACTION_HANDLERS = {
 const initial_state = {
     subs: [],
     frame_cnt: 0,
-    current_frame: 0,
-    forced_frame: null,
+    current_time: 0,
+    forced_time: null,
     is_playing: false,
     selection_start: null,
     selection_end:   null,
@@ -88,12 +88,10 @@ const set_audio_controls = (store) => {
         ) {
             audio().pause();
         }
-        if (    current_state.track_detail.forced_frame
-            != previous_state.track_detail.forced_frame
+        if (    current_state.track_detail.forced_time
+            != previous_state.track_detail.forced_time
         ) {
-            audio().currentTime = frame_to_time(
-                current_state.track_detail.forced_frame
-            );
+            audio().currentTime = current_state.track_detail.forced_time;
         }
         previous_state = current_state;
     });
@@ -113,7 +111,7 @@ function calculate_word_positions(subs) {
 }
 
 const get_subs         = (state) => state.track_detail.subs;
-const get_current_time = (state) => frame_to_time(state.track_detail.current_frame);
+const get_current_time = (state) => state.track_detail.current_time;
 const get_subs_txt     = (state) => state.track_detail.subs_txt;
 const get_selection_boundaries
                        = (state) => ({
@@ -217,21 +215,21 @@ export function set_audio_metadata() {
         type: 'set_audio_metadata',
     };
 };
-export function sync_current_frame(subs_txt) {
+export function sync_current_time(subs_txt) {
     return {
-        type: 'sync_current_frame',
-        current_frame: audio().currentTime * 44100,
+        type: 'sync_current_time',
+        current_time: audio().currentTime,
         subs_txt,
     };
 };
 export function force_current_frame(current_frame) {
-    return {
-        type: 'force_current_frame',
-        current_frame,
-    };
+    return force_current_time(frame_to_time(current_frame));
 };
 export function force_current_time(current_time) {
-    return force_current_frame(time_to_frame(current_time));
+    return {
+        type: 'force_current_time',
+        current_time,
+    };
 };
 
 export default function reducer (state = initial_state, action) {

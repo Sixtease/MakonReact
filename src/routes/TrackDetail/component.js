@@ -71,7 +71,7 @@ export class TrackDetail extends React.Component {
     componentDidMount() {
         const me = this;
         const {stem} = me.props.params;
-        const {set_audio_metadata, sync_current_frame, set_selection} = me.props;
+        const {set_audio_metadata, sync_current_time, set_selection} = me.props;
         const src = MP3_BASE + stem + '.mp3';
         window.scrollTo(0,0);
         set_selection();
@@ -80,7 +80,7 @@ export class TrackDetail extends React.Component {
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
         me.audio.addEventListener(
-            'timeupdate', (evt) => sync_current_frame(me.subs_txt),
+            'timeupdate', (evt) => sync_current_time(me.subs_txt),
         );
 
         const subs_rect = me.subs_el.getClientRects();
