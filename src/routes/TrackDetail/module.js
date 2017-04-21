@@ -14,10 +14,15 @@ const ACTION_HANDLERS = {
         subs: action.subs,
     }),
     playback_on: (state, action) => {
-        return {
+        let rv = {
             ...state,
             is_playing: true,
         };
+        let selected_words = get_selected_words({track_detail:state});
+        if (selected_words.length > 0) {
+            rv.forced_time = selected_words[0].timestamp;
+        }
+        return rv;
     },
     playback_off: (state, action) => {
         return {
@@ -78,6 +83,11 @@ const set_audio_controls = (store) => {
     previous_state.track_detail = initial_state;
     store.subscribe(() => {
         let current_state = store.getState();
+        if (    current_state.track_detail.forced_time
+            != previous_state.track_detail.forced_time
+        ) {
+            audio().currentTime = current_state.track_detail.forced_time;
+        }
         if (current_state.track_detail.is_playing
             && !previous_state.track_detail.is_playing
         ) {
@@ -87,11 +97,6 @@ const set_audio_controls = (store) => {
             && previous_state.track_detail.is_playing
         ) {
             audio().pause();
-        }
-        if (    current_state.track_detail.forced_time
-            != previous_state.track_detail.forced_time
-        ) {
-            audio().currentTime = current_state.track_detail.forced_time;
         }
         previous_state = current_state;
     });
