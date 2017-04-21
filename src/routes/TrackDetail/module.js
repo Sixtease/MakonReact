@@ -53,7 +53,7 @@ const initial_state = {
     selection_end:   null,
 };
 
-export const init = (store, stem) => {
+const fetch_subs = (store, stem) => {
     fetch_jsonp(
         API_BASE + '/static/subs/' + stem + '.sub.js', {
             timeout:               30000,
@@ -69,6 +69,29 @@ export const init = (store, stem) => {
             subs: sub_data.data,
         });
     });
+};
+let previous_state;
+const set_audio_controls = (store) => {
+    previous_state = store.getState();
+    previous_state.track_detail = initial_state;
+    store.subscribe(() => {
+        let current_state = store.getState();
+        if (current_state.track_detail.is_playing
+            && !previous_state.track_detail.is_playing
+        ) {
+            audio().play();
+        }
+        if (!current_state.track_detail.is_playing
+            && previous_state.track_detail.is_playing
+        ) {
+            audio().pause();
+        }
+        previous_state = current_state;
+    });
+};
+export const init = (store, stem) => {
+    fetch_subs(store,stem);
+    set_audio_controls(store);
 };
 
 function calculate_word_positions(subs) {
@@ -171,13 +194,11 @@ export function set_selection() {
 };
 
 export function playback_on() {
-    audio().play();
     return {
         type: 'playback_on',
     };
 };
 export function playback_off() {
-    audio().pause();
     return {
         type: 'playback_off',
     };

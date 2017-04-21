@@ -11,7 +11,7 @@ const map_dispatch_to_props = {
 
 const map_state_to_props = (state) => ({
     selected_words: get_selected_words(state),
-    is_playing: state.edit_window.is_playing,
+    is_playing: state.track_detail.is_playing,
 });
 
 export default connect(map_state_to_props, map_dispatch_to_props)(component);
