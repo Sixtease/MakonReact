@@ -36,6 +36,7 @@ const ACTION_HANDLERS = {
     force_current_frame: (state, action) => ({
         ...state,
         current_frame: action.current_frame,
+        forced_frame:  action.current_frame,
     }),
     set_selection: (state, action) => ({
         ...state,
@@ -48,6 +49,7 @@ const initial_state = {
     subs: [],
     frame_cnt: 0,
     current_frame: 0,
+    forced_frame: null,
     is_playing: false,
     selection_start: null,
     selection_end:   null,
@@ -85,6 +87,13 @@ const set_audio_controls = (store) => {
             && previous_state.track_detail.is_playing
         ) {
             audio().pause();
+        }
+        if (    current_state.track_detail.forced_frame
+            != previous_state.track_detail.forced_frame
+        ) {
+            audio().currentTime = frame_to_time(
+                current_state.track_detail.forced_frame
+            );
         }
         previous_state = current_state;
     });
@@ -216,11 +225,13 @@ export function sync_current_frame(subs_txt) {
     };
 };
 export function force_current_frame(current_frame) {
-    audio().currentTime = frame_to_time(current_frame);
     return {
         type: 'force_current_frame',
         current_frame,
     };
+};
+export function force_current_time(current_time) {
+    return force_current_frame(time_to_frame(current_time));
 };
 
 export default function reducer (state = initial_state, action) {
