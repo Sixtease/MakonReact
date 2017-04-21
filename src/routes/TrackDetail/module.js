@@ -47,6 +47,7 @@ const ACTION_HANDLERS = {
         ...state,
         selection_start: action.start_offset,
         selection_end:   action.end_offset,
+        is_playing: false,
     }),
 };
 
