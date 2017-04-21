@@ -164,8 +164,8 @@ export const get_current_word = createSelector(
     },
 );
 export const get_selected_words = createSelector(
-    [get_subs, get_selection_boundaries, get_current_word],
-    (subs, selection_boundaries, current_word) => {
+    [get_subs, get_selection_boundaries],
+    (subs, selection_boundaries) => {
         const l = subs.length - 1;
         const start_pos = selection_boundaries.start;
         const end_pos   = selection_boundaries.end;

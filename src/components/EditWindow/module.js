@@ -6,17 +6,16 @@ const ACTION_HANDLERS = {
 export function playback_on() {
     return {
         type: 'playback_on',
-    }
+    };
 }
 
 export function playback_off(audio) {
     return {
         type: 'playback_off',
-    }
+    };
 }
 
 const initial_state = {
-    is_playing: false,
 };
 
 export default function reducer (state = initial_state, action) {
