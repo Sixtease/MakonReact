@@ -2,6 +2,9 @@ import React from 'react';
 import EditWindow from 'components/EditWindow/index.js';
 import audio from 'store/audio.js';
 
+let subs_txt;
+export const get_subs_txt = () => subs_txt;
+
 export class TrackDetail extends React.Component {
     state: {
         subs_offset: {
@@ -45,7 +48,7 @@ export class TrackDetail extends React.Component {
             <p>{selected_words.map((w)=>w.occurrence).join(' ')}</p>
             <div className="subs">
                 <p  ref={(el) => {
-                        me.subs_txt = el ? el.childNodes[0] : null;
+                        subs_txt = el ? el.childNodes[0] : null;
                         me.subs_el  = el;
                     }}
                     onMouseUp={me.props.set_selection}
@@ -80,7 +83,7 @@ export class TrackDetail extends React.Component {
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
         me.audio.addEventListener(
-            'timeupdate', (evt) => sync_current_time(me.subs_txt),
+            'timeupdate', (evt) => sync_current_time(),
         );
 
         const subs_rect = me.subs_el.getClientRects();

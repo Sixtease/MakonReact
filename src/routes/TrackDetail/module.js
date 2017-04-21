@@ -1,5 +1,6 @@
 import fetch_jsonp from 'fetch-jsonp';
 import { createSelector } from 'reselect';
+import {get_subs_txt} from './component.js';
 
 export const FRAME_RATE = 44100;
 export const frame_to_time = (frame) => frame / FRAME_RATE;
@@ -31,7 +32,6 @@ const ACTION_HANDLERS = {
     sync_current_time: (state, action) => ({
         ...state,
         current_time: action.current_time,
-        subs_txt:     action.subs_txt,
     }),
     force_current_time: (state, action) => ({
         ...state,
@@ -112,7 +112,6 @@ function calculate_word_positions(subs) {
 
 const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => state.track_detail.current_time;
-const get_subs_txt     = (state) => state.track_detail.subs_txt;
 const get_selection_boundaries
                        = (state) => ({
     start: state.track_detail.selection_start,
@@ -129,8 +128,9 @@ export const get_word_timestamps = createSelector(
 let current_word;
 const range = document.createRange();
 export const get_current_word = createSelector(
-    [get_word_timestamps, get_current_time, get_subs, get_subs_txt],
-    (word_timestamps, current_time, subs, subs_txt) => {
+    [get_word_timestamps, get_current_time, get_subs],
+    (word_timestamps, current_time, subs) => {
+        let subs_txt = get_subs_txt();
         if (subs.length === 0) {
             return {
                 occurrence: '',
@@ -215,11 +215,10 @@ export function set_audio_metadata() {
         type: 'set_audio_metadata',
     };
 };
-export function sync_current_time(subs_txt) {
+export function sync_current_time() {
     return {
         type: 'sync_current_time',
         current_time: audio().currentTime,
-        subs_txt,
     };
 };
 export function force_current_frame(current_frame) {
