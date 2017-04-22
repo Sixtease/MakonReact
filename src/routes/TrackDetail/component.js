@@ -45,7 +45,7 @@ export class TrackDetail extends React.Component {
                 value={current_frame}
                 onChange={(evt) => force_current_frame(evt.target.value)}
             />
-            <p>{selected_words.map((w)=>w.occurrence).join(' ')}</p>
+            <p></p>
             <div className="subs">
                 <p  ref={(el) => {
                         subs_txt = el ? el.childNodes[0] : null;
