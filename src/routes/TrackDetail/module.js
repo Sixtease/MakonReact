@@ -188,6 +188,23 @@ export const get_selected_words = createSelector(
         return subs.slice(start_index, end_index+1);
     },
 );
+export const get_edit_window_timespan = createSelector(
+    [get_subs, get_selected_words],
+    (subs, selected_words) => {
+        if (!selected_words || selected_words.length === 0) {
+            return {
+                start: null,
+                end: null,
+            };
+        }
+        const i = selected_words[selected_words.length-1].index;
+        const pad_word = subs[i+1] || subs[i];
+        return {
+            start: selected_words[0].timestamp,
+            end:   pad_word.timestamp,
+        };
+    },
+);
 
 const sel = document.getSelection();
 export function set_selection() {
