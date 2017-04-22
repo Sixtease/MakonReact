@@ -10,6 +10,7 @@ export class EditWindow extends React.Component {
         }
         return (
             <div className={cls}>
+                <textarea value={selw.map((w)=>w.occurrence).join(' ')}></textarea>
                 {
                     is_playing
                     ? (
@@ -25,7 +26,6 @@ export class EditWindow extends React.Component {
                         ></button>
                     )
                 }
-                <textarea value={selw.map((w)=>w.occurrence).join(' ')}></textarea>
             </div>
         );
     }
