@@ -21,11 +21,11 @@ export const Header = () => (
                 <form className='navbar-form navbar-left' action='/vyhledavani/' method='get'>
                     <div className='form-group'>
                         <input
-                          type='text'
-                          className='form-control js-search-input'
-                          placeholder='dotaz'
-                          name='dotaz'
-                    />
+                            type='text'
+                            className='form-control js-search-input'
+                            placeholder='dotaz'
+                            name='dotaz'
+                        />
                     </div>
                     <button type='submit' className='btn btn-default'>hledat</button>
                 </form>
