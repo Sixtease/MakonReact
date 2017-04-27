@@ -103,8 +103,6 @@ export class TrackList extends React.Component {
     }
 };
 
-
-
 TrackList.contextTypes = {
     store: React.PropTypes.object,
 };
