@@ -29,13 +29,13 @@ export default (initialState = {}) => {
   // Store Instantiation and HMR Setup
   // ======================================================
     const store = createStore(
-    makeRootReducer(),
-    initialState,
-    composeEnhancers(
-      applyMiddleware(...middleware),
-      ...enhancers
-    )
-  );
+        makeRootReducer(),
+        initialState,
+        composeEnhancers(
+        applyMiddleware(...middleware),
+            ...enhancers
+        )
+    );
     store.asyncReducers = {};
 
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime

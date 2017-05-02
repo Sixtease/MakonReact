@@ -3,8 +3,8 @@ import CoreLayout from '../layouts/CoreLayout';
 import Home from './Home';
 import TrackDetailRoute from './TrackDetail/index.js';
 import { injectReducer } from '../store/reducers';
-import { reducer as track_list_reducer } from '../components/TrackList/module';
-import { reducer as track_dir_reducer  } from '../components/TrackList/TrackDirCategory/module';
+import { reducer as track_list_reducer } from '../components/TrackList/module.js';
+import { reducer as track_dir_reducer  } from '../components/TrackList/TrackDirCategory/module.js';
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
