@@ -24,27 +24,29 @@ export class TrackDetail extends React.Component {
         const subs_offset = me.state ? me.state.subs_offset : {top: 0, left: 0};
         return (<div>
             <h1>{stem}</h1>
-            {   is_playing
-                ? (
-                    <button
-                        className="glyphicon glyphicon-pause"
-                        onClick={playback_off}
-                    ></button>
-                )
-                : (
-                    <button
-                        className="glyphicon glyphicon-play"
-                        onClick={playback_on}
-                    ></button>
-                )
-            }
-            <input
-                type="range"
-                min="0"
-                max={frame_cnt}
-                value={current_frame}
-                onChange={(evt) => force_current_frame(evt.target.value)}
-            />
+            <div className="control-bar">
+                {   is_playing
+                    ? (
+                        <button
+                            className="glyphicon glyphicon-pause"
+                            onClick={playback_off}
+                        ></button>
+                    )
+                    : (
+                        <button
+                            className="glyphicon glyphicon-play"
+                            onClick={playback_on}
+                        ></button>
+                    )
+                }
+                <input
+                    type="range"
+                    min="0"
+                    max={frame_cnt}
+                    value={current_frame}
+                    onChange={(evt) => force_current_frame(evt.target.value)}
+                />
+            </div>
             <p></p>
             <div className="subs">
                 <p  ref={(el) => {
