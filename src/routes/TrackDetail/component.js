@@ -47,6 +47,19 @@ export class TrackDetail extends React.Component {
                         ></span>
                     ))}
                 </div>
+                <div className="marked-word-rect">
+                    {marked_word
+                        ? <span
+                            style={{
+                                top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
+                                left:   marked_word.rect.left   - subs_offset.left,
+                                width:  marked_word.rect.right  - marked_word.rect.left,
+                                height: marked_word.rect.bottom - marked_word.rect.top
+                            }}
+                        ></span>
+                        : null
+                    }
+                </div>
             </div>
             <div className="control-bar">
                 {   is_playing

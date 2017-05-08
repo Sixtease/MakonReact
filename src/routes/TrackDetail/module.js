@@ -141,7 +141,7 @@ const range = document.createRange();
 export const get_current_word = createSelector(
     [get_word_timestamps, get_current_time, get_subs],
     (word_timestamps, current_time, subs) => {
-        let subs_txt = get_subs_txt();
+        const subs_txt = get_subs_txt();
         if (subs.length === 0) {
             return {
                 occurrence: '',
@@ -162,7 +162,7 @@ export const get_current_word = createSelector(
             start_offset = sub.position;
             end_offset   = sub.position+sub.occurrence.length;
             range.setStart(subs_txt, current_word.start_offset);
-            range.setEnd  (subs_txt, current_word.end_offset  );
+            range.setEnd  (subs_txt, current_word.  end_offset);
             rects = range.getClientRects();
         }
         return current_word = {
@@ -237,7 +237,17 @@ export const get_marked_word = createSelector(
     [get_subs, get_selection_boundaries, get_selected_word_indices],
     (subs, selection_boundaries, selected_word_indices) => {
         if (selected_word_indices && selected_word_indices.only) {
-            return subs[selected_word_indices.only];
+            const marked_word = subs[selected_word_indices.only];
+            const start_offset = marked_word.position;
+            const end_offset = marked_word.position + marked_word.occurrence.length;
+            const subs_txt = get_subs_txt();
+            range.setStart(subs_txt, start_offset);
+            range.setEnd  (subs_txt,   end_offset);
+            const rect = range.getBoundingClientRect();
+            return {
+                ...marked_word,
+                rect,
+            };
         }
         else {
             return null;
@@ -252,7 +262,7 @@ export function set_selection() {
         const sel_range = sel.getRangeAt(0);
         if (sel_range) {
             start_offset = sel_range.startOffset;
-            end_offset   = sel_range.endOffset;
+            end_offset   = sel_range.  endOffset;
         }
     }
     return {
