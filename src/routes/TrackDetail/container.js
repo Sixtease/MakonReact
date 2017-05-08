@@ -7,6 +7,7 @@ import {
     force_current_frame,
     get_subs_str,
     get_current_word,
+    get_marked_word,
     get_selected_words,
     set_selection,
 } from './module.js';
@@ -30,6 +31,7 @@ const map_state_to_props = (state) => ({
     current_frame:  state.track_detail.current_frame,
     subs_str:       get_subs_str(state),
     current_word:   get_current_word(state),
+    marked_word:    get_marked_word(state),
     selected_words: get_selected_words(state),
 });
 

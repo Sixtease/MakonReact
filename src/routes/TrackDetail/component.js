@@ -19,6 +19,7 @@ export class TrackDetail extends React.Component {
         const {
             subs_str, is_playing, frame_cnt, current_frame, current_word,
             playback_on, playback_off, force_current_frame, selected_words,
+            marked_word,
         } = me.props;
         const button_class = 'clickable glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
         const subs_offset = me.state ? me.state.subs_offset : {top: 0, left: 0};

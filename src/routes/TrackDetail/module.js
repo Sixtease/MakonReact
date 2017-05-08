@@ -43,12 +43,17 @@ const ACTION_HANDLERS = {
         current_time: action.current_time,
         forced_time:  action.current_time,
     }),
-    set_selection: (state, action) => ({
-        ...state,
-        selection_start: action.start_offset,
-        selection_end:   action.end_offset,
-        is_playing: false,
-    }),
+    set_selection: (state, action) => {
+        const start = action.start_offset;
+        const end   = action.  end_offset;
+        let new_state = {
+            ...state,
+            selection_start: start,
+            selection_end:   end,
+            is_playing: false,
+        };
+        return new_state;
+    },
 };
 
 const initial_state = {
@@ -169,23 +174,46 @@ export const get_current_word = createSelector(
         };
     },
 );
-export const get_selected_words = createSelector(
+export const get_selected_word_indices = createSelector(
     [get_subs, get_selection_boundaries],
     (subs, selection_boundaries) => {
         const l = subs.length - 1;
         const start_pos = selection_boundaries.start;
         const end_pos   = selection_boundaries.end;
-        if (start_pos === null || end_pos === null || end_pos <= start_pos) {
-            return [];
+        if (start_pos === null || end_pos === null || end_pos < start_pos) {
+            return null;
         }
         var i = current_word ? current_word.i : 0;
         while (subs[i] && i>0 && subs[i].position > end_pos) i--;
         while (subs[i] && i<l && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
         const end_index = i;
+        if (start_pos === end_pos) {
+            return {
+                only: end_index,
+            };
+        }
         while (subs[i] && i<l && subs[i].position + subs[i].occurrence.length < start_pos) i++;
         while (subs[i] && i>0 && subs[i].position - 1 > start_pos) i--;
         const start_index = i;
-        return subs.slice(start_index, end_index+1);
+        return {
+            start: start_index,
+            end:   end_index,
+        };
+    },
+);
+export const get_selected_words = createSelector(
+    [get_subs, get_selected_word_indices],
+    (subs, selected_word_indices) => {
+        if (    selected_word_indices === null
+            || !selected_word_indices.start
+            || !selected_word_indices.end
+        ) {
+            return [];
+        }
+        return subs.slice(
+            selected_word_indices.start,
+            selected_word_indices.end + 1,
+        );
     },
 );
 export const get_edit_window_timespan = createSelector(
@@ -203,6 +231,17 @@ export const get_edit_window_timespan = createSelector(
             start: selected_words[0].timestamp,
             end:   pad_word.timestamp,
         };
+    },
+);
+export const get_marked_word = createSelector(
+    [get_subs, get_selection_boundaries, get_selected_word_indices],
+    (subs, selection_boundaries, selected_word_indices) => {
+        if (selected_word_indices && selected_word_indices.only) {
+            return subs[selected_word_indices.only];
+        }
+        else {
+            return null;
+        }
     },
 );
 
