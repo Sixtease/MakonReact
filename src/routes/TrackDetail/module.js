@@ -84,11 +84,12 @@ const fetch_subs = (store, stem) => {
     });
 };
 let previous_state;
+let previous_marked_word;
 const set_audio_controls = (store) => {
     previous_state = store.getState();
     previous_state.track_detail = initial_state;
     store.subscribe(() => {
-        let current_state = store.getState();
+        const current_state = store.getState();
         if (    current_state.track_detail.forced_time
             != previous_state.track_detail.forced_time
         ) {
@@ -104,7 +105,20 @@ const set_audio_controls = (store) => {
         ) {
             audio().pause();
         }
+        const marked_word = get_marked_word(current_state);
+        const to_dispatch = [];
+        if (marked_word
+            && previous_marked_word
+            && marked_word.timestamp !== previous_marked_word.timestamp
+        ) {
+            to_dispatch.push({
+                type: 'force_current_time',
+                current_time: marked_word.timestamp,
+            });
+        }
         previous_state = current_state;
+        previous_marked_word = marked_word;
+        to_dispatch.forEach((action) => store.dispatch(action));
     });
 };
 export const init = (store, stem) => {
