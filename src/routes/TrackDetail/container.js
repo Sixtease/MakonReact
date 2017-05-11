@@ -10,6 +10,7 @@ import {
     get_marked_word,
     get_selected_words,
     set_selection,
+    time_to_frame,
 } from './module.js';
 
 import TrackDetail from './component.js';
@@ -28,7 +29,7 @@ const map_state_to_props = (state) => ({
     subs:           state.track_detail.subs,
     is_playing:     state.track_detail.is_playing,
     frame_cnt:      state.track_detail.frame_cnt,
-    current_frame:  state.track_detail.current_frame,
+    current_frame:  time_to_frame(state.track_detail.current_time),
     subs_str:       get_subs_str(state),
     current_word:   get_current_word(state),
     marked_word:    get_marked_word(state),
