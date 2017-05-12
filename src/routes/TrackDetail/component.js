@@ -30,9 +30,13 @@ export class TrackDetail extends React.Component {
                 <p  ref={(el) => {
                         subs_txt = el ? el.childNodes[0] : null;
                         me.subs_el  = el;
+                        if (el) {
+                            el.textContent = subs_str;
+                        }
                     }}
                     onMouseUp={me.props.set_selection}
-                >{subs_str}</p>
+                    contentEditable="true"
+                ></p>
                 <div className="sub-rects">
                     {current_word.rects.map((rect,i) => (
                         <span
