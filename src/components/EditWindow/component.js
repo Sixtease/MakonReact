@@ -1,34 +1,71 @@
 import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 
 export class EditWindow extends React.Component {
     render() {
         const me = this;
-        const {is_playing, selected_words: selw, audio, playback_on, playback_off} = me.props;
+        const {
+            is_playing, selected_words: selw, audio, playback_on, playback_off,
+            handleSubmit,
+        } = me.props;
         let cls = 'edit-window';
         if (selw.length > 0) {
             cls += ' is-shown';
         }
         return (
             <div className={cls}>
-                <textarea value={selw.map((w)=>w.occurrence).join(' ')}></textarea>
+                <Field
+                    component="textarea"
+                    name="edited_subtitles"
+                />
                 {
                     is_playing
                     ? (
                         <button
                             className="glyphicon glyphicon-stop"
                             onClick={playback_off.bind(me,audio)}
+                            title="zastavit"
                         ></button>
                     )
                     : (
                         <button
                             className="glyphicon glyphicon-play"
                             onClick={playback_on.bind(me,audio)}
+                            title="přehrát"
                         ></button>
                     )
                 }
+                <button
+                    className="glyphicon glyphicon-ok"
+                    onClick={handleSubmit}
+                    title="odeslat"
+                ></button>
             </div>
         );
     }
+
+    componentWillReceiveProps(nextProps) {
+        const me = this;
+        const ps = me.props .selected_words;
+        const ns = nextProps.selected_words;
+        if (!ps && !ns) { return; }
+        if (!ps
+            || ps.length !== ns.length
+            || ps[0] && !ns[0]
+            || ps[0].timestamp !== ns[0].timestamp
+            || ps[ps.length-1].timestamp !== ns[ns.length-1].timestamp
+        ) {
+            const selw_str = ns.map((w)=>w.occurrence).join(' ');
+            if (selw_str) {
+                me.props.autofill('edited_subtitles', selw_str);
+            }
+        }
+    }
 };
+
+EditWindow = reduxForm({
+    form: 'edit_window',
+    onSubmit: values => console.log('submitted',values),
+})(EditWindow);
 
 export default EditWindow;
