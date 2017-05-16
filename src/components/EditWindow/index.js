@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import component from './component';
 import {get_selected_words} from 'routes/TrackDetail/module.js';
-import {playback_on,playback_off} from './module.js';
+import {playback_on,playback_off,send_subs} from './module.js';
 import './style.scss';
 
 const map_dispatch_to_props = {
     playback_on,
     playback_off,
+    onSubmit: send_subs,
 };
 
 const map_state_to_props = (state) => ({

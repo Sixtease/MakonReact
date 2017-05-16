@@ -65,7 +65,6 @@ export class EditWindow extends React.Component {
 
 EditWindow = reduxForm({
     form: 'edit_window',
-    onSubmit: values => console.log('submitted',values),
 })(EditWindow);
 
 export default EditWindow;
