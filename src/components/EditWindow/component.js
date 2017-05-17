@@ -6,7 +6,7 @@ export class EditWindow extends React.Component {
         const me = this;
         const {
             is_playing, selected_words: selw, audio, playback_on, playback_off,
-            handleSubmit,
+            handleSubmit, stem,
         } = me.props;
         let cls = 'edit-window';
         if (selw.length > 0) {

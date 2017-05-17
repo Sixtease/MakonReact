@@ -84,7 +84,9 @@ export class TrackDetail extends React.Component {
                     onChange={(evt) => force_current_frame(evt.target.value)}
                 />
             </div>
-            <EditWindow />
+            <EditWindow
+                stem={stem}
+            />
         </div>);
     }
     componentDidMount() {
