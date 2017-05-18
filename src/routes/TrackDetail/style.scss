@@ -1,15 +1,19 @@
 .subs {
     position: relative;
 }
-.sub-rect {
+.sub-rects>span {
     position: absolute;
+}
+.sub-rect {
     background-color: yellow;
     z-index: -1;
 }
-.marked-word-rect>span {
-    position: absolute;
+.marked-word-rect {
     background-color: lightBlue;
     z-index: -1;
+}
+.submitted-word-rect {
+    border-bottom: 1px dotted gray;
 }
 .control-bar {
     background-color: white;

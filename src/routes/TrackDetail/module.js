@@ -54,6 +54,10 @@ const ACTION_HANDLERS = {
         };
         return new_state;
     },
+    send_subs: (state, action) => ({
+        ...state,
+        sending_subs: true,
+    }),
 };
 
 const initial_state = {
@@ -175,7 +179,7 @@ export const get_current_word = createSelector(
         if (sub && subs_txt && current_word) {
             start_offset = sub.position;
             end_offset   = sub.position+sub.occurrence.length;
-            range.setStart(subs_txt, current_word.start_offset);
+            range.setStart(subs_txt, current_word.start_offset);//TODO: current_word.start_offset???
             range.setEnd  (subs_txt, current_word.  end_offset);
             rects = range.getClientRects();
         }
@@ -228,6 +232,24 @@ export const get_selected_words = createSelector(
             selected_word_indices.start,
             selected_word_indices.end + 1,
         );
+    },
+);
+export const get_selected_word_rectangles = createSelector(
+    [get_selected_words],
+    (selw) => {
+        let start_offset = null;
+        let end_offset   = null;
+        let rects = [];
+        const subs_txt = get_subs_txt();
+        if (selw && selw.length > 0 && subs_txt) {
+            start_offset = selw[0].position;
+            const last_selw = selw[selw.length-1];
+            end_offset   = last_selw.position+last_selw.occurrence.length;
+            range.setStart(subs_txt, start_offset);
+            range.setEnd  (subs_txt,   end_offset);
+            rects = range.getClientRects();
+        }
+        return rects;
     },
 );
 export const get_edit_window_timespan = createSelector(

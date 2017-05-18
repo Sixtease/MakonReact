@@ -19,7 +19,7 @@ export class TrackDetail extends React.Component {
         const {
             subs_str, is_playing, frame_cnt, current_frame, current_word,
             playback_on, playback_off, force_current_frame, selected_words,
-            marked_word,
+            marked_word, sending_subs, selected_word_rectangles,
         } = me.props;
         const button_class = 'clickable glyphicon glyphicon-' + (is_playing ? 'pause' : 'play');
         const subs_offset = me.state ? me.state.subs_offset : {top: 0, left: 0};
@@ -46,10 +46,9 @@ export class TrackDetail extends React.Component {
                             }}
                         ></span>
                     ))}
-                </div>
-                <div className="marked-word-rect">
                     {marked_word
                         ? <span
+                            className="marked-word-rect"
                             style={{
                                 top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
                                 left:   marked_word.rect.left   - subs_offset.left,
@@ -57,6 +56,21 @@ export class TrackDetail extends React.Component {
                                 height: marked_word.rect.bottom - marked_word.rect.top
                             }}
                         ></span>
+                        : null
+                    }
+                    {sending_subs && selected_word_rectangles
+                        ? selected_word_rectangles.map((rect,i) => (
+                            <span
+                                key={'submitted-word-rect-'+i}
+                                className="submitted-word-rect"
+                                style={{
+                                    top:    rect.top    - subs_offset.top + window.scrollY,
+                                    left:   rect.left   - subs_offset.left,
+                                    width:  rect.right  - rect.left,
+                                    height: rect.bottom - rect.top
+                                }}
+                            ></span>
+                        ))
                         : null
                     }
                 </div>
