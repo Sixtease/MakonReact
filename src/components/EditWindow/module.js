@@ -33,13 +33,17 @@ export function send_subs(form_values, dispatch, props) {
         const timespan = get_edit_window_timespan(state);
         const selw = get_selected_words(state);
         const endpoint = API_BASE + '/subsubmit/';
-        axios.post(endpoint, {
-            filestem: props.stem,
-            start: timespan.start,
-            end:   timespan.end,
-            trans: form_values.edited_subtitles,
-            author: state.form.username.values.username,
-            session: localStorage.getItem('session'),
+        axios.request({
+            url: endpoint,
+            method: 'POST',
+            params: {
+                filestem: props.stem,
+                start: timespan.start,
+                end:   timespan.end,
+                trans: form_values.edited_subtitles,
+                author: state.form.username.values.username,
+                session: localStorage.getItem('session'),
+            },
         }).then(console.log);
     };
 };
