@@ -15,6 +15,9 @@
 .submitted-word-rect {
     border-bottom: 1px dotted gray;
 }
+.failed-word-rect {
+    border-bottom: 1px dotted red;
+}
 .control-bar {
     background-color: white;
     display: flex;

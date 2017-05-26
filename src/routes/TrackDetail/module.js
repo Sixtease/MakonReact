@@ -56,7 +56,16 @@ const ACTION_HANDLERS = {
     },
     send_subs: (state, action) => ({
         ...state,
+        selection_start: null,
+        selection_end: null,
         sending_subs: true,
+        sent_word_rectangles: action.word_rectangles,
+    }),
+    failed_submission: (state, action) => ({
+        ...state,
+        sending_subs: false,
+        sent_word_rectangles: [],
+        failed_word_rectangles: action.word_rectangles,
     }),
 };
 
@@ -68,6 +77,8 @@ const initial_state = {
     is_playing: false,
     selection_start: null,
     selection_end:   null,
+    sent_word_rectangles: [],
+    failed_word_rectangles: [],
 };
 
 const fetch_subs = (store, stem) => {
@@ -139,6 +150,47 @@ function calculate_word_positions(subs) {
     });
 }
 
+function get_word_position(word, subs) {
+    let i = word.position;
+    while (subs[i].timestamp < word.timestamp) {
+        i++;
+    }
+    while (subs[i].timestamp > word.timestamp) {
+        i--;
+    }
+    if (    subs[i].timestamp  === word.timestamp
+        &&  subs[i].occurrence === word.occurrence
+    ) {
+        return subs[i].position;
+    }
+    else {
+        return null;
+    }
+}
+
+const range = document.createRange();
+export const get_word_rectangles = (subs,words) => {
+    let start_offset = null;
+    let end_offset   = null;
+    let rects = [];
+    const subs_txt = get_subs_txt();
+    if (words && words.length > 0 && subs_txt) {
+        start_offset = get_word_position(words[0],subs);
+        if (start_offset === null) {
+            return [];
+        }
+        const last_word = words[words.length-1];
+        end_offset = get_word_position(last_word,subs)+last_word.occurrence.length;
+        if (end_offset === null) {
+            return [];
+        }
+        range.setStart(subs_txt, start_offset);
+        range.setEnd  (subs_txt,   end_offset);
+        rects = range.getClientRects();
+    }
+    return rects;
+}
+
 const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => state.track_detail.current_time;
 const get_selection_boundaries
@@ -155,7 +207,6 @@ export const get_word_timestamps = createSelector(
     (subs) => subs.map((sub, i) => sub.timestamp).concat(Infinity),
 );
 let current_word;
-const range = document.createRange();
 export const get_current_word = createSelector(
     [get_word_timestamps, get_current_time, get_subs],
     (word_timestamps, current_time, subs) => {
@@ -235,22 +286,9 @@ export const get_selected_words = createSelector(
     },
 );
 export const get_selected_word_rectangles = createSelector(
-    [get_selected_words],
-    (selw) => {
-        let start_offset = null;
-        let end_offset   = null;
-        let rects = [];
-        const subs_txt = get_subs_txt();
-        if (selw && selw.length > 0 && subs_txt) {
-            start_offset = selw[0].position;
-            const last_selw = selw[selw.length-1];
-            end_offset   = last_selw.position+last_selw.occurrence.length;
-            range.setStart(subs_txt, start_offset);
-            range.setEnd  (subs_txt,   end_offset);
-            rects = range.getClientRects();
-        }
-        return rects;
-    },
+    [get_subs,get_selected_words],
+    get_word_rectangles,
+
 );
 export const get_edit_window_timespan = createSelector(
     [get_subs, get_selected_words],
