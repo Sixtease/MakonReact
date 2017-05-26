@@ -59,13 +59,25 @@ const ACTION_HANDLERS = {
         selection_start: null,
         selection_end: null,
         sending_subs: true,
-        sent_word_rectangles: action.word_rectangles,
+        sent_word_rectangles: [
+            ...state.sent_word_rectangles,
+            ...get_word_rectangles(
+                action.words,
+                state.subs,
+            ),
+        ],
     }),
     failed_submission: (state, action) => ({
         ...state,
         sending_subs: false,
         sent_word_rectangles: [],
-        failed_word_rectangles: action.word_rectangles,
+        failed_word_rectangles: [
+            ...state.failed_word_rectangles,
+            ...get_word_rectangles(
+                action.words,
+                state.subs,
+            ),
+        ],
     }),
 };
 
@@ -169,7 +181,7 @@ function get_word_position(word, subs) {
 }
 
 const range = document.createRange();
-export const get_word_rectangles = (subs,words) => {
+export const get_word_rectangles = (words,subs) => {
     let start_offset = null;
     let end_offset   = null;
     let rects = [];
@@ -286,7 +298,7 @@ export const get_selected_words = createSelector(
     },
 );
 export const get_selected_word_rectangles = createSelector(
-    [get_subs,get_selected_words],
+    [get_selected_words,get_subs],
     get_word_rectangles,
 
 );

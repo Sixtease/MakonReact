@@ -3,7 +3,6 @@ import audio from 'store/audio.js';
 import {
     get_edit_window_timespan,
     get_selected_words,
-    get_selected_word_rectangles,
 } from 'routes/TrackDetail/module.js';
 
 const ACTION_HANDLERS = {
@@ -29,11 +28,9 @@ export function send_subs(form_values, dispatch, props) {
     return (dispatch,getState) => {
         const state = getState();
         const selw = get_selected_words(state);
-        const selw_rect = get_selected_word_rectangles(state);
         dispatch({
             type: 'send_subs',
             words: selw,
-            word_rectangles: selw_rect,
         });
         const timespan = get_edit_window_timespan(state);
         const endpoint = API_BASE + '/subsubmit/';
