@@ -163,7 +163,8 @@ function calculate_word_positions(subs) {
 }
 
 function get_word_position(word, subs) {
-    let i = word.position;
+    if (!word || !subs || subs.length === 0) { return null; }
+    let i = word.index || 0;
     while (subs[i].timestamp < word.timestamp) {
         i++;
     }
