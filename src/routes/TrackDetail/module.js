@@ -79,6 +79,11 @@ const ACTION_HANDLERS = {
             ),
         ],
     }),
+    submission_error: (state, action) => ({
+        ...state,
+        sending_subs: false,
+        sent_word_rectangles: [],
+    }),
 };
 
 const initial_state = {
