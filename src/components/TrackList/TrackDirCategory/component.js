@@ -50,4 +50,11 @@ export class TrackDirCategoryView extends React.Component {
     }
 };
 
+TrackDirCategoryView.propTypes = {
+    cat:             React.PropTypes.object,
+    visible:         React.PropTypes.object,
+    current_section: React.PropTypes.string,
+    toggle_visible:  React.PropTypes.func,
+};
+
 export default TrackDirCategoryView;

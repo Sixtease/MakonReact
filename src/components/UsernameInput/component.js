@@ -14,7 +14,7 @@ export class UsernameInput extends React.Component {
     }
 };
 
-/* eslint no-class-asign: [0] */
+/* eslint no-class-assign: [0] */
 UsernameInput = reduxForm({
     form: 'username',
     initialValues: { username: localStorage.getItem('username') },

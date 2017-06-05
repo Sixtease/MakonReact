@@ -65,6 +65,16 @@ export class EditWindow extends React.Component {
     }
 };
 
+EditWindow.propTypes = {
+    is_playing:     React.PropTypes.bool,
+    selected_words: React.PropTypes.array,
+    audio:          React.PropTypes.object,
+    playback_on:    React.PropTypes.func,
+    playback_off:   React.PropTypes.func,
+    handleSubmit:   React.PropTypes.func,
+    autofill:       React.PropTypes.func,
+};
+
 /* eslint no-class-assign: [0] */
 EditWindow = reduxForm({
     form: 'edit_window',

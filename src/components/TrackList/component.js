@@ -107,4 +107,12 @@ TrackList.contextTypes = {
     store: React.PropTypes.object,
 };
 
+TrackList.propTypes = {
+    is_dir_fixed:        React.PropTypes.bool,
+    current_section:     React.PropTypes.string,
+    make_dir_static:     React.PropTypes.func,
+    make_dir_fixed:      React.PropTypes.func,
+    set_current_section: React.PropTypes.func,
+};
+
 export default TrackList;

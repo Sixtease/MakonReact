@@ -29,10 +29,11 @@ export class TrackDetail extends React.Component {
             <h1>{stem}</h1>
             <p />
             <div className='subs'>
-                <p  ref={(el) => {
+                <p
+                    ref={(el) => {
                         subs_txt = el ? el.childNodes[0] : null;
                         me.subs_el  = el;
-                }}
+                    }}
                     onMouseUp={me.props.set_selection}
                 >{subs_str}</p>
                 <div className='sub-rects'>
@@ -143,6 +144,21 @@ export class TrackDetail extends React.Component {
 
 TrackDetail.contextTypes = {
     store: React.PropTypes.object,
+};
+
+TrackDetail.propTypes = {
+    subs_str:               React.PropTypes.string,
+    is_playing:             React.PropTypes.bool,
+    frame_cnt:              React.PropTypes.number,
+    current_frame:          React.PropTypes.number,
+    current_word:           React.PropTypes.object,
+    playback_on:            React.PropTypes.func,
+    playback_off:           React.PropTypes.func,
+    force_current_frame:    React.PropTypes.func,
+    marked_word:            React.PropTypes.object,
+    sending_subs:           React.PropTypes.bool,
+    sent_word_rectangles:   React.PropTypes.array,
+    failed_word_rectangles: React.PropTypes.array,
 };
 
 export default TrackDetail;
