@@ -9,7 +9,6 @@ import {
     get_current_word,
     get_marked_word,
     get_selected_words,
-    get_selected_word_rectangles,
     set_selection,
     time_to_frame,
 } from './module.js';
@@ -35,8 +34,6 @@ const map_state_to_props = (state) => ({
     current_word:   get_current_word(state),
     marked_word:    get_marked_word(state),
     selected_words: get_selected_words(state),
-    /*selected_word_rectangles: // why always compute this? TODO optimize
-                    get_selected_word_rectangles(state),*/
     sending_subs:   state.track_detail.sending_subs,
     sent_word_rectangles:
                     state.track_detail.sent_word_rectangles,

@@ -81,13 +81,15 @@ const ACTION_HANDLERS = {
                     ...action.accepted_words,
                     ...state.subs.slice(
                         get_word_index(
+                            /* eslint standard/computed-property-even-spacing: [0] */
                             action.replaced_words[
-                                action.replaced_words.length-1
+                                action.replaced_words.length - 1
                             ],
                             state.subs,
                         ) + 1,
                     ),
                 ],
+                /* eslint func-call-spacing: [0] */
                 get_word_index   (action.replaced_words[0], state.subs),
                 get_word_position(action.replaced_words[0], state.subs),
             ),
@@ -148,8 +150,8 @@ const set_audio_controls = (store) => {
     previous_state.track_detail = initial_state;
     store.subscribe(() => {
         const current_state = store.getState();
-        if (    current_state.track_detail.forced_time
-            != previous_state.track_detail.forced_time
+        if (     current_state.track_detail.forced_time
+            !== previous_state.track_detail.forced_time
         ) {
             audio().currentTime = current_state.track_detail.forced_time;
         }
@@ -195,7 +197,9 @@ function calculate_word_positions(subs, start_index = 0, start_position = 0) {
 }
 
 function get_word_index(word, subs) {
-    if (!word || !subs || subs.length === 0) { return null; }
+    if (!word || !subs || subs.length === 0) {
+        return null;
+    }
     let i = word.index || 0;
     while (subs[i].timestamp > word.timestamp) {
         i--;
@@ -207,7 +211,9 @@ function get_word_index(word, subs) {
 }
 
 function get_word_position(word, subs) {
-    if (!word || !subs || subs.length === 0) { return null; }
+    if (!word || !subs || subs.length === 0) {
+        return null;
+    }
     let i = word.index || 0;
     while (subs[i].timestamp < word.timestamp) {
         i++;
@@ -246,15 +252,17 @@ export const get_word_rectangles = (words,subs) => {
         rects = range.getClientRects();
     }
     return rects;
-}
+};
 
 const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => state.track_detail.current_time;
+/* eslint indent: [0] */
 const get_selection_boundaries
                        = (state) => ({
     start: state.track_detail.selection_start,
     end:   state.track_detail.selection_end,
 });
+/* eslint indent: [1,4] */
 export const get_subs_str = createSelector(
     [get_subs],
     (subs) => subs.map((sub) => sub.occurrence).join(' '),
@@ -291,13 +299,14 @@ export const get_current_word = createSelector(
             range.setEnd  (subs_txt, current_word.  end_offset);
             rects = range.getClientRects();
         }
-        return current_word = {
+        current_word = {
             i,
             start_offset: sub?sub.position:null,
             end_offset: sub?sub.position+sub.occurrence.length:null,
             rects,
             ...sub,
         };
+        return current_word;
     },
 );
 export const get_selected_word_indices = createSelector(
@@ -388,7 +397,8 @@ export const get_marked_word = createSelector(
 
 const sel = document.getSelection();
 export function set_selection() {
-    let start_offset = null, end_offset = null;
+    let start_offset = null;
+    let   end_offset = null;
     if (sel.rangeCount > 0) {
         const sel_range = sel.getRangeAt(0);
         if (sel_range) {
@@ -434,7 +444,7 @@ export function force_current_time(current_time) {
     };
 };
 
-export default function reducer (state = initial_state, action) {
+export default function reducer(state = initial_state, action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 };

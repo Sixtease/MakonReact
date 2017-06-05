@@ -6,7 +6,7 @@ export class EditWindow extends React.Component {
         const me = this;
         const {
             is_playing, selected_words: selw, audio, playback_on, playback_off,
-            handleSubmit, stem,
+            handleSubmit,
         } = me.props;
         let cls = 'edit-window';
         if (selw.length > 0) {
@@ -15,31 +15,31 @@ export class EditWindow extends React.Component {
         return (
             <div className={cls}>
                 <Field
-                    component="textarea"
-                    name="edited_subtitles"
+                    component='textarea'
+                    name='edited_subtitles'
                 />
                 {
                     is_playing
                     ? (
                         <button
-                            className="glyphicon glyphicon-stop"
-                            onClick={playback_off.bind(me,audio)}
-                            title="zastavit"
-                        ></button>
+                            className='glyphicon glyphicon-stop'
+                            onClick={() => playback_off(audio)}
+                            title='zastavit'
+                        />
                     )
                     : (
                         <button
                             className="glyphicon glyphicon-play"
-                            onClick={playback_on.bind(me,audio)}
+                            onClick={() => playback_on(audio)}
                             title="přehrát"
-                        ></button>
+                        />
                     )
                 }
                 <button
                     className="glyphicon glyphicon-ok"
                     onClick={handleSubmit}
                     title="odeslat"
-                ></button>
+                />
             </div>
         );
     }
@@ -48,7 +48,9 @@ export class EditWindow extends React.Component {
         const me = this;
         const ps = me.props .selected_words;
         const ns = nextProps.selected_words;
-        if ( !(ps && ps.length) && !(ns && ns.length) ) { return; }
+        if ( !(ps && ps.length) && !(ns && ns.length) ) {
+            return;
+        }
         if (!ps
             || ps.length !== ns.length
             || ps[0] && !ns[0]
@@ -63,6 +65,7 @@ export class EditWindow extends React.Component {
     }
 };
 
+/* eslint no-class-assign: [0] */
 EditWindow = reduxForm({
     form: 'edit_window',
 })(EditWindow);

@@ -4,8 +4,6 @@ export const MAKE_DIR_STATIC = 'MAKE_DIR_STATIC';
 export const SET_OFFSET = 'SET_OFFSET';
 export const SCROLLED_TO = 'SCROLLED_TO';
 
-import stemsec from '../../store/stemsec.json';
-
 export function set_current_section(section_id) {
     return {
         type: SET_CURRENT_SECTION,
@@ -29,13 +27,13 @@ export function set_offset(offset) {
     return {
         type: SET_OFFSET,
         offset,
-    }
+    };
 };
 
 const ACTION_HANDLERS = {
     [SET_CURRENT_SECTION]: (state, action) => ({
         ...state,
-        current_section: action.section_id
+        current_section: action.section_id,
     }),
     [MAKE_DIR_FIXED]: (state, action) => ({
         ...state,

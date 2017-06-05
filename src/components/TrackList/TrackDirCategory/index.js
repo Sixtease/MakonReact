@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import component from './component.js';
-import { toggle_visible, reducer } from './module.js';
+import { toggle_visible } from './module.js';
 import './style.scss';
 
 const map_dispatch_to_props = {

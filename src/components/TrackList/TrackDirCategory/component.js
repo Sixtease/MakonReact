@@ -23,7 +23,7 @@ export class TrackDirCategoryView extends React.Component {
         const {cat, visible, toggle_visible, current_section} = me.props;
         return (<li>
             <div>
-                <label onClick={toggle_visible.bind(me,cat)}>{cat.name}</label>
+                <label onClick={()=>toggle_visible(cat)}>{cat.name}</label>
                 <ul style={{display: me.is_visible()}}>
                     { cat.items.map((subcat) => (
                         <TrackDirCategoryView
@@ -40,7 +40,7 @@ export class TrackDirCategoryView extends React.Component {
     }
     render() {
         const me = this;
-        const {cat, visible, toggle_visible} = me.props;
+        const {cat} = me.props;
         if (cat.section) {
             return me.section_link();
         }

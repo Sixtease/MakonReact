@@ -17,7 +17,9 @@ export class TrackList extends React.Component {
                     <ul
                         id="tracklist-directory-top-list"
                         className={is_dir_fixed ? 'is-fixed' : ''}
-                        ref={(el)=>{this.tracklist_directory_top_list=el;}}
+                        ref={ (el) => {
+                            this.tracklist_directory_top_list = el;
+                        }}
                     >
                         { stemdir.map((cat1) => {
                             return (
@@ -63,7 +65,6 @@ export class TrackList extends React.Component {
 
     componentDidMount() {
         let me = this;
-        const {set_offset,scrolled_to} = me.props;
         if (!window.TRACKLIST_SCROLL_HANDLER) {
             const list = me.tracklist_directory_top_list;
             if (list) {
@@ -82,7 +83,6 @@ export class TrackList extends React.Component {
     scrolled_to(offset) {
         let me = this;
         let {make_dir_fixed,make_dir_static,set_current_section} = me.props;
-        let new_state;
         if (offset > me.initial_offset) {
             make_dir_fixed();
         }

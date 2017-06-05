@@ -24,8 +24,12 @@ const ACTION_HANDLERS = {
             .filter((key) => state[key] ? state[key].visible !== 1 : true)
         );
         var state_update = {};
-        newly_collapsed.forEach((key) => { state_update[key] = {visible:false}; } );
-        newly_expanded .forEach((key) => { state_update[key] = {visible:true }; } );
+        newly_collapsed.forEach((key) => {
+            state_update[key] = { visible: false };
+        });
+        newly_expanded .forEach((key) => {
+            state_update[key] = { visible: true };
+        });
         return {
             ...state,
             ...state_update,

@@ -23,11 +23,21 @@
     "key-spacing"          : 0,
     "jsx-quotes"           : [1, "prefer-single"],
     "react/jsx-indent"     : [1, 4],
+    "react/jsx-indent-props":[1, 4],
     "max-len"              : [1, 120, 2],
     "object-curly-spacing" : [1, "always"],
     "comma-dangle": [1, "always-multiline"],
     "semi": [1,"always"],
-    "camelcase": [1,{"properties":"never"}],
-    "indent": [1,4]
+    "camelcase": [0,{"properties":"never"}],
+    "indent": [1,4],
+    "space-before-function-paren": [1, {
+        "anonymous": "always",
+        "named": "never"
+    }],
+    "no-multi-spaces": [0],
+    "space-in-parens": [0],
+    "no-whitespace-before-property": [0],
+    "operator-linebreak": [0],
+    "brace-style": [1, "stroustrup"]
   },
 }

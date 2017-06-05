@@ -5,7 +5,6 @@ import UsernameInput from 'components/UsernameInput/index.js';
 
 export class Header extends React.Component {
     render() {
-        const me = this;
         return (
             <div className='row'>
                 <div className='col-xs-12'>

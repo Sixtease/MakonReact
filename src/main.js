@@ -38,7 +38,8 @@ if (__DEV__) {
         render = () => {
             try {
                 renderApp();
-            } catch (error) {
+            }
+            catch (error) {
                 console.error(error);
                 renderError(error);
             }

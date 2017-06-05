@@ -20,8 +20,8 @@ export const autostop = store => next => action => {
                     type: 'playback_off',
                 });
                 autostop_timeouts.shift();
-            }, remaining*SECOND));
+            }, remaining * SECOND));
         }
     }
     return result;
-}
+};

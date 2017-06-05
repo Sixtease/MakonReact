@@ -1,5 +1,4 @@
 import axios from 'axios';
-import audio from 'store/audio.js';
 import {
     get_edit_window_timespan,
     get_selected_words,
@@ -14,7 +13,7 @@ export function playback_on() {
     };
 };
 
-export function playback_off(audio) {
+export function playback_off() {
     return {
         type: 'playback_off',
     };

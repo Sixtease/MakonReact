@@ -1,4 +1,5 @@
 // We only need to import the modules necessary for initial render
+/* eslint standard/object-curly-even-spacing: [0] */
 import CoreLayout from '../layouts/CoreLayout';
 import Home from './Home';
 import TrackDetailRoute from './TrackDetail/index.js';
