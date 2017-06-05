@@ -5,6 +5,8 @@ import React from 'react';
 import EditWindow from 'components/EditWindow/index.js';
 import audio from 'store/audio.js';
 
+const CONTROL_BAR_HEIGHT = 35;
+
 let subs_txt;
 export const get_subs_txt = () => subs_txt;
 
@@ -37,8 +39,16 @@ export class TrackDetail extends React.Component {
                     onMouseUp={me.props.set_selection}
                 >{subs_str}</p>
                 <div className='sub-rects'>
-                    {current_word.rects.map((rect, i) => (
-                        <span
+                    {current_word.rects.map((rect, i) => {
+                        if (    rect.bottom + CONTROL_BAR_HEIGHT > window.innerHeight
+                            ||  rect.top < 0
+                        ) {
+                            window.scrollTo(
+                                window.scrollX,
+                                window.scrollY + rect.top,
+                            );
+                        }
+                        return <span
                             key={'sub-rect-' + i}
                             className='sub-rect'
                             style={{
@@ -47,8 +57,8 @@ export class TrackDetail extends React.Component {
                                 width:  rect.right  - rect.left,
                                 height: rect.bottom - rect.top,
                             }}
-                        />
-                    ))}
+                        />;
+                    })}
                     {marked_word
                         ? <span
                             className='marked-word-rect'
