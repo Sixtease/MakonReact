@@ -6,10 +6,6 @@ import {
 } from 'routes/TrackDetail/module.js';
 
 const ACTION_HANDLERS = {
-    send_subs: (state, action) => {
-        console.log('send subtitles',action);
-        return state;
-    },
 };
 
 export function playback_on() {
