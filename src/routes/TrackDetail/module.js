@@ -168,8 +168,10 @@ const set_audio_controls = (store) => {
         const marked_word = get_marked_word(current_state);
         const to_dispatch = [];
         if (marked_word
-            && previous_marked_word
-            && marked_word.timestamp !== previous_marked_word.timestamp
+            && (
+                !previous_marked_word
+                || marked_word.timestamp !== previous_marked_word.timestamp
+            )
         ) {
             to_dispatch.push({
                 type: 'force_current_time',
@@ -286,7 +288,7 @@ export const get_current_word = createSelector(
         }
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i + 1] <= current_time) i++;
-        while (word_timestamps[i  ] >  current_time) i--;
+        while (word_timestamps[i    ] >  current_time) i--;
         if (i < 0) i = 0;
         const sub = subs[i];
         let start_offset = null;
