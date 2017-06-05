@@ -1,7 +1,7 @@
 export const VISIBILITY_TOGGLE = 'VISIBILITY_TOGGLE';
 export const VISIBLE = true;
 export const COLLAPSED = false;
-import {SET_CURRENT_SECTION} from '../module.js';
+import { SET_CURRENT_SECTION } from '../module.js';
 import section_stemdir_map from '../../../store/section_stemdir_map.js';
 
 export function toggle_visible(category) {
@@ -14,7 +14,7 @@ export function toggle_visible(category) {
 const ACTION_HANDLERS = {
     [VISIBILITY_TOGGLE]: (state, action) => ({
         ...state,
-        [action.key]: {visible: (state[action.key]||{}).visible ? 0 : 1},
+        [action.key]: { visible: (state[action.key] || {}).visible ? 0 : 1 },
     }),
     [SET_CURRENT_SECTION]: (state, action) => {
         const newly_collapsed = (Object.keys(state)
@@ -38,7 +38,7 @@ const ACTION_HANDLERS = {
 };
 
 const initial_state = {};
-export function reducer (state = initial_state, action) {
+export function reducer(state = initial_state, action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 };

@@ -1,6 +1,6 @@
 import fetch_jsonp from 'fetch-jsonp';
 import { createSelector } from 'reselect';
-import {get_subs_txt} from './component.js';
+import { get_subs_txt } from './component.js';
 
 export const FRAME_RATE = 44100;
 export const frame_to_time = (frame) => frame / FRAME_RATE;
@@ -18,7 +18,7 @@ const ACTION_HANDLERS = {
             ...state,
             is_playing: true,
         };
-        let selected_words = get_selected_words({track_detail:state});
+        let selected_words = get_selected_words({ track_detail:state });
         if (selected_words.length > 0) {
             rv.forced_time = selected_words[0].timestamp;
         }
@@ -182,13 +182,13 @@ const set_audio_controls = (store) => {
     });
 };
 export const init = (store, stem) => {
-    fetch_subs(store,stem);
+    fetch_subs(store, stem);
     set_audio_controls(store);
 };
 
 function calculate_word_positions(subs, start_index = 0, start_position = 0) {
     var pos = start_position;
-    subs.forEach((word,i) => {
+    subs.forEach((word, i) => {
         word.index = start_index + i;
         word.position = pos;
         pos += word.occurrence.length + 1;
@@ -232,18 +232,18 @@ function get_word_position(word, subs) {
 }
 
 const range = document.createRange();
-export const get_word_rectangles = (words,subs) => {
+export const get_word_rectangles = (words, subs) => {
     let start_offset = null;
     let end_offset   = null;
     let rects = [];
     const subs_txt = get_subs_txt();
     if (words && words.length > 0 && subs_txt) {
-        start_offset = get_word_position(words[0],subs);
+        start_offset = get_word_position(words[0], subs);
         if (start_offset === null) {
             return [];
         }
-        const last_word = words[words.length-1];
-        end_offset = get_word_position(last_word,subs)+last_word.occurrence.length;
+        const last_word = words[words.length - 1];
+        end_offset = get_word_position(last_word, subs) + last_word.occurrence.length;
         if (end_offset === null) {
             return [];
         }
@@ -259,9 +259,9 @@ const get_current_time = (state) => state.track_detail.current_time;
 /* eslint indent: [0] */
 const get_selection_boundaries
                        = (state) => ({
-    start: state.track_detail.selection_start,
-    end:   state.track_detail.selection_end,
-});
+                           start: state.track_detail.selection_start,
+                           end:   state.track_detail.selection_end,
+                       });
 /* eslint indent: [1,4] */
 export const get_subs_str = createSelector(
     [get_subs],
@@ -285,7 +285,7 @@ export const get_current_word = createSelector(
             };
         }
         let i = current_word ? current_word.i : 0;
-        while (word_timestamps[i+1] <= current_time) i++;
+        while (word_timestamps[i + 1] <= current_time) i++;
         while (word_timestamps[i  ] >  current_time) i--;
         if (i < 0) i = 0;
         const sub = subs[i];
@@ -294,15 +294,15 @@ export const get_current_word = createSelector(
         let rects = [];
         if (sub && subs_txt && current_word) {
             start_offset = sub.position;
-            end_offset   = sub.position+sub.occurrence.length;
-            range.setStart(subs_txt, current_word.start_offset);//TODO: current_word.start_offset???
+            end_offset   = sub.position + sub.occurrence.length;
+            range.setStart(subs_txt, current_word.start_offset);// TODO: current_word.start_offset???
             range.setEnd  (subs_txt, current_word.  end_offset);
             rects = range.getClientRects();
         }
         current_word = {
             i,
-            start_offset: sub?sub.position:null,
-            end_offset: sub?sub.position+sub.occurrence.length:null,
+            start_offset: sub ? sub.position : null,
+            end_offset: sub ? sub.position + sub.occurrence.length : null,
             rects,
             ...sub,
         };
@@ -319,16 +319,16 @@ export const get_selected_word_indices = createSelector(
             return null;
         }
         var i = current_word ? current_word.i : 0;
-        while (subs[i] && i>0 && subs[i].position > end_pos) i--;
-        while (subs[i] && i<l && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
+        while (subs[i] && i > 0 && subs[i].position > end_pos) i--;
+        while (subs[i] && i < l && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
         const end_index = i;
         if (start_pos === end_pos) {
             return {
                 only: end_index,
             };
         }
-        while (subs[i] && i<l && subs[i].position + subs[i].occurrence.length < start_pos) i++;
-        while (subs[i] && i>0 && subs[i].position - 1 > start_pos) i--;
+        while (subs[i] && i < l && subs[i].position + subs[i].occurrence.length < start_pos) i++;
+        while (subs[i] && i > 0 && subs[i].position - 1 > start_pos) i--;
         const start_index = i;
         return {
             start: start_index,
@@ -352,7 +352,7 @@ export const get_selected_words = createSelector(
     },
 );
 export const get_selected_word_rectangles = createSelector(
-    [get_selected_words,get_subs],
+    [get_selected_words, get_subs],
     get_word_rectangles,
 
 );
@@ -365,8 +365,8 @@ export const get_edit_window_timespan = createSelector(
                 end: null,
             };
         }
-        const i = selected_words[selected_words.length-1].index;
-        const pad_word = subs[i+1] || subs[i];
+        const i = selected_words[selected_words.length - 1].index;
+        const pad_word = subs[i + 1] || subs[i];
         return {
             start: selected_words[0].timestamp,
             end:   pad_word.timestamp,

@@ -20,7 +20,7 @@ export function playback_off() {
 };
 
 export function send_subs(form_values, dispatch, props) {
-    return (dispatch,getState) => {
+    return (dispatch, getState) => {
         const state = getState();
         const selw = get_selected_words(state);
         dispatch({
@@ -55,7 +55,7 @@ export function send_subs(form_values, dispatch, props) {
                 });
             }
         })
-        .catch(()=>{
+        .catch(() => {
             dispatch({
                 type: 'submission_error',
                 words: selw,
@@ -67,7 +67,7 @@ export function send_subs(form_values, dispatch, props) {
 const initial_state = {
 };
 
-export default function reducer (state = initial_state, action) {
+export default function reducer(state = initial_state, action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 };

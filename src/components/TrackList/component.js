@@ -7,7 +7,7 @@ import stemsec from '../../store/stemsec.json';
 export class TrackList extends React.Component {
     render() {
         const context = this.context;
-        const {is_dir_fixed,current_section} = this.props;
+        const { is_dir_fixed, current_section } = this.props;
         return (
             <div className='row tracklist'>
 
@@ -15,9 +15,9 @@ export class TrackList extends React.Component {
                     className='col-xs-6 col-sm-4 tracklist-directory'
                 >
                     <ul
-                        id="tracklist-directory-top-list"
+                        id='tracklist-directory-top-list'
                         className={is_dir_fixed ? 'is-fixed' : ''}
-                        ref={ (el) => {
+                        ref={(el) => {
                             this.tracklist_directory_top_list = el;
                         }}
                     >
@@ -39,7 +39,7 @@ export class TrackList extends React.Component {
                         <section
                             id={sec.section}
                             key={sec.section}
-                            ref={(el)=>{
+                            ref={(el) => {
                                 if (el) {
                                     this.section_offsets[sec.section] = el.offsetTop;
                                 }
@@ -82,7 +82,7 @@ export class TrackList extends React.Component {
 
     scrolled_to(offset) {
         let me = this;
-        let {make_dir_fixed,make_dir_static,set_current_section} = me.props;
+        let { make_dir_fixed, make_dir_static, set_current_section } = me.props;
         if (offset > me.initial_offset) {
             make_dir_fixed();
         }

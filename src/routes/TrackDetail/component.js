@@ -15,28 +15,28 @@ export class TrackDetail extends React.Component {
 
     render() {
         const me = this;
-        const {stem} = me.props.params;
+        const { stem } = me.props.params;
         const {
             subs_str, is_playing, frame_cnt, current_frame, current_word,
             playback_on, playback_off, force_current_frame,
             marked_word, sending_subs, sent_word_rectangles, failed_word_rectangles,
         } = me.props;
-        const subs_offset = me.state ? me.state.subs_offset : {top: 0, left: 0};
+        const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
         return (<div>
             <h1>{stem}</h1>
-            <p/>
-            <div className="subs">
+            <p />
+            <div className='subs'>
                 <p  ref={(el) => {
                         subs_txt = el ? el.childNodes[0] : null;
                         me.subs_el  = el;
-                    }}
+                }}
                     onMouseUp={me.props.set_selection}
                 >{subs_str}</p>
-                <div className="sub-rects">
-                    {current_word.rects.map((rect,i) => (
+                <div className='sub-rects'>
+                    {current_word.rects.map((rect, i) => (
                         <span
-                            key={'sub-rect-'+i}
-                            className="sub-rect"
+                            key={'sub-rect-' + i}
+                            className='sub-rect'
                             style={{
                                 top:    rect.top    - subs_offset.top + window.scrollY,
                                 left:   rect.left   - subs_offset.left,
@@ -47,7 +47,7 @@ export class TrackDetail extends React.Component {
                     ))}
                     {marked_word
                         ? <span
-                            className="marked-word-rect"
+                            className='marked-word-rect'
                             style={{
                                 top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
                                 left:   marked_word.rect.left   - subs_offset.left,
@@ -58,10 +58,10 @@ export class TrackDetail extends React.Component {
                         : null
                     }
                     {sending_subs && sent_word_rectangles
-                        ? sent_word_rectangles.map((rect,i) => (
+                        ? sent_word_rectangles.map((rect, i) => (
                             <span
-                                key={'submitted-word-rect-'+i}
-                                className="submitted-word-rect"
+                                key={'submitted-word-rect-' + i}
+                                className='submitted-word-rect'
                                 style={{
                                     top:    rect.top    - subs_offset.top + window.scrollY,
                                     left:   rect.left   - subs_offset.left,
@@ -72,10 +72,10 @@ export class TrackDetail extends React.Component {
                         ))
                         : null
                     }
-                    {failed_word_rectangles.map((rect,i) => (
+                    {failed_word_rectangles.map((rect, i) => (
                         <span
-                            key={'failed-word-rect-'+i}
-                            className="failed-word-rect"
+                            key={'failed-word-rect-' + i}
+                            className='failed-word-rect'
                             style={{
                                 top:    rect.top    - subs_offset.top + window.scrollY,
                                 left:   rect.left   - subs_offset.left,
@@ -86,24 +86,24 @@ export class TrackDetail extends React.Component {
                     )) }
                 </div>
             </div>
-            <div className="control-bar">
+            <div className='control-bar'>
                 {   is_playing
                     ? (
                         <button
-                            className="glyphicon glyphicon-pause"
+                            className='glyphicon glyphicon-pause'
                             onClick={playback_off}
                         />
                     )
                     : (
                         <button
-                            className="glyphicon glyphicon-play"
+                            className='glyphicon glyphicon-play'
                             onClick={playback_on}
                         />
                     )
                 }
                 <input
-                    type="range"
-                    min="0"
+                    type='range'
+                    min='0'
                     max={frame_cnt}
                     value={current_frame}
                     onChange={(evt) => force_current_frame(evt.target.value)}
@@ -116,10 +116,10 @@ export class TrackDetail extends React.Component {
     }
     componentDidMount() {
         const me = this;
-        const {stem} = me.props.params;
-        const {set_audio_metadata, sync_current_time, set_selection} = me.props;
+        const { stem } = me.props.params;
+        const { set_audio_metadata, sync_current_time, set_selection } = me.props;
         const src = MP3_BASE + stem + '.mp3';
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
         set_selection();
         me.audio = audio(src);
         me.audio.addEventListener(

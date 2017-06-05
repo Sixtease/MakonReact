@@ -52,7 +52,7 @@ const ACTION_HANDLERS = {
 const initial_state = {
     is_dir_fixed: false,
 };
-export function reducer (state = initial_state, action) {
+export function reducer(state = initial_state, action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 };

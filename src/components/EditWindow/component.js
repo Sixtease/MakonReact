@@ -29,16 +29,16 @@ export class EditWindow extends React.Component {
                     )
                     : (
                         <button
-                            className="glyphicon glyphicon-play"
+                            className='glyphicon glyphicon-play'
                             onClick={() => playback_on(audio)}
-                            title="přehrát"
+                            title='přehrát'
                         />
                     )
                 }
                 <button
-                    className="glyphicon glyphicon-ok"
+                    className='glyphicon glyphicon-ok'
                     onClick={handleSubmit}
-                    title="odeslat"
+                    title='odeslat'
                 />
             </div>
         );
@@ -55,9 +55,9 @@ export class EditWindow extends React.Component {
             || ps.length !== ns.length
             || ps[0] && !ns[0]
             || ps[0].timestamp !== ns[0].timestamp
-            || ps[ps.length-1].timestamp !== ns[ns.length-1].timestamp
+            || ps[ps.length - 1].timestamp !== ns[ns.length - 1].timestamp
         ) {
-            const selw_str = ns.map((w)=>w.occurrence).join(' ');
+            const selw_str = ns.map((w) => w.occurrence).join(' ');
             if (selw_str) {
                 me.props.autofill('edited_subtitles', selw_str);
             }

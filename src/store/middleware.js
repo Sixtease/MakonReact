@@ -1,4 +1,4 @@
-import {get_edit_window_timespan} from 'routes/TrackDetail/module.js';
+import { get_edit_window_timespan } from 'routes/TrackDetail/module.js';
 export const autostop_timeouts = [];
 const SECOND = 1000;
 let stop_time = null;

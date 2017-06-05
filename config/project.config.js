@@ -109,7 +109,7 @@ config.compiler_vendors = config.compiler_vendors
 // ------------------------------------
 // Utilities
 // ------------------------------------
-function base () {
+function base() {
     const args = [config.path_base].concat([].slice.call(arguments));
     return path.resolve.apply(path, args);
 }
@@ -130,7 +130,8 @@ const overrides = environments[config.env];
 if (overrides) {
     debug('Found overrides, applying to default configuration.');
     Object.assign(config, overrides(config));
-} else {
+}
+else {
     debug('No environment overrides found, defaults will be used.');
 }
 

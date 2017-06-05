@@ -2,7 +2,7 @@ import { injectReducer } from '../../store/reducers';
 
 export default (store) => ({
     path : 'zaznam/:stem',
-    getComponent (nextState, cb) {
+    getComponent(nextState, cb) {
         require.ensure([], (require) => {
             const container = require('./container.js').default;
             const reducer_module = require('./module.js');
