@@ -1,3 +1,6 @@
+/* global AUDIO_BASE */
+/* global AUDIO_SUFFIX */
+
 import React from 'react';
 import EditWindow from 'components/EditWindow/index.js';
 import audio from 'store/audio.js';
@@ -118,7 +121,7 @@ export class TrackDetail extends React.Component {
         const me = this;
         const { stem } = me.props.params;
         const { set_audio_metadata, sync_current_time, set_selection } = me.props;
-        const src = MP3_BASE + stem + '.mp3';
+        const src = AUDIO_BASE + stem + AUDIO_SUFFIX;
         window.scrollTo(0, 0);
         set_selection();
         me.audio = audio(src);
