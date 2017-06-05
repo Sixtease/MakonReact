@@ -3,14 +3,13 @@
 }
 .sub-rects>span {
     position: absolute;
+    z-index: -1;
 }
 .sub-rect {
     background-color: yellow;
-    z-index: -1;
 }
 .marked-word-rect {
     background-color: lightBlue;
-    z-index: -1;
 }
 .submitted-word-rect {
     border-bottom: 1px dotted gray;
