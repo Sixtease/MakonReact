@@ -41,9 +41,13 @@ export function send_subs(form_values, dispatch, props) {
                 author: state.form.username.values.username,
                 session: localStorage.getItem('session'),
             },
-        }).then(res=>{
-            if (res.success) {
-                ;;; console.log('success',res);
+        }).then(res => {
+            if (res.data && res.data.success) {
+                dispatch({
+                    type: 'accepted_submission',
+                    replaced_words: selw,
+                    accepted_words: res.data.data,
+                });
             }
             else {
                 dispatch({

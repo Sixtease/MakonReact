@@ -67,6 +67,32 @@ const ACTION_HANDLERS = {
             ),
         ],
     }),
+    accepted_submission: (state, action) => ({
+        ...state,
+        sending_subs: false,
+        sent_word_rectangles: [],
+        subs: [
+            ...state.subs.slice(
+                0,
+                get_word_index(action.replaced_words[0], state.subs),
+            ),
+            ...calculate_word_positions(
+                [
+                    ...action.accepted_words,
+                    ...state.subs.slice(
+                        get_word_index(
+                            action.replaced_words[
+                                action.replaced_words.length-1
+                            ],
+                            state.subs,
+                        ) + 1,
+                    ),
+                ],
+                get_word_index   (action.replaced_words[0], state.subs),
+                get_word_position(action.replaced_words[0], state.subs),
+            ),
+        ],
+    }),
     failed_submission: (state, action) => ({
         ...state,
         sending_subs: false,
@@ -158,13 +184,26 @@ export const init = (store, stem) => {
     set_audio_controls(store);
 };
 
-function calculate_word_positions(subs) {
-    var pos = 0;
+function calculate_word_positions(subs, start_index = 0, start_position = 0) {
+    var pos = start_position;
     subs.forEach((word,i) => {
-        word.index = i;
+        word.index = start_index + i;
         word.position = pos;
         pos += word.occurrence.length + 1;
     });
+    return subs;
+}
+
+function get_word_index(word, subs) {
+    if (!word || !subs || subs.length === 0) { return null; }
+    let i = word.index || 0;
+    while (subs[i].timestamp > word.timestamp) {
+        i--;
+    }
+    while (subs[i].timestamp < word.timestamp) {
+        i++;
+    }
+    return i;
 }
 
 function get_word_position(word, subs) {
