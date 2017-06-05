@@ -48,7 +48,7 @@ export class EditWindow extends React.Component {
         const me = this;
         const ps = me.props .selected_words;
         const ns = nextProps.selected_words;
-        if (!ps && !ns) { return; }
+        if ( !(ps && ps.length) && !(ns && ns.length) ) { return; }
         if (!ps
             || ps.length !== ns.length
             || ps[0] && !ns[0]
