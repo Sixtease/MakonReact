@@ -265,9 +265,31 @@ const get_selection_boundaries
                            end:   state.track_detail.selection_end,
                        });
 /* eslint indent: [1,4] */
-export const get_subs_str = createSelector(
+export const get_subs_chunks = createSelector(
     [get_subs],
-    (subs) => subs.map((sub) => sub.occurrence).join(' '),
+    (subs) => {
+        let is_now_humanic = null;
+        const rv = [];
+        const wbuf = [];
+        const flush = function () {
+            rv.push({
+                is_humanic: is_now_humanic,
+                str: wbuf.join(' '),
+            });
+            wbuf.length = 0;
+        };
+        subs.forEach(sub => {
+            const subhum = !!sub.humanic;
+            if (subhum !== is_now_humanic) {
+                flush();
+                is_now_humanic = subhum;
+            }
+            wbuf.push(sub.occurrence);
+        });
+        flush();
+        rv.shift();
+        return rv;
+    },
 );
 export const get_word_timestamps = createSelector(
     [get_subs],

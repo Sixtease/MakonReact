@@ -1,5 +1,12 @@
 .subs {
     position: relative;
+    padding-bottom: 50px;
+    > p > .is-humanic {
+        color: black;
+    }
+    > p > .is-automatic {
+        color: #666;
+    }
 }
 .sub-rects>span {
     position: absolute;

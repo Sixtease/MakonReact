@@ -22,7 +22,7 @@ export class TrackDetail extends React.Component {
         const me = this;
         const { stem } = me.props.params;
         const {
-            subs_str, is_playing, frame_cnt, current_frame, current_word,
+            subs_chunks, is_playing, frame_cnt, current_frame, current_word,
             playback_on, playback_off, force_current_frame,
             marked_word, sending_subs, sent_word_rectangles, failed_word_rectangles,
         } = me.props;
@@ -37,7 +37,12 @@ export class TrackDetail extends React.Component {
                         me.subs_el  = el;
                     }}
                     onMouseUp={me.props.set_selection}
-                >{subs_str}</p>
+                >{
+                    subs_chunks.map((chunk, i) => <span
+                        key={'chunk-'+i}
+                        className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
+                    >{chunk.str + ' '}</span>)
+                }</p>
                 <div className='sub-rects'>
                     {current_word.rects.map((rect, i) => {
                         if (    rect.bottom + CONTROL_BAR_HEIGHT > window.innerHeight
@@ -157,7 +162,7 @@ TrackDetail.contextTypes = {
 };
 
 TrackDetail.propTypes = {
-    subs_str:               React.PropTypes.string,
+    subs_chunks:            React.PropTypes.array,
     is_playing:             React.PropTypes.bool,
     frame_cnt:              React.PropTypes.number,
     current_frame:          React.PropTypes.number,
