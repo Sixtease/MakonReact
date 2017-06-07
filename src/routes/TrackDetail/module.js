@@ -271,11 +271,16 @@ export const get_subs_chunks = createSelector(
         let is_now_humanic = null;
         const rv = [];
         const wbuf = [];
+        let offset = 0;
         const flush = function () {
+            wbuf.push('');
+            const str = wbuf.join(' ');
             rv.push({
                 is_humanic: is_now_humanic,
-                str: wbuf.join(' '),
+                str,
+                offset,
             });
+            offset += str.length;
             wbuf.length = 0;
         };
         subs.forEach(sub => {
@@ -424,10 +429,13 @@ export function set_selection() {
     let start_offset = null;
     let   end_offset = null;
     if (sel.rangeCount > 0) {
-        const sel_range = sel.getRangeAt(0);
-        if (sel_range) {
-            start_offset = sel_range.startOffset;
-            end_offset   = sel_range.  endOffset;
+        const start_range = sel.getRangeAt(0);
+        const   end_range = sel.getRangeAt(sel.rangeCount-1);
+        if (start_range && end_range) {
+            const start_cont = start_range.startContainer.parentElement;
+            const   end_cont =   end_range.  endContainer.parentElement;
+            start_offset = +start_cont.dataset.offset + start_range.startOffset;
+            end_offset   = +  end_cont.dataset.offset +   end_range.endOffset  ;
         }
     }
     return {

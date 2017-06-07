@@ -40,8 +40,9 @@ export class TrackDetail extends React.Component {
                 >{
                     subs_chunks.map((chunk, i) => <span
                         key={'chunk-'+i}
+                        data-offset={chunk.offset}
                         className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
-                    >{chunk.str + ' '}</span>)
+                    >{chunk.str}</span>)
                 }</p>
                 <div className='sub-rects'>
                     {current_word.rects.map((rect, i) => {
