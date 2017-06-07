@@ -27,9 +27,9 @@ const webpackConfig = {
 const APP_ENTRY = project.paths.client('main.js');
 
 webpackConfig.entry = {
-    app : __DEV__
-    ? [APP_ENTRY].concat(`webpack-hot-middleware/client?path=${project.compiler_public_path}__webpack_hmr`)
-    : [APP_ENTRY],
+    app : //__DEV__
+    //? [APP_ENTRY].concat(`webpack-hot-middleware/client?path=${project.compiler_public_path}__webpack_hmr`)
+    /*:*/ [APP_ENTRY],
     vendor : project.compiler_vendors,
 };
 
@@ -86,7 +86,7 @@ if (__TEST__ && !argv.watch) {
 if (__DEV__) {
     debug('Enabling plugins for live development (HMR, NoErrors).');
     webpackConfig.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   );
 }
