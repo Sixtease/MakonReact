@@ -1,6 +1,6 @@
 import fetch_jsonp from 'fetch-jsonp';
 import { createSelector } from 'reselect';
-import { get_subs_txt } from './component.js';
+import { get_chunk_text_nodes } from './component.js';
 
 export const FRAME_RATE = 44100;
 export const frame_to_time = (frame) => frame / FRAME_RATE;
@@ -76,12 +76,13 @@ const ACTION_HANDLERS = {
                 0,
                 get_word_index(action.replaced_words[0], state.subs),
             ),
+            /*
             ...calculate_word_positions(
                 [
                     ...action.accepted_words,
                     ...state.subs.slice(
                         get_word_index(
-                            /* eslint standard/computed-property-even-spacing: [0] */
+                            // eslint standard/computed-property-even-spacing: [0]
                             action.replaced_words[
                                 action.replaced_words.length - 1
                             ],
@@ -89,9 +90,20 @@ const ACTION_HANDLERS = {
                         ) + 1,
                     ),
                 ],
-                /* eslint func-call-spacing: [0] */
+                // eslint func-call-spacing: [0]
                 get_word_index   (action.replaced_words[0], state.subs),
                 get_word_position(action.replaced_words[0], state.subs),
+            ),
+            */
+            ...action.accepted_words,
+            ...state.subs.slice(
+                get_word_index(
+                    // eslint standard/computed-property-even-spacing: [0]
+                    action.replaced_words[
+                        action.replaced_words.length - 1
+                    ],
+                    state.subs,
+                ) + 1,
             ),
         ],
     }),
@@ -136,7 +148,7 @@ const fetch_subs = (store, stem) => {
     )
     .then((res) => res.json())
     .then((sub_data) => {
-        calculate_word_positions(sub_data.data);
+//        calculate_word_positions(sub_data.data);
         store.dispatch({
             type: 'set_subs',
             subs: sub_data.data,
@@ -188,6 +200,7 @@ export const init = (store, stem) => {
     set_audio_controls(store);
 };
 
+/*
 function calculate_word_positions(subs, start_index = 0, start_position = 0) {
     var pos = start_position;
     subs.forEach((word, i) => {
@@ -197,6 +210,7 @@ function calculate_word_positions(subs, start_index = 0, start_position = 0) {
     });
     return subs;
 }
+*/
 
 function get_word_index(word, subs) {
     if (!word || !subs || subs.length === 0) {
@@ -210,6 +224,19 @@ function get_word_index(word, subs) {
         i++;
     }
     return i;
+}
+
+function get_word_chunk_position(word_index, subs_chunks) {
+    const chunk_index = subs_chunks.chunk_index_by_word_index[word_index];
+    const chunk = subs_chunks[chunk_index];
+    const in_chunk_char_offset = subs_chunks.in_chunk_char_offset_by_word_index[word_index];
+    const chunk_text_nodes = get_chunk_text_nodes();
+    const text_node = chunk_text_nodes ? chunk_text_nodes[chunk_index] : null;
+    return {
+        chunk,
+        in_chunk_char_offset,
+        text_node,
+    }
 }
 
 function get_word_position(word, subs) {
@@ -234,12 +261,11 @@ function get_word_position(word, subs) {
 }
 
 const range = document.createRange();
-export const get_word_rectangles = (words, subs) => {
+export const get_word_rectangles = (words, subs, subs_chunks) => {
     let start_offset = null;
     let end_offset   = null;
     let rects = [];
-    const subs_txt = get_subs_txt();
-    if (words && words.length > 0 && subs_txt) {
+    if (words && words.length > 0) {
         start_offset = get_word_position(words[0], subs);
         if (start_offset === null) {
             return [];
@@ -249,51 +275,68 @@ export const get_word_rectangles = (words, subs) => {
         if (end_offset === null) {
             return [];
         }
-        range.setStart(subs_txt, start_offset);
-        range.setEnd  (subs_txt,   end_offset);
-        rects = range.getClientRects();
+        const { text_node: start_word_el, in_chunk_char_offset: start_word_in_chunk_char_offset } = get_word_chunk_position(words[0] .i, subs_chunks);
+        const { text_node:   end_word_el, in_chunk_char_offset:   end_word_in_chunk_char_offset } = get_word_chunk_position(last_word.i, subs_chunks);
+        if (start_word_el && end_word_el) {
+            range.setStart(start_word_el, start_word_in_chunk_index);
+            range.setEnd  (  end_word_el,   end_word_in_chunk_index);
+            rects = range.getClientRects();
+        }
     }
     return rects;
 };
 
 const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => state.track_detail.current_time;
-/* eslint indent: [0] */
 const get_selection_boundaries
                        = (state) => ({
                            start: state.track_detail.selection_start,
                            end:   state.track_detail.selection_end,
                        });
-/* eslint indent: [1,4] */
 export const get_subs_chunks = createSelector(
     [get_subs],
     (subs) => {
-        let is_now_humanic = null;
-        const rv = [];
+        const chunks = [];
         const wbuf = [];
-        let offset = 0;
+        const chunk_index_by_word_index  = [];
+        const in_chunk_char_offset_by_word_index = []
+        let chunk_index = -1;
+        let char_offset = 0;
+        let word_offset = 0;
+        let is_now_humanic = null;
+        let wbuf_str_length = 0;
         const flush = function () {
-            wbuf.push('');
-            const str = wbuf.join(' ');
-            rv.push({
+            const str = wbuf.concat('').join(' ');
+            chunks.push({
                 is_humanic: is_now_humanic,
                 str,
-                offset,
+                char_offset,
+                word_offset,
             });
-            offset += str.length;
+            char_offset += str.length;
+            word_offset += wbuf.length;
             wbuf.length = 0;
+            wbuf_str_length = 0;
         };
-        subs.forEach(sub => {
+        subs.forEach((sub, word_index) => {
             const subhum = !!sub.humanic;
             if (subhum !== is_now_humanic) {
                 flush();
                 is_now_humanic = subhum;
+                chunk_index++;
             }
+            chunk_index_by_word_index[word_index] = chunk_index;
+            in_chunk_char_offset_by_word_index[word_index] = wbuf_str_length;
             wbuf.push(sub.occurrence);
+            wbuf_str_length += sub.occurrence.length + 1;
         });
         flush();
-        rv.shift();
-        return rv;
+        chunks.shift();
+        return {
+            chunks,
+            chunk_index_by_word_index,
+            in_chunk_char_offset_by_word_index,
+        };
     },
 );
 export const get_word_timestamps = createSelector(
@@ -302,9 +345,8 @@ export const get_word_timestamps = createSelector(
 );
 let current_word;
 export const get_current_word = createSelector(
-    [get_word_timestamps, get_current_time, get_subs],
-    (word_timestamps, current_time, subs) => {
-        const subs_txt = get_subs_txt();
+    [get_word_timestamps, get_current_time, get_subs, get_subs_chunks],
+    (word_timestamps, current_time, subs, subs_chunks) => {
         if (subs.length === 0) {
             return {
                 occurrence: '',
@@ -321,12 +363,15 @@ export const get_current_word = createSelector(
         let start_offset = null;
         let end_offset   = null;
         let rects = [];
-        if (sub && subs_txt) {
-            start_offset = sub.position;
-            end_offset   = sub.position + sub.occurrence.length;
-            range.setStart(subs_txt, start_offset);
-            range.setEnd  (subs_txt, end_offset);
-            rects = range.getClientRects();
+        if (sub && subs_chunks) {
+            const { text_node, in_chunk_char_offset } = get_word_chunk_position(i, subs_chunks);
+            if (text_node) {
+                start_offset = in_chunk_char_offset;
+                end_offset   = in_chunk_char_offset + sub.occurrence.length;
+                range.setStart(text_node, start_offset);
+                range.setEnd  (text_node,  end_offset);
+                rects = range.getClientRects();
+            }
         }
         current_word = {
             i,
@@ -403,15 +448,15 @@ export const get_edit_window_timespan = createSelector(
     },
 );
 export const get_marked_word = createSelector(
-    [get_subs, get_selection_boundaries, get_selected_word_indices],
-    (subs, selection_boundaries, selected_word_indices) => {
+    [get_subs, get_subs_chunks, get_selection_boundaries, get_selected_word_indices],
+    (subs, subs_chunks, selection_boundaries, selected_word_indices) => {
         if (selected_word_indices && selected_word_indices.only) {
             const marked_word = subs[selected_word_indices.only];
-            const start_offset = marked_word.position;
-            const end_offset = marked_word.position + marked_word.occurrence.length;
-            const subs_txt = get_subs_txt();
-            range.setStart(subs_txt, start_offset);
-            range.setEnd  (subs_txt,   end_offset);
+            const { text_node, in_chunk_char_offset } = get_word_chunk_position(selected_word_indices.only, subs_chunks);
+            const start_offset = in_chunk_char_offset;
+            const end_offset   = in_chunk_char_offset + marked_word.occurrence.length;
+            range.setStart(text_node, start_offset);
+            range.setEnd  (text_node,  end_offset);
             const rect = range.getBoundingClientRect();
             return {
                 ...marked_word,
@@ -434,14 +479,20 @@ export function set_selection() {
         if (start_range && end_range) {
             const start_cont = start_range.startContainer.parentElement;
             const   end_cont =   end_range.  endContainer.parentElement;
-            start_offset = +start_cont.dataset.offset + start_range.startOffset;
-            end_offset   = +  end_cont.dataset.offset +   end_range.endOffset  ;
+            start_offset = +start_cont.dataset.char_offset + start_range.startOffset;
+            end_offset   = +  end_cont.dataset.char_offset +   end_range.endOffset  ;
         }
     }
     return {
         type: 'set_selection',
         start_offset,
         end_offset,
+        /* TODO
+        start_chunk_index,
+        in_start_chunk_offset,
+        end_chunk_index,
+        in_end_chunk_offset,
+        */
     };
 };
 

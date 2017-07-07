@@ -7,8 +7,8 @@ import audio from 'store/audio.js';
 
 const CONTROL_BAR_HEIGHT = 35;
 
-let subs_txt;
-export const get_subs_txt = () => subs_txt;
+const chunk_text_nodes = [];
+export const get_chunk_text_nodes = () => chunk_text_nodes;
 
 export class TrackDetail extends React.Component {
     state: {
@@ -33,15 +33,17 @@ export class TrackDetail extends React.Component {
             <div className='subs'>
                 <p
                     ref={(el) => {
-                        subs_txt = el ? el.childNodes[0] : null;
                         me.subs_el  = el;
                     }}
                     onMouseUp={me.props.set_selection}
                 >{
                     subs_chunks.map((chunk, i) => <span
                         key={'chunk-'+i}
-                        data-offset={chunk.offset}
+                        data-char_offset={chunk.char_offset}
                         className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
+                        ref={(el) => {
+                            chunk_text_nodes[i] = el ? el.childNodes[0] : null;
+                        }}
                     >{chunk.str}</span>)
                 }</p>
                 <div className='sub-rects'>

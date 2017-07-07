@@ -30,7 +30,7 @@ const map_state_to_props = (state) => ({
     is_playing:     state.track_detail.is_playing,
     frame_cnt:      state.track_detail.frame_cnt,
     current_frame:  time_to_frame(state.track_detail.current_time),
-    subs_chunks:    get_subs_chunks(state),
+    subs_chunks:    get_subs_chunks(state).chunks,
     current_word:   get_current_word(state),
     marked_word:    get_marked_word(state),
     selected_words: get_selected_words(state),
