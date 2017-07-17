@@ -40,6 +40,7 @@ export class TrackDetail extends React.Component {
                     subs_chunks.map((chunk, i) => <span
                         key={'chunk-'+i}
                         data-char_offset={chunk.char_offset}
+                        data-chunk_index={i}
                         className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
                         ref={(el) => {
                             chunk_text_nodes[i] = el ? el.childNodes[0] : null;

@@ -44,12 +44,12 @@ const ACTION_HANDLERS = {
         forced_time:  action.current_time,
     }),
     set_selection: (state, action) => {
-        const start = action.start_offset;
-        const end   = action.  end_offset;
         let new_state = {
             ...state,
-            selection_start: start,
-            selection_end:   end,
+            selection_start_chunk_index: action.start_chunk_index,
+            selection_end_chunk_index:   action.end_chunk_index,
+            selection_start_in_chunk_offset: action.start_in_chunk_offset,
+            selection_end_in_chunk_offset:   action.  end_in_chunk_offset,
             is_playing: false,
         };
         return new_state;
@@ -132,8 +132,10 @@ const initial_state = {
     current_time: 0,
     forced_time: null,
     is_playing: false,
-    selection_start: null,
-    selection_end:   null,
+    selection_start_chunk_index: null,
+    selection_start_in_chunk_offset: null,
+    selection_end_chunk_index: null,
+    selection_end_in_chunk_offset: null,
     sent_word_rectangles: [],
     failed_word_rectangles: [],
 };
@@ -290,8 +292,14 @@ const get_subs         = (state) => state.track_detail.subs;
 const get_current_time = (state) => state.track_detail.current_time;
 const get_selection_boundaries
                        = (state) => ({
-                           start: state.track_detail.selection_start,
-                           end:   state.track_detail.selection_end,
+                            start: {
+                                chunk_index:          state.track_detail.selection_start_chunk_index,
+                                in_chunk_char_offset: state.track_detail.selection_start_in_chunk_offset,
+                            },
+                            end: {
+                                chunk_index:          state.track_detail.selection_end_chunk_index,
+                                in_chunk_char_offset: state.track_detail.selection_end_in_chunk_offset,
+                            },
                        });
 export const get_subs_chunks = createSelector(
     [get_subs],
@@ -384,26 +392,99 @@ export const get_current_word = createSelector(
     },
 );
 export const get_selected_word_indices = createSelector(
-    [get_subs, get_selection_boundaries],
-    (subs, selection_boundaries) => {
-        const l = subs.length - 1;
-        const start_pos = selection_boundaries.start;
-        const end_pos   = selection_boundaries.end;
-        if (start_pos === null || end_pos === null || end_pos < start_pos) {
+    [get_subs, get_subs_chunks, get_selection_boundaries],
+    (subs, subs_chunks, selection_boundaries) => {
+        const start = selection_boundaries.start;
+        const end   = selection_boundaries.end;
+        if (   start.chunk_index === null
+            ||   end.chunk_index === null
+            || start.chunk_index > end.chunk_index
+            || start.in_chunk_char_offset === null
+            ||   end.in_chunk_char_offset === null
+            || (
+                   start.chunk_index === end.chunk_index
+                && start.chunk_index  >  end.chunk_index
+            )
+            || !subs_chunks
+            || !subs_chunks.chunk_index_by_word_index
+            || !subs_chunks.in_chunk_char_offset_by_word_index
+        ) {
             return null;
         }
-        var i = current_word ? current_word.i : 0;
-        while (subs[i] && i > 0 && subs[i].position > end_pos) i--;
-        while (subs[i] && i < l && subs[i].position + subs[i].occurrence.length + 1 < end_pos) i++;
+
+        let i = current_word ? current_word.i : 0;
+        const chunk_index_by_word_index = subs_chunks.chunk_index_by_word_index;
+        const char_offset_by_word_index = subs_chunks.in_chunk_char_offset_by_word_index;
+
+        let stop = chunk_index_by_word_index.length - 1;
+        while (chunk_index_by_word_index[i] !== void(0)
+            && chunk_index_by_word_index[i] > 0
+            && chunk_index_by_word_index[i] > end.chunk_index
+        ) i--;
+        while (chunk_index_by_word_index[i] !== void(0)
+            && chunk_index_by_word_index[i] < stop
+            && chunk_index_by_word_index[i] < end.chunk_index
+        ) i++;
+
+        stop = char_offset_by_word_index.length - 1;
+        while (char_offset_by_word_index[i] !== void(0)
+            && char_offset_by_word_index[i] > 0
+            && char_offset_by_word_index[i] > end.in_chunk_char_offset
+        ) i--;
+        while (char_offset_by_word_index[i] !== void(0)
+            && char_offset_by_word_index[i] < stop
+            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < end.in_chunk_char_offset
+        ) i++;
+
+        if (   chunk_index_by_word_index[i] === end.chunk_index
+            && char_offset_by_word_index[i] <= end.in_chunk_char_offset
+            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 >= end.in_chunk_char_offset
+        ) { /* OK */ }
+        else {
+            return null;
+        }
+
         const end_index = i;
-        if (start_pos === end_pos) {
+
+        if (
+               start.chunk_index          === end.chunk_index
+            && start.in_chunk_char_offset === end.in_chunk_char_offset
+        ) {
             return {
                 only: end_index,
             };
         }
-        while (subs[i] && i < l && subs[i].position + subs[i].occurrence.length < start_pos) i++;
-        while (subs[i] && i > 0 && subs[i].position - 1 > start_pos) i--;
+
+        stop = chunk_index_by_word_index.length - 1;
+        while (chunk_index_by_word_index[i] !== void(0)
+            && chunk_index_by_word_index[i] > 0
+            && chunk_index_by_word_index[i] > start.chunk_index
+        ) i--;
+        while (chunk_index_by_word_index[i] !== void(0)
+            && chunk_index_by_word_index[i] < stop
+            && chunk_index_by_word_index[i] < start.chunk_index
+        ) i++;
+
+        stop = char_offset_by_word_index.length - 1;
+        while (char_offset_by_word_index[i] !== void(0)
+            && char_offset_by_word_index[i] > 0
+            && char_offset_by_word_index[i] > end.in_chunk_char_offset
+        ) i--;
+        while (char_offset_by_word_index[i] !== void(0)
+            && char_offset_by_word_index[i] < stop
+            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < end.in_chunk_char_offset
+        ) i++;
+
+        if (   chunk_index_by_word_index[i] === start.chunk_index
+            && char_offset_by_word_index[i] <= start.in_chunk_char_offset
+            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 >= start.in_chunk_char_offset
+        ) { /* OK */ }
+        else {
+            return null;
+        }
+
         const start_index = i;
+
         return {
             start: start_index,
             end:   end_index,
@@ -471,28 +552,38 @@ export const get_marked_word = createSelector(
 
 const sel = document.getSelection();
 export function set_selection() {
-    let start_offset = null;
-    let   end_offset = null;
+    let start_chunk = null;
+    let   end_chunk = null;
+    let start_chunk_index = null;
+    let   end_chunk_index = null;
+    let start_in_chunk_offset = null;
+    let   end_in_chunk_offset = null;
+    let start_global_offset = null;
+    let   end_global_offset = null;
     if (sel.rangeCount > 0) {
         const start_range = sel.getRangeAt(0);
         const   end_range = sel.getRangeAt(sel.rangeCount-1);
         if (start_range && end_range) {
-            const start_cont = start_range.startContainer.parentElement;
-            const   end_cont =   end_range.  endContainer.parentElement;
-            start_offset = +start_cont.dataset.char_offset + start_range.startOffset;
-            end_offset   = +  end_cont.dataset.char_offset +   end_range.endOffset  ;
+            start_chunk = start_range.startContainer.parentElement;
+              end_chunk =   end_range.  endContainer.parentElement;
+            start_chunk_index = +start_chunk.dataset.chunk_index;
+              end_chunk_index = +  end_chunk.dataset.chunk_index;
+            start_in_chunk_offset = start_range.startOffset;
+              end_in_chunk_offset =   end_range.endOffset  ;
+            start_global_offset = +start_chunk.dataset.char_offset + start_in_chunk_offset;
+              end_global_offset = +  end_chunk.dataset.char_offset +   end_in_chunk_offset;
         }
     }
     return {
         type: 'set_selection',
-        start_offset,
-        end_offset,
-        /* TODO
+        start_chunk,
+          end_chunk,
         start_chunk_index,
-        in_start_chunk_offset,
-        end_chunk_index,
-        in_end_chunk_offset,
-        */
+          end_chunk_index,
+        start_in_chunk_offset,
+          end_in_chunk_offset,
+        start_global_offset,
+          end_global_offset,
     };
 };
 
