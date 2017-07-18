@@ -391,6 +391,52 @@ export const get_current_word = createSelector(
         return current_word;
     },
 );
+const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
+    if (
+           !subs
+        || !subs_chunks
+        || !subs_chunks.chunk_index_by_word_index
+        || !subs_chunks.icco_by_word_index
+    ) {
+        return null;
+    }
+
+    if (i === void(0)) {
+        i = current_word ? current_word.i : 0;
+    }
+    const chunk_index_by_word_index = subs_chunks.chunk_index_by_word_index;
+    const char_offset_by_word_index = subs_chunks.icco_by_word_index;
+
+    while (chunk_index_by_word_index[i] !== void(0)
+        && chunk_index_by_word_index[i] > 0
+        && chunk_index_by_word_index[i] > word_position.chunk_index
+    ) i--;
+    let stop = chunk_index_by_word_index.length - 1;
+    while (chunk_index_by_word_index[i] !== void(0)
+        && chunk_index_by_word_index[i] < stop
+        && chunk_index_by_word_index[i] < word_position.chunk_index
+    ) i++;
+
+    while (char_offset_by_word_index[i] !== void(0)
+        && char_offset_by_word_index[i] > 0
+        && char_offset_by_word_index[i] > word_position.icco
+    ) i--;
+    stop = char_offset_by_word_index.length - 1;
+    while (char_offset_by_word_index[i] !== void(0)
+        && char_offset_by_word_index[i] < stop
+        && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < word_position.icco
+    ) i++;
+
+    if (   chunk_index_by_word_index[i] === word_position.chunk_index
+        && char_offset_by_word_index[i] <= word_position.icco
+        && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 >= word_position.icco
+    ) {
+        return i;
+    }
+    else {
+        return null;
+    }
+}
 // TODO: simplify
 export const get_selected_word_indices = createSelector(
     [get_subs, get_subs_chunks, get_selection_boundaries],
@@ -406,46 +452,14 @@ export const get_selected_word_indices = createSelector(
                    start.chunk_index === end.chunk_index
                 && start.chunk_index  >  end.chunk_index
             )
-            || !subs_chunks
-            || !subs_chunks.chunk_index_by_word_index
-            || !subs_chunks.icco_by_word_index
         ) {
             return null;
         }
 
-        let i = current_word ? current_word.i : 0;
-        const chunk_index_by_word_index = subs_chunks.chunk_index_by_word_index;
-        const char_offset_by_word_index = subs_chunks.icco_by_word_index;
-
-        let stop = chunk_index_by_word_index.length - 1;
-        while (chunk_index_by_word_index[i] !== void(0)
-            && chunk_index_by_word_index[i] > 0
-            && chunk_index_by_word_index[i] > end.chunk_index
-        ) i--;
-        while (chunk_index_by_word_index[i] !== void(0)
-            && chunk_index_by_word_index[i] < stop
-            && chunk_index_by_word_index[i] < end.chunk_index
-        ) i++;
-
-        stop = char_offset_by_word_index.length - 1;
-        while (char_offset_by_word_index[i] !== void(0)
-            && char_offset_by_word_index[i] > 0
-            && char_offset_by_word_index[i] > end.icco
-        ) i--;
-        while (char_offset_by_word_index[i] !== void(0)
-            && char_offset_by_word_index[i] < stop
-            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < end.icco
-        ) i++;
-
-        if (   chunk_index_by_word_index[i] === end.chunk_index
-            && char_offset_by_word_index[i] <= end.icco
-            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 >= end.icco
-        ) { /* OK */ }
-        else {
+        const end_index = get_word_index_by_position(end, subs, subs_chunks);
+        if (end_index === null) {
             return null;
         }
-
-        const end_index = i;
 
         if (
                start.chunk_index === end.chunk_index
@@ -456,35 +470,10 @@ export const get_selected_word_indices = createSelector(
             };
         }
 
-        stop = chunk_index_by_word_index.length - 1;
-        while (chunk_index_by_word_index[i] !== void(0)
-            && chunk_index_by_word_index[i] > 0
-            && chunk_index_by_word_index[i] > start.chunk_index
-        ) i--;
-        while (chunk_index_by_word_index[i] !== void(0)
-            && chunk_index_by_word_index[i] < stop
-            && chunk_index_by_word_index[i] < start.chunk_index
-        ) i++;
-
-        stop = char_offset_by_word_index.length - 1;
-        while (char_offset_by_word_index[i] !== void(0)
-            && char_offset_by_word_index[i] > 0
-            && char_offset_by_word_index[i] > end.icco
-        ) i--;
-        while (char_offset_by_word_index[i] !== void(0)
-            && char_offset_by_word_index[i] < stop
-            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < end.icco
-        ) i++;
-
-        if (   chunk_index_by_word_index[i] === start.chunk_index
-            && char_offset_by_word_index[i] <= start.icco
-            && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 >= start.icco
-        ) { /* OK */ }
-        else {
+        const start_index = get_word_index_by_position(start, subs, subs_chunks, end_index);
+        if (start_index === null) {
             return null;
         }
-
-        const start_index = i;
 
         return {
             start: start_index,
