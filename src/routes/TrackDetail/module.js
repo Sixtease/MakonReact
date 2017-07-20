@@ -64,6 +64,7 @@ const ACTION_HANDLERS = {
             ...get_word_rectangles(
                 action.words,
                 state.subs,
+                get_subs_chunks({track_detail: state}), // TODO maybe slow
             ),
         ],
     }),
@@ -116,6 +117,7 @@ const ACTION_HANDLERS = {
             ...get_word_rectangles(
                 action.words,
                 state.subs,
+                get_subs_chunks({track_detail: state}), // TODO: maybe slow
             ),
         ],
     }),
@@ -487,7 +489,7 @@ export const get_selected_words = createSelector(
     },
 );
 export const get_selected_word_rectangles = createSelector(
-    [get_selected_words, get_subs],
+    [get_selected_words, get_subs, get_subs_chunks],
     get_word_rectangles,
 
 );
