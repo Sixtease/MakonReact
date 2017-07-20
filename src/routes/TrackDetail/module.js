@@ -214,20 +214,6 @@ function calculate_word_positions(subs, start_index = 0, start_position = 0) {
 }
 */
 
-function get_word_index(word, subs) {
-    if (!word || !subs || subs.length === 0) {
-        return null;
-    }
-    let i = word.index || 0;
-    while (subs[i].timestamp > word.timestamp) {
-        i--;
-    }
-    while (subs[i].timestamp < word.timestamp) {
-        i++;
-    }
-    return i;
-}
-
 function get_word_chunk_position(word_index, subs_chunks) {
     const chunk_index = subs_chunks.chunk_index_by_word_index[word_index];
     const chunk = subs_chunks[chunk_index];
@@ -381,6 +367,20 @@ export const get_current_word = createSelector(
         return current_word;
     },
 );
+// TODO: use the index Luke (make selector index_by_timestamp that uses subs)
+function get_word_index(word, subs) {
+    if (!word || !subs || subs.length === 0) {
+        return null;
+    }
+    let i = current_word ? current_word.i : 0;
+    while (subs[i].timestamp > word.timestamp) {
+        i--;
+    }
+    while (subs[i].timestamp < word.timestamp) {
+        i++;
+    }
+    return i;
+}
 const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
     if (
            !subs
@@ -500,7 +500,7 @@ export const get_edit_window_timespan = createSelector(
                 end: null,
             };
         }
-        const i = selected_words[selected_words.length - 1].index;
+        const i = get_word_index(selected_words[selected_words.length - 1], subs);
         const pad_word = subs[i + 1] || subs[i];
         return {
             start: selected_words[0].timestamp,
