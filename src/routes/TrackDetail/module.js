@@ -241,6 +241,7 @@ function get_word_chunk_position(word_index, subs_chunks) {
     }
 }
 
+/*
 function get_word_position(word, subs) {
     if (!word || !subs || subs.length === 0) {
         return null;
@@ -261,22 +262,13 @@ function get_word_position(word, subs) {
         return null;
     }
 }
+*/
 
 const range = document.createRange();
 export const get_word_rectangles = (words, subs, subs_chunks) => {
-    let start_offset = null;
-    let end_offset   = null;
     let rects = [];
     if (words && words.length > 0) {
-        start_offset = get_word_position(words[0], subs);
-        if (start_offset === null) {
-            return [];
-        }
         const last_word = words[words.length - 1];
-        end_offset = get_word_position(last_word, subs) + last_word.occurrence.length;
-        if (end_offset === null) {
-            return [];
-        }
         const { text_node: start_word_el, icco: start_word_icco } = get_word_chunk_position(words[0] .i, subs_chunks);
         const { text_node:   end_word_el, icco:   end_word_icco } = get_word_chunk_position(last_word.i, subs_chunks);
         if (start_word_el && end_word_el) {
@@ -383,8 +375,6 @@ export const get_current_word = createSelector(
         }
         current_word = {
             i,
-            start_offset: sub ? sub.position : null,
-            end_offset: sub ? sub.position + sub.occurrence.length : null,
             rects,
             ...sub,
         };
