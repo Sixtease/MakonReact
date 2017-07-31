@@ -48,6 +48,18 @@ export class TrackDetail extends React.Component {
                     >{chunk.str}</span>)
                 }</p>
                 <div className='sub-rects'>
+                    {marked_word
+                        ? <span
+                            className='marked-word-rect'
+                            style={{
+                                top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
+                                left:   marked_word.rect.left   - subs_offset.left,
+                                width:  marked_word.rect.right  - marked_word.rect.left,
+                                height: marked_word.rect.bottom - marked_word.rect.top,
+                            }}
+                        />
+                        : null
+                    }
                     {current_word.rects.map((rect, i) => {
                         if (    rect.bottom + CONTROL_BAR_HEIGHT > window.innerHeight
                             ||  rect.top < 0
@@ -68,18 +80,6 @@ export class TrackDetail extends React.Component {
                             }}
                         />;
                     })}
-                    {marked_word
-                        ? <span
-                            className='marked-word-rect'
-                            style={{
-                                top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
-                                left:   marked_word.rect.left   - subs_offset.left,
-                                width:  marked_word.rect.right  - marked_word.rect.left,
-                                height: marked_word.rect.bottom - marked_word.rect.top,
-                            }}
-                        />
-                        : null
-                    }
                     {sending_subs && sent_word_rectangles
                         ? sent_word_rectangles.map((rect, i) => (
                             <span
