@@ -137,12 +137,13 @@ export class TrackDetail extends React.Component {
             />
         </div>);
     }
+    _is_playing() { return this.props.is_playing; }
     componentDidMount() {
         const me = this;
         const { stem } = me.props.params;
         const {
             set_audio_metadata, sync_current_time, set_selection,
-            is_playing, playback_off, playback_on,
+            playback_off, playback_on,
         } = me.props;
         const src = AUDIO_BASE + stem + AUDIO_SUFFIX;
         window.scrollTo(0, 0);
@@ -157,7 +158,7 @@ export class TrackDetail extends React.Component {
         if (!window.KEY_PLAYBACK_CTRL) window.KEY_PLAYBACK_CTRL = document.addEventListener(
             'keyup', (evt) => {
                 if (evt.ctrlKey && evt.keyCode === 32) {
-                    is_playing ? playback_off() : playback_on();
+                    me._is_playing() ? playback_off() : playback_on();
                 }
             },
         );
