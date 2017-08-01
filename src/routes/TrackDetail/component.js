@@ -140,7 +140,10 @@ export class TrackDetail extends React.Component {
     componentDidMount() {
         const me = this;
         const { stem } = me.props.params;
-        const { set_audio_metadata, sync_current_time, set_selection } = me.props;
+        const {
+            set_audio_metadata, sync_current_time, set_selection,
+            is_playing, playback_off, playback_on,
+        } = me.props;
         const src = AUDIO_BASE + stem + AUDIO_SUFFIX;
         window.scrollTo(0, 0);
         set_selection();
@@ -150,6 +153,13 @@ export class TrackDetail extends React.Component {
         );
         me.audio.addEventListener(
             'timeupdate', (evt) => sync_current_time(),
+        );
+        if (!window.KEY_PLAYBACK_CTRL) window.KEY_PLAYBACK_CTRL = document.addEventListener(
+            'keyup', (evt) => {
+                if (evt.ctrlKey && evt.keyCode === 32) {
+                    is_playing ? playback_off() : playback_on();
+                }
+            },
         );
 
         const subs_rect = me.subs_el.getClientRects();
