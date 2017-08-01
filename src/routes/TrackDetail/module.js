@@ -30,6 +30,10 @@ const ACTION_HANDLERS = {
             is_playing: false,
         };
     },
+    clear_forced_time: (state) => ({
+        ...state,
+        forced_time: null,
+    }),
     set_audio_metadata: (state, action) => ({
         ...state,
         frame_cnt: time_to_frame(audio().duration),
@@ -166,7 +170,9 @@ const set_audio_controls = (store) => {
     previous_state.track_detail = initial_state;
     store.subscribe(() => {
         const current_state = store.getState();
+        const to_dispatch = [];
         if (     current_state.track_detail.forced_time
+              && current_state.track_detail.forced_time
             !== previous_state.track_detail.forced_time
         ) {
             audio().currentTime = current_state.track_detail.forced_time;
@@ -175,6 +181,9 @@ const set_audio_controls = (store) => {
             && !previous_state.track_detail.is_playing
         ) {
             audio().play();
+            to_dispatch.push({
+                type: 'clear_forced_time',
+            });
         }
         if (!current_state.track_detail.is_playing
             && previous_state.track_detail.is_playing
@@ -182,7 +191,6 @@ const set_audio_controls = (store) => {
             audio().pause();
         }
         const marked_word = get_marked_word(current_state);
-        const to_dispatch = [];
         if (marked_word
             && (
                 !previous_marked_word
