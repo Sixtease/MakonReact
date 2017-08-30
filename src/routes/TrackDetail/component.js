@@ -144,6 +144,7 @@ export class TrackDetail extends React.Component {
         const {
             set_audio_metadata, sync_current_time, set_selection,
             playback_off, playback_on,
+            location: loc, router,
         } = me.props;
         const src = AUDIO_BASE + stem + AUDIO_SUFFIX;
         window.scrollTo(0, 0);
@@ -153,7 +154,7 @@ export class TrackDetail extends React.Component {
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
         me.audio.addEventListener(
-            'timeupdate', (evt) => sync_current_time(),
+            'timeupdate', (evt) => sync_current_time(loc,router),
         );
         if (!window.KEY_PLAYBACK_CTRL) window.KEY_PLAYBACK_CTRL = document.addEventListener(
             'keyup', (evt) => {

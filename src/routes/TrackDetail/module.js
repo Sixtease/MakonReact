@@ -1,6 +1,7 @@
 import fetch_jsonp from 'fetch-jsonp';
 import { createSelector } from 'reselect';
 import { get_chunk_text_nodes } from './component.js';
+import query_string from 'query-string';
 
 export const FRAME_RATE = 44100;
 export const frame_to_time = (frame) => frame / FRAME_RATE;
@@ -207,9 +208,21 @@ const set_audio_controls = (store) => {
         to_dispatch.forEach((action) => store.dispatch(action));
     });
 };
-export const init = (store, stem) => {
+const apply_hash = (store, hash) => {
+    const bare_hash = hash.replace(/^#/,'');
+    let query = query_string.parse(hash);
+    const requested_time = query.ts;
+    if (requested_time) {
+        store.dispatch({
+            type: 'force_current_time',
+            current_time: requested_time,
+        });
+    }
+};
+export const init = (store, stem, hash) => {
     fetch_subs(store, stem);
     set_audio_controls(store);
+    apply_hash(store, hash);
 };
 
 /*
@@ -592,10 +605,12 @@ export function set_audio_metadata() {
         type: 'set_audio_metadata',
     };
 };
-export function sync_current_time() {
+export function sync_current_time(loc, router) {
+    const current_time = audio().currentTime;
+    window.location.hash = '#ts='+current_time;
     return {
         type: 'sync_current_time',
-        current_time: audio().currentTime,
+        current_time,
     };
 };
 export function force_current_frame(current_frame) {
