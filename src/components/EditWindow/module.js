@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
     get_edit_window_timespan,
     get_selected_words,
+    get_subs_chunks,
 } from 'routes/TrackDetail/module.js';
 
 const ACTION_HANDLERS = {
@@ -11,9 +12,11 @@ export function send_subs(form_values, dispatch, props) {
     return (dispatch, getState) => {
         const state = getState();
         const selw = get_selected_words(state);
+        const subs_chunks = get_subs_chunks(state);
         dispatch({
             type: 'send_subs',
             words: selw,
+            subs_chunks,
         });
         const timespan = get_edit_window_timespan(state);
         const endpoint = API_BASE + '/subsubmit/';
@@ -40,6 +43,7 @@ export function send_subs(form_values, dispatch, props) {
                 dispatch({
                     type: 'failed_submission',
                     words: selw,
+                    subs_chunks,
                 });
             }
         })

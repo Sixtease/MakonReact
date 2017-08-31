@@ -15,11 +15,11 @@ const ACTION_HANDLERS = {
         subs: action.subs,
     }),
     playback_on: (state, action) => {
-        let rv = {
+        const rv = {
             ...state,
             is_playing: true,
         };
-        let selected_words = get_selected_words({ track_detail:state });
+        const selected_words = action.selected_words /*|| get_selected_words({ track_detail:state })*/;
         if (selected_words.length > 0) {
             rv.forced_time = selected_words[0].timestamp;
         }
@@ -69,7 +69,7 @@ const ACTION_HANDLERS = {
             ...get_word_rectangles(
                 action.words,
                 state.subs,
-                get_subs_chunks({track_detail: state}), // TODO maybe slow
+                action.subs_chunks /*|| get_subs_chunks({track_detail: state})*/,
             ),
         ],
     }),
@@ -122,7 +122,7 @@ const ACTION_HANDLERS = {
             ...get_word_rectangles(
                 action.words,
                 state.subs,
-                get_subs_chunks({track_detail: state}), // TODO: maybe slow
+                action.subs_chunks /*|| get_subs_chunks({track_detail: state})*/,
             ),
         ],
     }),
@@ -591,9 +591,10 @@ export function set_selection() {
 };
 
 export function playback_on() {
-    return {
+    return (dispatch, getState) => dispatch({
         type: 'playback_on',
-    };
+        selected_words: get_selected_words(getState()),
+    });
 };
 export function playback_off() {
     return {
