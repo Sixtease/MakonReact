@@ -7,18 +7,6 @@ import {
 const ACTION_HANDLERS = {
 };
 
-export function playback_on() {
-    return {
-        type: 'playback_on',
-    };
-};
-
-export function playback_off() {
-    return {
-        type: 'playback_off',
-    };
-};
-
 export function send_subs(form_values, dispatch, props) {
     return (dispatch, getState) => {
         const state = getState();
