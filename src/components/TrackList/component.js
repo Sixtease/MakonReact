@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'lib/react-router';
 import TrackDirCategory from './TrackDirCategory';
 import stemdir from '../../store/stemdir.json';
 import stemsec from '../../store/stemsec.json';

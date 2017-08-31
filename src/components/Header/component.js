@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
+import { IndexLink, Link } from 'lib/react-router';
 import './Header.scss';
 import UsernameInput from 'components/UsernameInput/index.js';
 

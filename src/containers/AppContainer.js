@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { browserHistory, Router } from 'react-router';
+import { browserHistory, Router } from 'lib/react-router';
 import { Provider } from 'react-redux';
 
 class AppContainer extends Component {
