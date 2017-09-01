@@ -354,17 +354,18 @@ export const get_word_timestamps = createSelector(
     [get_subs],
     (subs) => subs.map((sub, i) => sub.timestamp).concat(Infinity),
 );
+const NULL_CURRENT_WORD = {
+    occurrence: '',
+    rects: [],
+    start_offset: null,
+    end_offset: null,
+};
 let current_word;
 export const get_current_word = createSelector(
     [get_word_timestamps, get_current_time, get_subs, get_subs_chunks],
     (word_timestamps, current_time, subs, subs_chunks) => {
         if (subs.length === 0) {
-            return {
-                occurrence: '',
-                rects: [],
-                start_offset: null,
-                end_offset: null,
-            };
+            return NULL_CURRENT_WORD;
         }
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i + 1] <= current_time) i++;
@@ -379,6 +380,9 @@ export const get_current_word = createSelector(
             if (text_node) {
                 start_offset = icco;
                 end_offset   = icco + sub.occurrence.length;
+                if (text_node.length < end_offset) {
+                    return NULL_CURRENT_WORD;
+                }
                 range.setStart(text_node, start_offset);
                 range.setEnd  (text_node,  end_offset);
                 rects = range.getClientRects();
