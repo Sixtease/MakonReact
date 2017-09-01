@@ -6,6 +6,7 @@ import EditWindow from 'components/EditWindow/index.js';
 import audio from 'store/audio.js';
 
 const CONTROL_BAR_HEIGHT = 35;
+const SPACE = ' ';
 
 const chunk_text_nodes = [];
 export const get_chunk_text_nodes = () => chunk_text_nodes;
@@ -158,7 +159,7 @@ export class TrackDetail extends React.Component {
         );
         if (!window.KEY_PLAYBACK_CTRL) window.KEY_PLAYBACK_CTRL = document.addEventListener(
             'keyup', (evt) => {
-                if (evt.ctrlKey && evt.keyCode === 32) {
+                if (evt.ctrlKey && evt.key === SPACE) {
                     me._is_playing() ? playback_off() : playback_on();
                 }
             },
