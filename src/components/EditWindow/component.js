@@ -2,14 +2,20 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 export class EditWindow extends React.Component {
+    _is_shown() {
+        const me = this;
+        const selw = me.props.selected_words;
+        return selw.length > 0;
+    }
+
     render() {
         const me = this;
         const {
-            is_playing, selected_words: selw, audio, playback_on, playback_off,
+            is_playing, audio, playback_on, playback_off,
             handleSubmit,
         } = me.props;
         let cls = 'edit-window';
-        if (selw.length > 0) {
+        if (me._is_shown()) {
             cls += ' is-shown';
         }
         return (
@@ -62,6 +68,19 @@ export class EditWindow extends React.Component {
                 me.props.autofill('edited_subtitles', selw_str);
             }
         }
+    }
+
+    componentDidMount() {
+        const me = this;
+        if (!window.KEY_SEND_SUBS_CTRL) window.KEY_SEND_SUBS_CTRL = document.addEventListener(
+            'keyup', (evt) => {
+                if (evt.ctrlKey && evt.key === 'Enter') {
+                    if (me._is_shown()) {
+                        me.props.handleSubmit();
+                    }
+                }
+            },
+        );
     }
 };
 
