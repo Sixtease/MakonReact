@@ -61,8 +61,10 @@ const ACTION_HANDLERS = {
     },
     send_subs: (state, action) => ({
         ...state,
-        selection_start: null,
-        selection_end: null,
+        selection_start_chunk_index: null,
+        selection_start_icco:        null,
+        selection_end_chunk_index:   null,
+        selection_end_icco:          null,
         sending_subs: true,
         sent_word_rectangles: [
             ...state.sent_word_rectangles,
@@ -294,12 +296,12 @@ const get_current_time = (state) => state.track_detail.current_time;
 const get_selection_boundaries
                        = (state) => ({
                             start: {
-                                chunk_index:          state.track_detail.selection_start_chunk_index,
-                                icco: state.track_detail.selection_start_icco,
+                                chunk_index: state.track_detail.selection_start_chunk_index,
+                                icco:        state.track_detail.selection_start_icco,
                             },
                             end: {
-                                chunk_index:          state.track_detail.selection_end_chunk_index,
-                                icco: state.track_detail.selection_end_icco,
+                                chunk_index: state.track_detail.selection_end_chunk_index,
+                                icco:        state.track_detail.selection_end_icco,
                             },
                        });
 export const get_subs_chunks = createSelector(
