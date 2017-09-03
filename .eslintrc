@@ -20,6 +20,7 @@
     "API_BASE"     : false
   },
   "rules": {
+    "func-call-spacing"    : 1,
     "key-spacing"          : 0,
     "jsx-quotes"           : [1, "prefer-single"],
     "react/jsx-indent"     : [1, 4],
@@ -38,6 +39,9 @@
     "space-in-parens": [0],
     "no-whitespace-before-property": [0],
     "operator-linebreak": [0],
-    "brace-style": [1, "stroustrup"]
+    "brace-style": [1, "stroustrup"],
+    "standard/computed-property-even-spacing": 1,
+    "space-unary-ops": 1,
+    "semi-spacing": 1
   },
 }

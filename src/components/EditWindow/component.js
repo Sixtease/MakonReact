@@ -72,15 +72,17 @@ export class EditWindow extends React.Component {
 
     componentDidMount() {
         const me = this;
-        if (!window.KEY_SEND_SUBS_CTRL) window.KEY_SEND_SUBS_CTRL = document.addEventListener(
-            'keyup', (evt) => {
-                if (evt.ctrlKey && evt.key === 'Enter') {
-                    if (me._is_shown()) {
-                        me.props.handleSubmit();
+        if (!window.KEY_SEND_SUBS_CTRL) {
+            window.KEY_SEND_SUBS_CTRL = document.addEventListener(
+                'keyup', (evt) => {
+                    if (evt.ctrlKey && evt.key === 'Enter') {
+                        if (me._is_shown()) {
+                            me.props.handleSubmit();
+                        }
                     }
-                }
-            },
-        );
+                },
+            );
+        }
     }
 };
 

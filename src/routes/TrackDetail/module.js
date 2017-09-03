@@ -19,7 +19,7 @@ const ACTION_HANDLERS = {
             ...state,
             is_playing: true,
         };
-        const selected_words = action.selected_words /*|| get_selected_words({ track_detail:state })*/;
+        const selected_words = action.selected_words/* || get_selected_words({ track_detail:state }) */;
         if (selected_words.length > 0) {
             rv.forced_time = selected_words[0].timestamp;
         }
@@ -71,7 +71,7 @@ const ACTION_HANDLERS = {
             ...get_word_rectangles(
                 action.words,
                 state.subs,
-                action.subs_chunks /*|| get_subs_chunks({track_detail: state})*/,
+                action.subs_chunks/* || get_subs_chunks({track_detail: state}) */,
             ),
         ],
     }),
@@ -107,9 +107,7 @@ const ACTION_HANDLERS = {
             ...state.subs.slice(
                 get_word_index(
                     // eslint standard/computed-property-even-spacing: [0]
-                    action.replaced_words[
-                        action.replaced_words.length - 1
-                    ],
+                    action.replaced_words[ action.replaced_words.length - 1 ],
                     state.subs,
                 ) + 1,
             ),
@@ -124,7 +122,7 @@ const ACTION_HANDLERS = {
             ...get_word_rectangles(
                 action.words,
                 state.subs,
-                action.subs_chunks /*|| get_subs_chunks({track_detail: state})*/,
+                action.subs_chunks/* || get_subs_chunks({track_detail: state}) */,
             ),
         ],
     }),
@@ -211,8 +209,8 @@ const set_audio_controls = (store) => {
     });
 };
 const apply_hash = (store, hash) => {
-    const bare_hash = hash.replace(/^#/,'');
-    let query = query_string.parse(hash);
+    const bare_hash = hash.replace(/^#/, '');
+    let query = query_string.parse(bare_hash);
     const requested_time = query.ts;
     if (requested_time) {
         store.dispatch({
@@ -249,7 +247,7 @@ function get_word_chunk_position(word_index, subs_chunks) {
         chunk,
         icco,
         text_node,
-    }
+    };
 }
 
 /*
@@ -310,7 +308,7 @@ export const get_subs_chunks = createSelector(
         const chunks = [];
         const wbuf = [];
         const chunk_index_by_word_index  = [];
-        const icco_by_word_index = []
+        const icco_by_word_index = [];
         let chunk_index = -1;
         let char_offset = 0;
         let word_offset = 0;
@@ -420,28 +418,28 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
         return null;
     }
 
-    if (i === void(0)) {
+    if (i === void (0)) {
         i = current_word ? current_word.i : 0;
     }
     const chunk_index_by_word_index = subs_chunks.chunk_index_by_word_index;
     const char_offset_by_word_index = subs_chunks.icco_by_word_index;
 
-    while (chunk_index_by_word_index[i] !== void(0)
+    while (chunk_index_by_word_index[i] !== void (0)
         && chunk_index_by_word_index[i] > 0
         && chunk_index_by_word_index[i] > word_position.chunk_index
     ) i--;
     let stop = chunk_index_by_word_index.length - 1;
-    while (chunk_index_by_word_index[i] !== void(0)
+    while (chunk_index_by_word_index[i] !== void (0)
         && chunk_index_by_word_index[i] < stop
         && chunk_index_by_word_index[i] < word_position.chunk_index
     ) i++;
 
-    while (char_offset_by_word_index[i] !== void(0)
+    while (char_offset_by_word_index[i] !== void (0)
         && char_offset_by_word_index[i] > 0
         && char_offset_by_word_index[i] > word_position.icco
     ) i--;
     stop = char_offset_by_word_index.length - 1;
-    while (char_offset_by_word_index[i] !== void(0)
+    while (char_offset_by_word_index[i] !== void (0)
         && char_offset_by_word_index[i] < stop
         && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < word_position.icco
     ) i++;
@@ -571,7 +569,7 @@ export function set_selection() {
     let   end_global_offset = null;
     if (sel.rangeCount > 0) {
         const start_range = sel.getRangeAt(0);
-        const   end_range = sel.getRangeAt(sel.rangeCount-1);
+        const   end_range = sel.getRangeAt(sel.rangeCount - 1);
         if (start_range && end_range) {
             start_chunk = start_range.startContainer.parentElement;
               end_chunk =   end_range.  endContainer.parentElement;
@@ -614,7 +612,7 @@ export function set_audio_metadata() {
 };
 export function sync_current_time(loc, router) {
     const current_time = audio().currentTime;
-    window.location.hash = '#ts='+current_time;
+    window.location.hash = '#ts=' + current_time;
     return {
         type: 'sync_current_time',
         current_time,

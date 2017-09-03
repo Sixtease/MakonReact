@@ -235,7 +235,7 @@ function createTransitionManager(history, routes) {
       if (state.location === location) {
         listener(null, state);
       } else if (state.location && state.location.path === location.path && state.location.hash !== location.hash) {
-        console.log('ignoring hashchange');
+        //console.log('ignoring hashchange');
       } else {
         match(location, function (error, redirectLocation, nextState) {
           if (error) {

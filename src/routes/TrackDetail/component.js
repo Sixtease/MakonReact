@@ -39,7 +39,7 @@ export class TrackDetail extends React.Component {
                     onMouseUp={me.props.set_selection}
                 >{
                     subs_chunks.map((chunk, i) => <span
-                        key={'chunk-'+i}
+                        key={'chunk-' + i}
                         data-char_offset={chunk.char_offset}
                         data-chunk_index={i}
                         className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
@@ -138,7 +138,9 @@ export class TrackDetail extends React.Component {
             />
         </div>);
     }
-    _is_playing() { return this.props.is_playing; }
+    _is_playing() {
+        return this.props.is_playing;
+    }
     componentDidMount() {
         const me = this;
         const { stem } = me.props.params;
@@ -155,15 +157,17 @@ export class TrackDetail extends React.Component {
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
         me.audio.addEventListener(
-            'timeupdate', (evt) => sync_current_time(loc,router),
+            'timeupdate', (evt) => sync_current_time(loc, router),
         );
-        if (!window.KEY_PLAYBACK_CTRL) window.KEY_PLAYBACK_CTRL = document.addEventListener(
-            'keyup', (evt) => {
-                if (evt.ctrlKey && evt.key === SPACE) {
-                    me._is_playing() ? playback_off() : playback_on();
-                }
-            },
-        );
+        if (!window.KEY_PLAYBACK_CTRL) {
+            window.KEY_PLAYBACK_CTRL = document.addEventListener(
+                'keyup', (evt) => {
+                    if (evt.ctrlKey && evt.key === SPACE) {
+                        me._is_playing() ? playback_off() : playback_on();
+                    }
+                },
+            );
+        }
 
         const subs_rect = me.subs_el.getClientRects();
         if (subs_rect.length > 0) {
