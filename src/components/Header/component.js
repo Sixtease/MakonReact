@@ -12,7 +12,7 @@ export class Header extends React.Component {
                         <ul className='nav navbar-nav'>
                             <li>
                                 <IndexLink to='/' activeClassName='route--active'>
-                                    audio.Makoň
+                                    rádio Makoň
                                 </IndexLink>
                             </li>
                             <li>
