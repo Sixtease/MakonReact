@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from 'components/Header/Header';
+import { Header } from 'components/Header/component.js';
 import { IndexLink, Link } from 'lib/react-router';
 import { shallow } from 'enzyme';
 
