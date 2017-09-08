@@ -453,7 +453,7 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
     else {
         return null;
     }
-}
+};
 // TODO: simplify
 export const get_selected_word_indices = createSelector(
     [get_subs, get_subs_chunks, get_selection_boundaries],
