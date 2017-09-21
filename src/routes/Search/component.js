@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { browserHistory } from 'lib/react-router';
+import { browserHistory, Link } from 'lib/react-router';
 
 export class Search extends React.Component {
     render() {
@@ -14,11 +14,13 @@ export class Search extends React.Component {
         const query = loc.query.dotaz;
         const from  = loc.query.from || 0;
         const to    = results && results.length ? +from + results.length : null;
-        return (<div>
+        return (<div className="search-results">
             dotaz: <code>{query}</code>
             <ol>{
                 results.map(result => <li key={result.id}>
-                    <ReactMarkdown source={result.snip} />
+                    <Link to={`/zaznam/${result.stem}#ts=${result.time}`}>
+                        <ReactMarkdown source={result.snip} />
+                    </Link>
                 </li>)
             }</ol>
             { results && results.length ?

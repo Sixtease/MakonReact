@@ -1,3 +1,8 @@
 .pager > a {
     cursor: pointer;
 }
+.search-results ol {
+    p, div {
+        display: inline;
+    }
+}
