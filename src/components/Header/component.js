@@ -29,11 +29,11 @@ export class Header extends React.Component {
                                     className='form-control js-search-input'
                                     placeholder='dotaz'
                                     name='dotaz'
-                                    ref={ (el) => {
+                                    ref={(el) => {
                                         if (el) {
                                             el.value = me.props.location.query.dotaz || '';
                                         }
-                                    } }
+                                    }}
                                 />
                             </div>
                             <button type='submit' className='btn btn-default'>hledat</button>

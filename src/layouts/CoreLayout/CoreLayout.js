@@ -22,6 +22,7 @@ export class CoreLayout extends React.Component {
 
 CoreLayout.propTypes = {
     children : React.PropTypes.element.isRequired,
+    location : React.PropTypes.object.isRequired,
 };
 
 export default CoreLayout;

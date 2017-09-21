@@ -14,7 +14,7 @@ export class Search extends React.Component {
         const query = loc.query.dotaz;
         const from  = loc.query.from || 0;
         const to    = results && results.length ? +from + results.length : null;
-        return (<div className="search-results">
+        return (<div className='search-results'>
             dotaz: <code>{query}</code>
             <ol>{
                 results.map(result => <li key={result.id}>
@@ -23,12 +23,15 @@ export class Search extends React.Component {
                     </Link>
                 </li>)
             }</ol>
-            { results && results.length ?
-            <div className="pager">
-                <a onClick={() => prev_page(       loc, browserHistory)}>předchozí</a>{' '}
-                {+from+1} - {to} / {total}{' '}
-                <a onClick={() => next_page(total, loc, browserHistory)}>další</a>
-            </div> : null }
+            {
+                results && results.length
+                ? <div className='pager'>
+                    <a onClick={() => prev_page(       loc, browserHistory)}>předchozí</a>{' '}
+                    {+from + 1} - {to} / {total}{' '}
+                    <a onClick={() => next_page(total, loc, browserHistory)}>další</a>
+                </div>
+                : null
+            }
         </div>);
     }
 
