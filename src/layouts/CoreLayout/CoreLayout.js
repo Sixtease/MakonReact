@@ -3,18 +3,22 @@ import Header from '../../components/Header';
 import './CoreLayout.scss';
 import '../../styles/core.scss';
 
-export const CoreLayout = ({ children }) => (
-    <div className='container-fluid'>
-        <Header />
-        <div className='row'>
-            <div className='col-xs-12'>
-                <div className='core-layout__viewport'>
-                    {children}
+export class CoreLayout extends React.Component {
+    render() {
+        return (
+            <div className='container-fluid'>
+                <Header location={this.props.location} />
+                <div className='row'>
+                    <div className='col-xs-12'>
+                        <div className='core-layout__viewport'>
+                            {this.props.children}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-);
+        );
+    }
+}
 
 CoreLayout.propTypes = {
     children : React.PropTypes.element.isRequired,

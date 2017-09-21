@@ -3,6 +3,7 @@
 import CoreLayout from '../layouts/CoreLayout';
 import Home from './Home';
 import TrackDetailRoute from './TrackDetail/index.js';
+import SearchRoute from './Search/index.js';
 import { injectReducer } from '../store/reducers';
 import { reducer as track_list_reducer } from '../components/TrackList/module.js';
 import { reducer as track_dir_reducer  } from '../components/TrackList/TrackDirCategory/module.js';
@@ -19,6 +20,7 @@ export const createRoutes = (store) => {
         indexRoute  : Home,
         childRoutes : [
             TrackDetailRoute(store),
+            SearchRoute(store),
         ],
     };
 };
