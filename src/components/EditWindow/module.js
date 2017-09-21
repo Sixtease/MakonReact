@@ -8,6 +8,8 @@ import {
 const ACTION_HANDLERS = {
 };
 
+const endpoint = API_BASE + '/subsubmit/';
+
 export function send_subs(form_values, dispatch, props) {
     return (dispatch, getState) => {
         const state = getState();
@@ -19,7 +21,6 @@ export function send_subs(form_values, dispatch, props) {
             subs_chunks,
         });
         const timespan = get_edit_window_timespan(state);
-        const endpoint = API_BASE + '/subsubmit/';
         axios.request({
             url: endpoint,
             method: 'POST',
