@@ -612,7 +612,7 @@ export function set_audio_metadata() {
 };
 export function sync_current_time(loc, router) {
     const current_time = audio().currentTime;
-    window.location.hash = '#ts=' + current_time;
+    window.location.replace('#ts=' + current_time);
     return {
         type: 'sync_current_time',
         current_time,
