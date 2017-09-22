@@ -438,7 +438,7 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
         && char_offset_by_word_index[i] > 0
         && char_offset_by_word_index[i] > word_position.icco
     ) i--;
-    stop = char_offset_by_word_index.length - 1;
+    stop = char_offset_by_word_index[char_offset_by_word_index.length - 1];
     while (char_offset_by_word_index[i] !== void (0)
         && char_offset_by_word_index[i] < stop
         && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < word_position.icco
