@@ -2,9 +2,8 @@
 /* global AUDIO_SUFFIX */
 
 import React from 'react';
-import EditWindow from 'components/EditWindow';
-import { Subs, WordInfo } from 'components/TrackDetail';
-import audio      from 'store/audio';
+import { Subs, WordInfo, EditWindow } from 'components/TrackDetail';
+import audio from 'store/audio';
 
 const SPACE = ' ';
 
