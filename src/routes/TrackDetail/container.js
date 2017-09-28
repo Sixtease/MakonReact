@@ -11,9 +11,9 @@ import {
     set_selection,
     sync_current_time,
     time_to_frame,
-} from './module.js';
+} from './module';
 
-import TrackDetail from './component.js';
+import TrackDetail from './component';
 import './style.scss';
 
 const map_dispatch_to_props = {

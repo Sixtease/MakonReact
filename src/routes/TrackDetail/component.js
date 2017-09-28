@@ -49,9 +49,7 @@ export class TrackDetail extends React.Component {
                 </div>
             </div>
             <ControlBar {...me.props} />
-            <EditWindow
-                stem={stem}
-            />
+            <EditWindow stem={stem} />
         </div>);
     }
     _is_playing() {

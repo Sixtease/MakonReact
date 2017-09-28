@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
 import component from './component';
-import { playback_on, playback_off, get_selected_words } from 'routes/TrackDetail/module.js';
-import { send_subs } from './module.js';
+
+// XXX for some reason playback_on is imported as undefined from index.js
+//  import { playback_on, playback_off, get_selected_words } from 'routes/TrackDetail/module';
+import { playback_on, playback_off } from 'routes/TrackDetail/module/TrackDetail.js';
+import { get_selected_words } from 'routes/TrackDetail/module';
+
+import { send_subs } from './module';
 import './style.scss';
 
 const map_dispatch_to_props = {
