@@ -1,3 +1,4 @@
+import { get_word_rectangles, get_word_index } from './Selectors';
 export default {
     set_subs: (state, action) => ({
         ...state,

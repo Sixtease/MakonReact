@@ -136,7 +136,7 @@ export const get_current_word = createSelector(
     },
 );
 // TODO: use the index Luke (make selector index_by_timestamp that uses subs)
-function get_word_index(word, subs) {
+export function get_word_index(word, subs) {
     if (!word || !subs || subs.length === 0) {
         return null;
     }

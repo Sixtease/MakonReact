@@ -3,7 +3,6 @@ import query_string from 'query-string';
 import audio from 'store/audio';
 import {
     get_marked_word,
-    get_word_rectangles,
     get_selected_words,
 } from './Selectors';
 import ACTION_HANDLERS from './ActionHandlers';
