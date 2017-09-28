@@ -2,7 +2,7 @@ import React from 'react';
 
 const CONTROL_BAR_HEIGHT = 35;
 
-export default ({
+const component = ({
     chunk_text_nodes,
     current_word,
     failed_word_rectangles,
@@ -92,3 +92,18 @@ export default ({
         </div>
     </div>
 );
+
+component.propTypes = {
+    chunk_text_nodes:       React.PropTypes.array,
+    current_word:           React.PropTypes.object,
+    failed_word_rectangles: React.PropTypes.array,
+    marked_word:            React.PropTypes.object,
+    sending_subs:           React.PropTypes.bool,
+    sent_word_rectangles:   React.PropTypes.array,
+    set_selection:          React.PropTypes.func,
+    set_subs_el:            React.PropTypes.func,
+    subs_chunks:            React.PropTypes.array,
+    subs_offset:            React.PropTypes.object,
+};
+
+export default component;

@@ -1,3 +1,4 @@
+/* eslint no-duplicate-imports: 1 */
 import reducer from './TrackDetail';
 import {
     FRAME_RATE,

@@ -41,6 +41,7 @@
     "operator-linebreak": [0],
     "brace-style": [1, "stroustrup"],
     "standard/computed-property-even-spacing": 1,
+    "standard/object-curly-even-spacing": 1,
     "space-unary-ops": 1,
     "semi-spacing": 1
   },

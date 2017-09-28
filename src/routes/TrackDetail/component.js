@@ -41,7 +41,7 @@ export class TrackDetail extends React.Component {
                 <div className='row'>
                     <div className='col-xs-8 col-md-9'>
                         <p />
-                        <Subs { ...subs_props } />
+                        <Subs {...subs_props} />
                     </div>
                     <div className='col-xs-4 col-md-3'>
                         <WordInfo word={marked_word} />
