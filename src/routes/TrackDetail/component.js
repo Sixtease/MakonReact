@@ -2,8 +2,13 @@
 /* global AUDIO_SUFFIX */
 
 import React from 'react';
-import { Subs, WordInfo, EditWindow } from 'components/TrackDetail';
 import audio from 'store/audio';
+import {
+    ControlBar,
+    EditWindow,
+    Subs,
+    WordInfo,
+} from 'components/TrackDetail';
 
 const SPACE = ' ';
 
@@ -21,11 +26,7 @@ export class TrackDetail extends React.Component {
     render() {
         const me = this;
         const { stem } = me.props.params;
-        const {
-            is_playing, frame_cnt, current_frame,
-            playback_on, playback_off, force_current_frame,
-            marked_word,
-        } = me.props;
+        const { marked_word } = me.props;
         const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
         const subs_props = {
             chunk_text_nodes,
@@ -47,29 +48,7 @@ export class TrackDetail extends React.Component {
                     </div>
                 </div>
             </div>
-            <div className='control-bar'>
-                {   is_playing
-                    ? (
-                        <button
-                            className='glyphicon glyphicon-pause'
-                            onClick={playback_off}
-                        />
-                    )
-                    : (
-                        <button
-                            className='glyphicon glyphicon-play'
-                            onClick={playback_on}
-                        />
-                    )
-                }
-                <input
-                    type='range'
-                    min='0'
-                    max={frame_cnt}
-                    value={current_frame}
-                    onChange={(evt) => force_current_frame(evt.target.value)}
-                />
-            </div>
+            <ControlBar {...me.props} />
             <EditWindow
                 stem={stem}
             />
