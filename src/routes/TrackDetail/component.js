@@ -2,8 +2,9 @@
 /* global AUDIO_SUFFIX */
 
 import React from 'react';
-import EditWindow from 'components/EditWindow/index.js';
-import audio from 'store/audio.js';
+import EditWindow from 'components/EditWindow';
+import WordInfo   from 'components/WordInfo';
+import audio      from 'store/audio';
 
 const CONTROL_BAR_HEIGHT = 35;
 const SPACE = ' ';
@@ -28,86 +29,96 @@ export class TrackDetail extends React.Component {
             marked_word, sending_subs, sent_word_rectangles, failed_word_rectangles,
         } = me.props;
         const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
+
         return (<div>
             <h1>{stem}</h1>
-            <p />
-            <div className='subs'>
-                <p
-                    ref={(el) => {
-                        me.subs_el  = el;
-                    }}
-                    onMouseUp={me.props.set_selection}
-                >{
-                    subs_chunks.map((chunk, i) => <span
-                        key={'chunk-' + i}
-                        data-char_offset={chunk.char_offset}
-                        data-chunk_index={i}
-                        className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
-                        ref={(el) => {
-                            chunk_text_nodes[i] = el ? el.childNodes[0] : null;
-                        }}
-                    >{chunk.str}</span>)
-                }</p>
-                <div className='sub-rects'>
-                    {marked_word
-                        ? <span
-                            className='marked-word-rect'
-                            style={{
-                                top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
-                                left:   marked_word.rect.left   - subs_offset.left,
-                                width:  marked_word.rect.right  - marked_word.rect.left,
-                                height: marked_word.rect.bottom - marked_word.rect.top,
-                            }}
-                        />
-                        : null
-                    }
-                    {current_word.rects.map((rect, i) => {
-                        if (    rect.bottom + CONTROL_BAR_HEIGHT > window.innerHeight
-                            ||  rect.top < 0
-                        ) {
-                            window.scrollTo(
-                                window.scrollX,
-                                window.scrollY + rect.top,
-                            );
-                        }
-                        return <span
-                            key={'sub-rect-' + i}
-                            className='sub-rect'
-                            style={{
-                                top:    rect.top    - subs_offset.top + window.scrollY,
-                                left:   rect.left   - subs_offset.left,
-                                width:  rect.right  - rect.left,
-                                height: rect.bottom - rect.top,
-                            }}
-                        />;
-                    })}
-                    {sending_subs && sent_word_rectangles
-                        ? sent_word_rectangles.map((rect, i) => (
-                            <span
-                                key={'submitted-word-rect-' + i}
-                                className='submitted-word-rect'
-                                style={{
-                                    top:    rect.top    - subs_offset.top + window.scrollY,
-                                    left:   rect.left   - subs_offset.left,
-                                    width:  rect.right  - rect.left,
-                                    height: rect.bottom - rect.top,
+            <div className='container-fluid'>
+                <div className='row'>
+                    <div className='col-xs-8 col-md-9'>
+                        <p />
+                        <div className='subs'>
+                            <p
+                                ref={(el) => {
+                                    me.subs_el  = el;
                                 }}
-                            />
-                        ))
-                        : null
-                    }
-                    {failed_word_rectangles.map((rect, i) => (
-                        <span
-                            key={'failed-word-rect-' + i}
-                            className='failed-word-rect'
-                            style={{
-                                top:    rect.top    - subs_offset.top + window.scrollY,
-                                left:   rect.left   - subs_offset.left,
-                                width:  rect.right  - rect.left,
-                                height: rect.bottom - rect.top,
-                            }}
-                        />
-                    )) }
+                                onMouseUp={me.props.set_selection}
+                            >{
+                                subs_chunks.map((chunk, i) => <span
+                                    key={'chunk-' + i}
+                                    data-char_offset={chunk.char_offset}
+                                    data-chunk_index={i}
+                                    className={chunk.is_humanic ? 'is-humanic' : 'is-automatic'}
+                                    ref={(el) => {
+                                        chunk_text_nodes[i] = el ? el.childNodes[0] : null;
+                                    }}
+                                >{chunk.str}</span>)
+                            }</p>
+                            <div className='sub-rects'>
+                                {marked_word
+                                    ? <span
+                                        className='marked-word-rect'
+                                        style={{
+                                            top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
+                                            left:   marked_word.rect.left   - subs_offset.left,
+                                            width:  marked_word.rect.right  - marked_word.rect.left,
+                                            height: marked_word.rect.bottom - marked_word.rect.top,
+                                        }}
+                                    />
+                                    : null
+                                }
+                                {current_word.rects.map((rect, i) => {
+                                    if (    rect.bottom + CONTROL_BAR_HEIGHT > window.innerHeight
+                                        ||  rect.top < 0
+                                    ) {
+                                        window.scrollTo(
+                                            window.scrollX,
+                                            window.scrollY + rect.top,
+                                        );
+                                    }
+                                    return <span
+                                        key={'sub-rect-' + i}
+                                        className='sub-rect'
+                                        style={{
+                                            top:    rect.top    - subs_offset.top + window.scrollY,
+                                            left:   rect.left   - subs_offset.left,
+                                            width:  rect.right  - rect.left,
+                                            height: rect.bottom - rect.top,
+                                        }}
+                                    />;
+                                })}
+                                {sending_subs && sent_word_rectangles
+                                    ? sent_word_rectangles.map((rect, i) => (
+                                        <span
+                                            key={'submitted-word-rect-' + i}
+                                            className='submitted-word-rect'
+                                            style={{
+                                                top:    rect.top    - subs_offset.top + window.scrollY,
+                                                left:   rect.left   - subs_offset.left,
+                                                width:  rect.right  - rect.left,
+                                                height: rect.bottom - rect.top,
+                                            }}
+                                        />
+                                    ))
+                                    : null
+                                }
+                                {failed_word_rectangles.map((rect, i) => (
+                                    <span
+                                        key={'failed-word-rect-' + i}
+                                        className='failed-word-rect'
+                                        style={{
+                                            top:    rect.top    - subs_offset.top + window.scrollY,
+                                            left:   rect.left   - subs_offset.left,
+                                            width:  rect.right  - rect.left,
+                                            height: rect.bottom - rect.top,
+                                        }}
+                                    />
+                                )) }
+                            </div>
+                        </div>
+                    </div>
+                    <div className='col-xs-4 col-md-3'>
+                        <WordInfo word={marked_word} />
+                    </div>
                 </div>
             </div>
             <div className='control-bar'>
@@ -183,18 +194,18 @@ TrackDetail.contextTypes = {
 };
 
 TrackDetail.propTypes = {
-    subs_chunks:            React.PropTypes.array,
-    is_playing:             React.PropTypes.bool,
-    frame_cnt:              React.PropTypes.number,
     current_frame:          React.PropTypes.number,
     current_word:           React.PropTypes.object,
-    playback_on:            React.PropTypes.func,
-    playback_off:           React.PropTypes.func,
+    failed_word_rectangles: React.PropTypes.array,
     force_current_frame:    React.PropTypes.func,
+    frame_cnt:              React.PropTypes.number,
+    is_playing:             React.PropTypes.bool,
     marked_word:            React.PropTypes.object,
+    playback_off:           React.PropTypes.func,
+    playback_on:            React.PropTypes.func,
     sending_subs:           React.PropTypes.bool,
     sent_word_rectangles:   React.PropTypes.array,
-    failed_word_rectangles: React.PropTypes.array,
+    subs_chunks:            React.PropTypes.array,
 };
 
 export default TrackDetail;
