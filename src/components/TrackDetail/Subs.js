@@ -2,7 +2,7 @@ import React from 'react';
 
 const CONTROL_BAR_HEIGHT = 35;
 
-export const Subs = ({
+export default ({
     chunk_text_nodes,
     current_word,
     failed_word_rectangles,

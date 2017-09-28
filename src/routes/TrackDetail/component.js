@@ -3,8 +3,7 @@
 
 import React from 'react';
 import EditWindow from 'components/EditWindow';
-import WordInfo   from 'components/WordInfo';
-import { Subs }   from 'components/TrackDetail';
+import { Subs, WordInfo } from 'components/TrackDetail';
 import audio      from 'store/audio';
 
 const SPACE = ' ';
