@@ -41,3 +41,9 @@
         margin-right: 10px;
     }
 }
+.sidebar {
+    position: fixed;
+    top: 69px;
+    height: 100%;
+    overflow-y: auto;
+}

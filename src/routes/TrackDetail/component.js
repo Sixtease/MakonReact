@@ -44,7 +44,9 @@ export class TrackDetail extends React.Component {
                         <Subs {...subs_props} />
                     </div>
                     <div className='col-xs-4 col-md-3'>
-                        <WordInfo word={marked_word} />
+                        <div className="sidebar">
+                            <WordInfo word={marked_word} />
+                        </div>
                     </div>
                 </div>
             </div>
