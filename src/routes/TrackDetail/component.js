@@ -8,6 +8,7 @@ import {
     EditWindow,
     Subs,
     WordInfo,
+    Downloads,
 } from 'components/TrackDetail';
 
 const SPACE = ' ';
@@ -46,6 +47,7 @@ export class TrackDetail extends React.Component {
                     <div className='col-xs-4 col-md-3'>
                         <div className="sidebar">
                             <WordInfo word={marked_word} />
+                            <Downloads stem={stem} />
                         </div>
                     </div>
                 </div>
