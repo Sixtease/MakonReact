@@ -1,4 +1,5 @@
 import React from 'react';
+import Phonet from 'lib/Phonet';
 const component =  ({word}) => (
     word ?
     <div>
@@ -15,7 +16,7 @@ const component =  ({word}) => (
             <dd>{word.wordform}</dd>
 
             <dt>výslovnost</dt>
-            <dd>{word.fonet}</dd>
+            <dd>{Phonet.to_human(word.fonet).str}</dd>
 
             <dt
                 title='pozice slova v sekundách od začátku nahrávky'
