@@ -1,5 +1,5 @@
 import React from 'react';
-const component =  ({stem}) => (
+const component = ({stem, download_txt}) => (
     <div>
         <h1>Stáhnout</h1>
         <ul>
@@ -15,12 +15,18 @@ const component =  ({stem}) => (
                     target="_blank"
                 >{stem}.ogg</a>
             </li>
+            <li>
+                <a onClick={download_txt}>
+                    {stem}.txt
+                </a>
+            </li>
         </ul>
     </div>
 );
 
 component.propTypes = {
     stem: React.PropTypes.string,
+    download_txt: React.PropTypes.func,
 };
 
 export default component;

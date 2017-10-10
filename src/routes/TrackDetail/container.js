@@ -13,7 +13,7 @@ import {
     time_to_frame,
 } from './module';
 
-import TrackDetail from './component';
+import component from './component';
 import './style.scss';
 
 const map_dispatch_to_props = {

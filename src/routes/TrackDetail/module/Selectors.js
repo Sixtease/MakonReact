@@ -30,7 +30,7 @@ export const get_word_rectangles = (words, subs, subs_chunks) => {
     return rects;
 };
 
-const get_subs         = (state) => state.track_detail.subs;
+export const get_subs  = (state) => state.track_detail.subs;
 const get_current_time = (state) => state.track_detail.current_time;
 const get_selection_boundaries
                        = (state) => ({
