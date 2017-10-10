@@ -2,7 +2,7 @@
 /* eslint standard/object-curly-even-spacing: [0] */
 import CoreLayout from '../layouts/CoreLayout';
 import Home from './Home';
-import TrackDetailRoute from './TrackDetail/index.js';
+import { track_detail_route, track_detail_imported_route } from './TrackDetail/index.js';
 import SearchRoute from './Search/index.js';
 import { injectReducer } from '../store/reducers';
 import { reducer as track_list_reducer } from '../components/TrackList/module.js';
@@ -19,7 +19,8 @@ export const createRoutes = (store) => {
         component   : CoreLayout,
         indexRoute  : Home,
         childRoutes : [
-            TrackDetailRoute(store),
+            track_detail_route(store),
+            track_detail_imported_route(store),
             SearchRoute(store),
         ],
     };

@@ -41,7 +41,8 @@ const map_state_to_props = (state) => ({
     subs_chunks:    get_subs_chunks(state).chunks,
 });
 
-let track_detail = connect(
+const get_container = stem => connect(
     map_state_to_props, map_dispatch_to_props,
-)(TrackDetail);
-export default track_detail;
+    (s,d)=>({...s,...d,stem}),
+)(component);
+export default get_container;

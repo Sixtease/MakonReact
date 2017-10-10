@@ -26,8 +26,7 @@ export class TrackDetail extends React.Component {
 
     render() {
         const me = this;
-        const { stem } = me.props.params;
-        const { marked_word } = me.props;
+        const { marked_word, stem } = me.props;
         const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
         const subs_props = {
             chunk_text_nodes,
@@ -61,11 +60,10 @@ export class TrackDetail extends React.Component {
     }
     componentDidMount() {
         const me = this;
-        const { stem } = me.props.params;
         const {
             set_audio_metadata, sync_current_time, set_selection,
             playback_off, playback_on,
-            location: loc, router,
+            location: loc, router, stem,
         } = me.props;
         const src = AUDIO_BASE + stem + AUDIO_SUFFIX;
         window.scrollTo(0, 0);

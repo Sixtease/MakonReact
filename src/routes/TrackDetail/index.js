@@ -1,17 +1,24 @@
 import { injectReducer } from '../../store/reducers';
 
-export default (store) => ({
-    path : 'zaznam/:stem',
-    getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-            const container = require('./container.js').default;
-            const reducer_module = require('./module/index.js');
-            const reducer = reducer_module.default;
-            injectReducer(store, { key: 'track_detail', reducer });
-            const edit_window_reducer = require('components/TrackDetail/EditWindow/module.js').default;
-            injectReducer(store, { key: 'edit_window', reducer: edit_window_reducer });
-            reducer_module.init(store, nextState.params.stem, nextState.location.hash);
-            cb(null, container);
-        }, 'track_detail');
-    },
+const get_component = (stem, next_state, cb) => {
+    require.ensure([], (require) => {
+        const container = require('./container.js').default;
+        const reducer_module = require('./module/index.js');
+        const reducer = reducer_module.default;
+        injectReducer(store, { key: 'track_detail', reducer });
+        const edit_window_reducer = require('components/TrackDetail/EditWindow/module.js').default;
+        injectReducer(store, { key: 'edit_window', reducer: edit_window_reducer });
+        reducer_module.init(store, stem, next_state.location.hash);
+        cb(null, container(stem));
+    }, 'track_detail');
+};
+
+export const track_detail_route = store => ({
+    path: 'zaznam/:stem',
+    getComponent: (next_state, cb) => get_component(next_state.params.stem, next_state, cb),
+});
+
+export const track_detail_imported_route = store => ({
+    path: 'zaznam/prevzate/:stem',
+    getComponent: (next_state, cb) => get_component('prevzate/'+next_state.params.stem, next_state, cb),
 });
