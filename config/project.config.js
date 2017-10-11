@@ -89,7 +89,7 @@ config.globals = {
     AUDIO_BASE     : config.env === 'production'
                      ? '"http://commondatastorage.googleapis.com/karel-makon-mp3/"'
                      : '"http://localhost:5000/static/audio/"',
-    AUDIO_SUFFIX   : '".ogg"',
+    AUDIO_FORMATS  : '[{mime:"audio/ogg",suffix:"ogg"},{mime:"audio/mpeg",suffix:"mp3"}]',
 };
 
 // ------------------------------------

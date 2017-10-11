@@ -1,5 +1,4 @@
 /* global AUDIO_BASE */
-/* global AUDIO_SUFFIX */
 
 import React from 'react';
 import audio from 'store/audio';
@@ -65,10 +64,10 @@ export class TrackDetail extends React.Component {
             playback_off, playback_on,
             location: loc, router, stem,
         } = me.props;
-        const src = AUDIO_BASE + stem + AUDIO_SUFFIX;
+        const stub = AUDIO_BASE + stem;
         window.scrollTo(0, 0);
         set_selection();
-        me.audio = audio(src);
+        me.audio = audio(stub);
         me.audio.addEventListener(
             'loadedmetadata', (evt) => set_audio_metadata(evt.target),
         );
