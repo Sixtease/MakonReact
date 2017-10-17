@@ -43,6 +43,6 @@ const map_state_to_props = (state) => ({
 
 const get_container = stem => connect(
     map_state_to_props, map_dispatch_to_props,
-    (s,d)=>({...s,...d,stem}),
+    (s, d) => ({ ...s, ...d, stem }),
 )(component);
 export default get_container;

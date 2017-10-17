@@ -153,25 +153,25 @@ export function set_selection() {
         const   end_range = sel.getRangeAt(sel.rangeCount - 1);
         if (start_range && end_range) {
             start_chunk = start_range.startContainer.parentElement;
-              end_chunk =   end_range.  endContainer.parentElement;
+            end_chunk   =   end_range.  endContainer.parentElement;
             start_chunk_index = +start_chunk.dataset.chunk_index;
-              end_chunk_index = +  end_chunk.dataset.chunk_index;
+            end_chunk_index   = +end_chunk.dataset.chunk_index;
             start_icco = start_range.startOffset;
-              end_icco =   end_range.endOffset  ;
+            end_icco   =   end_range.endOffset;
             start_global_offset = +start_chunk.dataset.char_offset + start_icco;
-              end_global_offset = +  end_chunk.dataset.char_offset +   end_icco;
+            end_global_offset   =   +end_chunk.dataset.char_offset +   end_icco;
         }
     }
     return {
         type: 'set_selection',
         start_chunk,
-          end_chunk,
+        end_chunk,
         start_chunk_index,
-          end_chunk_index,
+        end_chunk_index,
         start_icco,
-          end_icco,
+        end_icco,
         start_global_offset,
-          end_global_offset,
+        end_global_offset,
     };
 };
 

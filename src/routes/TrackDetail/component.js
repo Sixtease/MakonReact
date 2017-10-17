@@ -29,7 +29,9 @@ export class TrackDetail extends React.Component {
         const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
         const subs_props = {
             chunk_text_nodes,
-            set_subs_el: (el) => { me.subs_el = el; },
+            set_subs_el: (el) => {
+                me.subs_el = el;
+            },
             subs_offset,
             ...me.props,
         };
@@ -43,7 +45,7 @@ export class TrackDetail extends React.Component {
                         <Subs {...subs_props} />
                     </div>
                     <div className='col-xs-4 col-md-3'>
-                        <div className="sidebar">
+                        <div className='sidebar'>
                             <WordInfo word={marked_word} />
                             <Downloads stem={stem} />
                         </div>

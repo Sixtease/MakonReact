@@ -1,8 +1,7 @@
 import React from 'react';
 import Phonet from 'lib/Phonet';
-const component =  ({word}) => (
-    word ?
-    <div>
+const component =  ({ word }) => (
+    word ? <div>
         <h1>Vybrané slovo</h1>
         <dl>
             <dt

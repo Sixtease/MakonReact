@@ -1,6 +1,6 @@
 import { injectReducer } from '../../store/reducers';
 
-const get_component = (stem, next_state, cb) => {
+const get_component = (store, stem, next_state, cb) => {
     require.ensure([], (require) => {
         const container = require('./container.js').default;
         const reducer_module = require('./module/index.js');
@@ -15,10 +15,10 @@ const get_component = (stem, next_state, cb) => {
 
 export const track_detail_route = store => ({
     path: 'zaznam/:stem',
-    getComponent: (next_state, cb) => get_component(next_state.params.stem, next_state, cb),
+    getComponent: (next_state, cb) => get_component(store, next_state.params.stem, next_state, cb),
 });
 
 export const track_detail_imported_route = store => ({
     path: 'zaznam/prevzate/:stem',
-    getComponent: (next_state, cb) => get_component('prevzate/'+next_state.params.stem, next_state, cb),
+    getComponent: (next_state, cb) => get_component(store, 'prevzate/' + next_state.params.stem, next_state, cb),
 });

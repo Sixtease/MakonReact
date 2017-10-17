@@ -30,10 +30,10 @@ export const get_word_rectangles = (words, subs, subs_chunks) => {
     return rects;
 };
 
-export const get_subs  = (state) => state.track_detail.subs;
-const get_current_time = (state) => state.track_detail.current_time;
+export const get_subs   = (state) => state.track_detail.subs;
+const get_current_time  = (state) => state.track_detail.current_time;
 const get_selection_boundaries
-                       = (state) => ({
+                        = (state) => ({
                             start: {
                                 chunk_index: state.track_detail.selection_start_chunk_index,
                                 icco:        state.track_detail.selection_start_icco,
@@ -42,7 +42,7 @@ const get_selection_boundaries
                                 chunk_index: state.track_detail.selection_end_chunk_index,
                                 icco:        state.track_detail.selection_end_icco,
                             },
-                       });
+                        });
 export const get_subs_chunks = createSelector(
     [get_subs],
     (subs) => {
@@ -108,7 +108,7 @@ export const get_current_word = createSelector(
         }
         let i = current_word ? current_word.i : 0;
         while (word_timestamps[i + 1] <= current_time) i++;
-        while (word_timestamps[i    ] >  current_time) i--;
+        while (word_timestamps[i]     >  current_time) i--;
         if (i < 0) i = 0;
         const sub = subs[i];
         let start_offset = null;
