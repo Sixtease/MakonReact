@@ -1,7 +1,17 @@
 /* global AUDIO_BASE */
 
 import React from 'react';
-const component = ({ stem, download_txt }) => (
+import { get_subs_el } from 'routes/TrackDetail/component';
+
+const select_transcription = () => {
+    const sel = document.getSelection();
+    sel.removeAllRanges();
+    const range = document.createRange();
+    range.selectNodeContents(get_subs_el());
+    sel.addRange(range);
+};
+
+const component = ({ stem }) => (
     <div>
         <h1>Stáhnout</h1>
         <ul>
@@ -18,8 +28,8 @@ const component = ({ stem, download_txt }) => (
                 >{stem}.ogg</a>
             </li>
             <li>
-                <a onClick={download_txt}>
-                    {stem}.txt
+                <a onClick={select_transcription}>
+                    označit celý přepis
                 </a>
             </li>
         </ul>
@@ -28,7 +38,6 @@ const component = ({ stem, download_txt }) => (
 
 component.propTypes = {
     stem: React.PropTypes.string,
-    download_txt: React.PropTypes.func,
 };
 
 export default component;

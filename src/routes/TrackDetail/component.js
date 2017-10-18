@@ -14,6 +14,8 @@ const SPACE = ' ';
 
 const chunk_text_nodes = [];
 export const get_chunk_text_nodes = () => chunk_text_nodes;
+let subs_el;
+export const get_subs_el = () => subs_el;
 
 export class TrackDetail extends React.Component {
     state: {
@@ -30,7 +32,7 @@ export class TrackDetail extends React.Component {
         const subs_props = {
             chunk_text_nodes,
             set_subs_el: (el) => {
-                me.subs_el = el;
+                subs_el = el;
             },
             subs_offset,
             ...me.props,
@@ -86,7 +88,7 @@ export class TrackDetail extends React.Component {
             );
         }
 
-        const subs_rect = me.subs_el.getClientRects();
+        const subs_rect = subs_el.getClientRects();
         if (subs_rect.length > 0) {
             me.setState({
                 subs_offset: subs_rect[0],
