@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export class TrackDirCategoryView extends React.Component {
     is_visible() {
@@ -51,10 +52,10 @@ export class TrackDirCategoryView extends React.Component {
 };
 
 TrackDirCategoryView.propTypes = {
-    cat:             React.PropTypes.object,
-    visible:         React.PropTypes.object,
-    current_section: React.PropTypes.string,
-    toggle_visible:  React.PropTypes.func,
+    cat:             PropTypes.object,
+    visible:         PropTypes.object,
+    current_section: PropTypes.string,
+    toggle_visible:  PropTypes.func,
 };
 
 export default TrackDirCategoryView;

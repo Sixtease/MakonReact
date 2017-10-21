@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Phonet from 'lib/Phonet';
 const component =  ({ word }) => (
     word ? <div>
@@ -26,7 +27,7 @@ const component =  ({ word }) => (
 );
 
 component.propTypes = {
-    word: React.PropTypes.object,
+    word: PropTypes.object,
 };
 
 export default component;

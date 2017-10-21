@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'lib/react-router';
 import TrackDirCategory from './TrackDirCategory';
 import stemdir from '../../store/stemdir.json';
@@ -104,15 +105,15 @@ export class TrackList extends React.Component {
 };
 
 TrackList.contextTypes = {
-    store: React.PropTypes.object,
+    store: PropTypes.object,
 };
 
 TrackList.propTypes = {
-    is_dir_fixed:        React.PropTypes.bool,
-    current_section:     React.PropTypes.string,
-    make_dir_static:     React.PropTypes.func,
-    make_dir_fixed:      React.PropTypes.func,
-    set_current_section: React.PropTypes.func,
+    is_dir_fixed:        PropTypes.bool,
+    current_section:     PropTypes.string,
+    make_dir_static:     PropTypes.func,
+    make_dir_fixed:      PropTypes.func,
+    set_current_section: PropTypes.func,
 };
 
 export default TrackList;

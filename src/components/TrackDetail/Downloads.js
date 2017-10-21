@@ -1,6 +1,7 @@
 /* global AUDIO_BASE */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { get_subs_el } from 'routes/TrackDetail/component';
 
 const select_transcription = () => {
@@ -37,7 +38,7 @@ const component = ({ stem }) => (
 );
 
 component.propTypes = {
-    stem: React.PropTypes.string,
+    stem: PropTypes.string,
 };
 
 export default component;

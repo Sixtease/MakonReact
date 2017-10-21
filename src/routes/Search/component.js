@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import { browserHistory, Link } from 'lib/react-router';
 
@@ -43,15 +44,15 @@ export class Search extends React.Component {
 };
 
 Search.contextTypes = {
-    store: React.PropTypes.object,
+    store: PropTypes.object,
 };
 
 Search.propTypes = {
-    results: React.PropTypes.array,
-    load_search_results: React.PropTypes.func,
-    prev_page: React.PropTypes.func,
-    next_page: React.PropTypes.func,
-    total: React.PropTypes.number,
+    results:                PropTypes.array,
+    load_search_results:    PropTypes.func,
+    prev_page:              PropTypes.func,
+    next_page:              PropTypes.func,
+    total:                  PropTypes.number,
 };
 
 export default Search;

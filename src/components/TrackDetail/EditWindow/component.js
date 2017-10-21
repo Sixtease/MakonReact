@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
 export class EditWindow extends React.Component {
@@ -87,13 +88,13 @@ export class EditWindow extends React.Component {
 };
 
 EditWindow.propTypes = {
-    is_playing:     React.PropTypes.bool,
-    selected_words: React.PropTypes.array,
-    audio:          React.PropTypes.object,
-    playback_on:    React.PropTypes.func,
-    playback_off:   React.PropTypes.func,
-    handleSubmit:   React.PropTypes.func,
-    autofill:       React.PropTypes.func,
+    is_playing:     PropTypes.bool,
+    selected_words: PropTypes.array,
+    audio:          PropTypes.object,
+    playback_on:    PropTypes.func,
+    playback_off:   PropTypes.func,
+    handleSubmit:   PropTypes.func,
+    autofill:       PropTypes.func,
 };
 
 /* eslint no-class-assign: [0] */

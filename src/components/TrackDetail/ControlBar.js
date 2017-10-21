@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 export class ControlBar extends React.Component {
     render() {
         const me = this;
@@ -39,12 +40,12 @@ export class ControlBar extends React.Component {
 }
 
 ControlBar.propTypes = {
-    current_frame:          React.PropTypes.number,
-    force_current_frame:    React.PropTypes.func,
-    frame_cnt:              React.PropTypes.number,
-    is_playing:             React.PropTypes.bool,
-    playback_off:           React.PropTypes.func,
-    playback_on:            React.PropTypes.func,
+    current_frame:          PropTypes.number,
+    force_current_frame:    PropTypes.func,
+    frame_cnt:              PropTypes.number,
+    is_playing:             PropTypes.bool,
+    playback_off:           PropTypes.func,
+    playback_on:            PropTypes.func,
 };
 
 export default ControlBar;

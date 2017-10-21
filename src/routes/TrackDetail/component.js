@@ -1,6 +1,7 @@
 /* global AUDIO_BASE */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import audio from 'store/audio';
 import {
     ControlBar,
@@ -98,22 +99,22 @@ export class TrackDetail extends React.Component {
 };
 
 TrackDetail.contextTypes = {
-    store: React.PropTypes.object,
+    store: PropTypes.object,
 };
 
 TrackDetail.propTypes = {
-    current_frame:          React.PropTypes.number,
-    current_word:           React.PropTypes.object,
-    failed_word_rectangles: React.PropTypes.array,
-    force_current_frame:    React.PropTypes.func,
-    frame_cnt:              React.PropTypes.number,
-    is_playing:             React.PropTypes.bool,
-    marked_word:            React.PropTypes.object,
-    playback_off:           React.PropTypes.func,
-    playback_on:            React.PropTypes.func,
-    sending_subs:           React.PropTypes.bool,
-    sent_word_rectangles:   React.PropTypes.array,
-    subs_chunks:            React.PropTypes.array,
+    current_frame:          PropTypes.number,
+    current_word:           PropTypes.object,
+    failed_word_rectangles: PropTypes.array,
+    force_current_frame:    PropTypes.func,
+    frame_cnt:              PropTypes.number,
+    is_playing:             PropTypes.bool,
+    marked_word:            PropTypes.object,
+    playback_off:           PropTypes.func,
+    playback_on:            PropTypes.func,
+    sending_subs:           PropTypes.bool,
+    sent_word_rectangles:   PropTypes.array,
+    subs_chunks:            PropTypes.array,
 };
 
 export default TrackDetail;

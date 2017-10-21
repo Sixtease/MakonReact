@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CONTROL_BAR_HEIGHT = 35;
 
@@ -101,16 +102,16 @@ const component = ({
 );
 
 component.propTypes = {
-    chunk_text_nodes:       React.PropTypes.array,
-    current_word:           React.PropTypes.object,
-    failed_word_rectangles: React.PropTypes.array,
-    marked_word:            React.PropTypes.object,
-    sending_subs:           React.PropTypes.bool,
-    sent_word_rectangles:   React.PropTypes.array,
-    set_selection:          React.PropTypes.func,
-    set_subs_el:            React.PropTypes.func,
-    subs_chunks:            React.PropTypes.array,
-    subs_offset:            React.PropTypes.object,
+    chunk_text_nodes:       PropTypes.array,
+    current_word:           PropTypes.object,
+    failed_word_rectangles: PropTypes.array,
+    marked_word:            PropTypes.object,
+    sending_subs:           PropTypes.bool,
+    sent_word_rectangles:   PropTypes.array,
+    set_selection:          PropTypes.func,
+    set_subs_el:            PropTypes.func,
+    subs_chunks:            PropTypes.array,
+    subs_offset:            PropTypes.object,
 };
 
 export default component;
