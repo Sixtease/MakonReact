@@ -49,7 +49,7 @@ export class TrackDetail extends React.Component {
                     </div>
                     <div className='col-xs-4 col-md-3'>
                         <div className='sidebar'>
-                            <WordInfo word={marked_word} />
+                            <WordInfo initialValues={marked_word} />
                             <Downloads stem={stem} />
                         </div>
                     </div>

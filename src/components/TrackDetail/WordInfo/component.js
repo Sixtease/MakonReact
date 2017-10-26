@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 import Phonet from 'lib/Phonet';
-const component =  ({ word }) => (
+const component =  ({ initialValues: word }) => (
     word ? <div>
         <h1>Vybrané slovo</h1>
+        
         <dl>
             <dt
                 title='podoba slova na dané pozici, i s případnou interpunkcí nebo velkým písmenem'
             >výskyt</dt>
-            <dd>{word.occurrence}</dd>
+            <dd>
+                <Field component="input" type="text" name="occurrence" />
+            </dd>
 
             <dt
                 title='normalizovaná podoba slova bez interpunkce a malými písmeny'
             >forma</dt>
-            <dd>{word.wordform}</dd>
+            <dd>
+                <Field component="input" type="text" name="wordform" />
+            </dd>
 
             <dt>výslovnost</dt>
             <dd>{Phonet.to_human(word.fonet).str}</dd>
@@ -27,7 +33,11 @@ const component =  ({ word }) => (
 );
 
 component.propTypes = {
-    word: PropTypes.object,
+    initialValues: PropTypes.object,
 };
 
-export default component;
+const formComponent = reduxForm({
+    form: 'word_info',
+})(component);
+
+export default formComponent;
