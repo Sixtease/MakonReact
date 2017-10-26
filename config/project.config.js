@@ -8,8 +8,9 @@ debug('Creating default configuration.');
 // ========================================================
 // Default Configuration
 // ========================================================
+const env = process.env.NODE_ENV || 'development';
 const config = {
-    env : process.env.NODE_ENV || 'development',
+    env,
 
   // ----------------------------------
   // Project Structure
@@ -39,7 +40,11 @@ const config = {
     compiler_hash_type       : 'hash',
     compiler_fail_on_warning : false,
     compiler_quiet           : false,
-    compiler_public_path     : '/',
+    compiler_public_path     : (
+        env === 'development' ? 'http://localhost:3000/'   :
+        env === 'production'  ? 'http://radio.makon.cz/' :
+                                '/'
+    ),
     compiler_stats           : {
         chunks : false,
         chunkModules : false,
@@ -77,16 +82,16 @@ config.globals = {
     'process.env'  : {
         'NODE_ENV' : JSON.stringify(config.env),
     },
-    'NODE_ENV'     : config.env,
-    '__DEV__'      : config.env === 'development',
-    '__PROD__'     : config.env === 'production',
-    '__TEST__'     : config.env === 'test',
+    'NODE_ENV'     : env,
+    '__DEV__'      : env === 'development',
+    '__PROD__'     : env === 'production',
+    '__TEST__'     : env === 'test',
     '__COVERAGE__' : !argv.watch && config.env === 'test',
     '__BASENAME__' : JSON.stringify(process.env.BASENAME || ''),
-    API_BASE       : config.env === 'production'
+    API_BASE       : env === 'production'
                      ? '"http://rock.positron.cz:8080"'
                      : '"http://localhost:5000"',
-    AUDIO_BASE     : config.env === 'production'
+    AUDIO_BASE     : env === 'production'
                      ? '"http://commondatastorage.googleapis.com/karel-makon-mp3/"'
                      : '"http://localhost:5000/static/audio/"',
     AUDIO_FORMATS  : '[{mime:"audio/ogg",suffix:"ogg"},{mime:"audio/mpeg",suffix:"mp3"}]',
@@ -126,9 +131,9 @@ config.paths = {
 // ========================================================
 // Environment Configuration
 // ========================================================
-debug(`Looking for environment overrides for NODE_ENV "${config.env}".`);
+debug(`Looking for environment overrides for NODE_ENV "${env}".`);
 const environments = require('./environments.config');
-const overrides = environments[config.env];
+const overrides = environments[env];
 if (overrides) {
     debug('Found overrides, applying to default configuration.');
     Object.assign(config, overrides(config));
