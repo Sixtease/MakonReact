@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
-export class EditWindow extends React.Component {
+class EditWindow extends React.Component {
     _is_shown() {
         const me = this;
         const selw = me.props.selected_words;
@@ -98,8 +98,8 @@ EditWindow.propTypes = {
 };
 
 /* eslint no-class-assign: [0] */
-EditWindow = reduxForm({
+const component = reduxForm({
     form: 'edit_window',
 })(EditWindow);
 
-export default EditWindow;
+export default component;

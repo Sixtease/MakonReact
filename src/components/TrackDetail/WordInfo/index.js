@@ -4,7 +4,7 @@ import component from './component';
 import { save_word } from './module';
 
 const map_dispatch_to_props = {
-    onSubmit: save_word,
+    save_word,
 };
 
 const map_state_to_props = (state) => ({

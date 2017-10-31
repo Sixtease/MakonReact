@@ -7,34 +7,29 @@ const ACTION_HANDLERS = {
 
 const endpoint = API_BASE + '/saveword/';
 
-export function send_subs(form_values, dispatch, props) {
+export function save_word(form_values) {
     return (dispatch, getState) => {
         const state = getState();
         dispatch({
             type: 'save_word',
-            timestamp: props.marked_word.timestamp,
             ...form_values,
         });
         axios.request({
             url: endpoint,
             method: 'POST',
             params: {
-                filestem: props.stem,
-                timestamp: props.marked_word.timestamp,
                 ...form_values,
             },
         }).then(res => {
             if (res.data && res.data.success) {
                 dispatch({
                     type: 'accepted_save_word',
-                    timestamp: props.marked_word.timestamp,
                     ...form_values,
                 });
             }
             else {
                 dispatch({
                     type: 'failed_save_word',
-                    timestamp: props.marked_word.timestamp,
                     ...form_values,
                 });
             }
@@ -42,7 +37,6 @@ export function send_subs(form_values, dispatch, props) {
         .catch(() => {
             dispatch({
                 type: 'save_word_error',
-                timestamp: props.marked_word.timestamp,
                 ...form_values,
             });
         });
