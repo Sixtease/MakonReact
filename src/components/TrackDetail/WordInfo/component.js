@@ -7,6 +7,19 @@ class WordInfo extends React.Component {
     render() {
         const me = this;
         const { word, stem, save_word } = me.props;
+        const submit = (key) => (evt, new_value) => {
+            if (new_value === word[key]) {
+                return;
+            }
+            const nv = {
+                occurrence: word.occurrence,
+                wordform:   word.wordform,
+                timestamp:  word.timestamp,
+                stem,
+            };
+            nv[key] = new_value;
+            save_word(nv);
+        };
         return (
             word ? <div>
                 <h1>Vybrané slovo</h1>
@@ -20,15 +33,7 @@ class WordInfo extends React.Component {
                             component="input"
                             type="text"
                             name="occurrence"
-                            onBlur={(evt, new_value) => {
-                                const nv = {
-                                    occurrence: new_value,
-                                    wordform:   word.wordform,
-                                    timestamp:  word.timestamp,
-                                    stem,
-                                };
-                                save_word(nv);
-                            }}
+                            onBlur={submit('occurrence')}
                         />
                     </dd>
 
@@ -36,7 +41,12 @@ class WordInfo extends React.Component {
                         title='normalizovaná podoba slova bez interpunkce a malými písmeny'
                     >forma</dt>
                     <dd>
-                        <Field component="input" type="text" name="wordform" />
+                        <Field
+                            component="input"
+                            type="text"
+                            name="wordform"
+                            onBlur={submit('wordform')}
+                        />
                     </dd>
 
                     <dt>výslovnost</dt>
