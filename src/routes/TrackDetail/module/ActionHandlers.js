@@ -121,4 +121,19 @@ export default {
         sending_subs: false,
         sent_word_rectangles: [],
     }),
+    accepted_save_word: (state, action) => {
+        const i = get_word_index(action, state.subs);
+        return {
+            ...state,
+            subs: [
+                ...state.subs.slice(0, i),
+                {
+                    ...state.subs[i],
+                    occurrence: action.occurrence,
+                    wordform: action.wordform,
+                },
+                ...state.subs.slice(i + 1),
+            ],
+        };
+    },
 };
