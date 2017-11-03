@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import component from './component';
+import './style.scss';
 
 import { save_word } from './module';
 

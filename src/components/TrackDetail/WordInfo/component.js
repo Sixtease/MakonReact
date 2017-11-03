@@ -21,7 +21,7 @@ class WordInfo extends React.Component {
             save_word(nv);
         };
         return (
-            word ? <div>
+            word ? <div className="save-word">
                 <h1>Vybrané slovo</h1>
 
                 <dl>
