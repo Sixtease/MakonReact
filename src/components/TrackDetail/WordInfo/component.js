@@ -7,6 +7,9 @@ class WordInfo extends React.Component {
     render() {
         const me = this;
         const { word, stem, save_word } = me.props;
+        if (word === null) {
+            return null;
+        }
         const submit = (key) => (evt, new_value) => {
             if (new_value === word[key]) {
                 return;
@@ -21,7 +24,7 @@ class WordInfo extends React.Component {
             save_word(nv);
         };
         return (
-            word ? <div className="save-word">
+            <div className="save-word">
                 <h1>Vybrané slovo</h1>
 
                 <dl>
@@ -57,7 +60,7 @@ class WordInfo extends React.Component {
                     >pozice</dt>
                     <dd>{word.timestamp}</dd>
                 </dl>
-            </div> : null
+            </div>
         );
     }
 
@@ -65,7 +68,7 @@ class WordInfo extends React.Component {
         const me = this;
         const ps = me.props .word;
         const ns = nextProps.word;
-        if ( !(ps && ps.occurrence) && !(ns && ns.occurrence) ) {
+        if ( !(ns && ns.occurrence) ) {
             return;
         }
         if (!ps
