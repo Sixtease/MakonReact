@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { get_chunk_text_nodes } from '../component';
+import { to_array } from 'lib/Util';
 
 function get_word_chunk_position(word_index, subs_chunks) {
     const chunk_index = subs_chunks.chunk_index_by_word_index[word_index];
@@ -24,7 +25,7 @@ export const get_word_rectangles = (words, subs, subs_chunks) => {
         if (start_word_el && end_word_el) {
             range.setStart(start_word_el, start_word_icco);
             range.setEnd  (  end_word_el,   end_word_icco);
-            rects = range.getClientRects();
+            rects = to_array(range.getClientRects());
         }
     }
     return rects;
@@ -124,7 +125,7 @@ export const get_current_word = createSelector(
                 }
                 range.setStart(text_node, start_offset);
                 range.setEnd  (text_node,  end_offset);
-                rects = range.getClientRects();
+                rects = to_array(range.getClientRects());
             }
         }
         current_word = {
