@@ -74,8 +74,8 @@ export class TrackList extends React.Component {
                     offset += offsetEl.offsetTop;
                 }
                 me.initial_offset = offset;
-                window.TRACKLIST_SCROLL_HANDLER = window.onscroll = function (evt) {
-                    me.scrolled_to(evt.pageY);
+                window.TRACKLIST_SCROLL_HANDLER = window.onscroll = function () {
+                    me.scrolled_to(this.pageYOffset);
                 };
             }
         }
@@ -90,7 +90,7 @@ export class TrackList extends React.Component {
         else {
             make_dir_static();
         }
-        var current_section = { section: stemsec[0].section, offset: 0 };
+        let current_section = { section: stemsec[0].section, offset: 0 };
         stemsec.some((item) => {
             let section = item.section;
             let section_offset = me.section_offsets[section];
