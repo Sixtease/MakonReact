@@ -124,7 +124,7 @@ export const get_current_word = createSelector(
                     return NULL_CURRENT_WORD;
                 }
                 range.setStart(text_node, start_offset);
-                range.setEnd  (text_node,  end_offset);
+                range.setEnd  (text_node,   end_offset);
                 rects = to_array(range.getClientRects());
             }
         }
@@ -286,7 +286,7 @@ export const get_marked_word = createSelector(
             const start_offset = icco;
             const end_offset   = icco + marked_word.occurrence.length;
             range.setStart(text_node, start_offset);
-            range.setEnd  (text_node,  end_offset);
+            range.setEnd  (text_node,   end_offset);
             const rect = range.getBoundingClientRect();
             return {
                 ...marked_word,

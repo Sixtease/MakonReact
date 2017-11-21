@@ -9,7 +9,6 @@ const endpoint = API_BASE + '/saveword/';
 
 export function save_word(form_values) {
     return (dispatch, getState) => {
-        const state = getState();
         dispatch({
             type: 'save_word',
             ...form_values,

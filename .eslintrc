@@ -20,11 +20,12 @@
     "API_BASE"     : false
   },
   "rules": {
-    "func-call-spacing"    : 1,
+    "func-call-spacing"    : 0,
     "key-spacing"          : 0,
     "jsx-quotes"           : [1, "prefer-single"],
     "react/jsx-indent"     : [1, 4],
     "react/jsx-indent-props":[1, 4],
+    "react/no-unused-prop-types": [0],
     "max-len"              : [1, 120, 2],
     "object-curly-spacing" : [1, "always"],
     "comma-dangle": [1, "always-multiline"],
@@ -35,13 +36,13 @@
         "anonymous": "always",
         "named": "never"
     }],
-    "no-multi-spaces": [0],
-    "space-in-parens": [0],
-    "no-whitespace-before-property": [0],
-    "operator-linebreak": [0],
+    "no-multi-spaces": 0,
+    "space-in-parens": 0,
+    "no-whitespace-before-property": 0,
+    "operator-linebreak": 0,
     "brace-style": [1, "stroustrup"],
     "standard/computed-property-even-spacing": 1,
-    "standard/object-curly-even-spacing": 1,
+    "standard/object-curly-even-spacing": 0,
     "space-unary-ops": 1,
     "semi-spacing": 1
   },

@@ -24,7 +24,7 @@ class WordInfo extends React.Component {
             save_word(nv);
         };
         return (
-            <div className="save-word">
+            <div className='save-word'>
                 <h1>Vybrané slovo</h1>
 
                 <dl>
@@ -33,9 +33,9 @@ class WordInfo extends React.Component {
                     >výskyt</dt>
                     <dd>
                         <Field
-                            component="input"
-                            type="text"
-                            name="occurrence"
+                            component='input'
+                            type='text'
+                            name='occurrence'
                             onBlur={submit('occurrence')}
                         />
                     </dd>
@@ -45,9 +45,9 @@ class WordInfo extends React.Component {
                     >forma</dt>
                     <dd>
                         <Field
-                            component="input"
-                            type="text"
-                            name="wordform"
+                            component='input'
+                            type='text'
+                            name='wordform'
                             onBlur={submit('wordform')}
                         />
                     </dd>
