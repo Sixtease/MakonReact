@@ -2,7 +2,7 @@
 /* global window */
 
 let stub;
-let audio_el = new Audio();
+const audio_el = new Audio();
 ;;; window.audio_el = audio_el;
 export default function audio(new_stub) {
     if (new_stub && new_stub !== stub) {
