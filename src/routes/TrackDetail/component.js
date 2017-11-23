@@ -117,7 +117,7 @@ export class TrackDetail extends React.Component {
         const subs_rect = subs_rects[0];
         me.setState({
             subs_offset: {
-                top:  subs_rect.top,
+                top:  subs_rect.top + window.scrollY,
                 left: subs_rect.left,
             },
         });
