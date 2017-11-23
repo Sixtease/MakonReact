@@ -1,3 +1,5 @@
+/* global window */
+
 import { createSelector } from 'reselect';
 import { get_chunk_text_nodes } from '../component';
 import { demagicize_rect, demagicize_rects } from 'lib/Util';
@@ -15,7 +17,7 @@ function get_word_chunk_position(word_index, subs_chunks) {
     };
 }
 
-const range = document.createRange();
+const range = window.document.createRange();
 export const get_word_rectangles = (words, subs, subs_chunks) => {
     let rects = [];
     if (words && words.length > 0) {
@@ -25,7 +27,7 @@ export const get_word_rectangles = (words, subs, subs_chunks) => {
         if (start_word_el && end_word_el) {
             range.setStart(start_word_el, start_word_icco);
             range.setEnd  (  end_word_el,   end_word_icco);
-            rects = demagicize_rects(range.getClientRects());
+            rects = demagicize_rects(range.getClientRects(), window.scrollX, window.scrollY);
         }
     }
     return rects;
@@ -125,7 +127,7 @@ export const get_current_word = createSelector(
                 }
                 range.setStart(text_node, start_offset);
                 range.setEnd  (text_node,   end_offset);
-                rects = demagicize_rects(range.getClientRects());
+                rects = demagicize_rects(range.getClientRects(), window.scrollX, window.scrollY);
             }
         }
         current_word = {
@@ -287,7 +289,7 @@ export const get_marked_word = createSelector(
             const end_offset   = icco + marked_word.occurrence.length;
             range.setStart(text_node, start_offset);
             range.setEnd  (text_node,   end_offset);
-            const rect = demagicize_rect(range.getBoundingClientRect());
+            const rect = demagicize_rect(range.getBoundingClientRect(), window.scrollX, window.scrollY);
             return {
                 ...marked_word,
                 rect,

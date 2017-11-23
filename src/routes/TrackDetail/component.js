@@ -10,6 +10,7 @@ import {
     WordInfo,
     Downloads,
 } from 'components/TrackDetail';
+import { demagicize_rects } from 'lib/Util';
 
 const SPACE = ' ';
 
@@ -109,7 +110,11 @@ export class TrackDetail extends React.Component {
         if (!subs_el) {
             return;
         }
-        const subs_rects = subs_el.getClientRects();
+        const subs_rects = demagicize_rects(
+            subs_el.getClientRects(),
+            window.scrollX,
+            window.scrollY
+        );
         if (subs_rects.length === 0) {
             return;
         }
@@ -117,8 +122,8 @@ export class TrackDetail extends React.Component {
         const subs_rect = subs_rects[0];
         me.setState({
             subs_offset: {
-                top:  subs_rect.top + window.scrollY,
-                left: subs_rect.left,
+                top:  subs_rect.abs_y,
+                left: subs_rect.abs_x,
             },
         });
 

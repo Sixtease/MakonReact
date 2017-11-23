@@ -42,8 +42,8 @@ const component = ({
                 ? <span
                     className='marked-word-rect'
                     style={{
-                        top:    marked_word.rect.top    - subs_offset.top + window.scrollY,
-                        left:   marked_word.rect.left   - subs_offset.left,
+                        top:    marked_word.rect.abs_y  - subs_offset.top,
+                        left:   marked_word.rect.abs_x  - subs_offset.left,
                         width:  marked_word.rect.right  - marked_word.rect.left,
                         height: marked_word.rect.bottom - marked_word.rect.top,
                     }}
@@ -56,16 +56,15 @@ const component = ({
                 ) {
                     window.scrollTo(
                         window.scrollX,
-                        window.scrollY + rect.top,
+                        rect.abs_y,
                     );
-                    return null;
                 }
                 return <span
                     key={'sub-rect-' + i}
                     className='sub-rect'
                     style={{
-                        top:    rect.top    - subs_offset.top + window.scrollY,
-                        left:   rect.left   - subs_offset.left,
+                        top:    rect.abs_y  - subs_offset.top,
+                        left:   rect.abs_x  - subs_offset.left,
                         width:  rect.right  - rect.left,
                         height: rect.bottom - rect.top,
                     }}
