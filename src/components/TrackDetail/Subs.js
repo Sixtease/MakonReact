@@ -58,6 +58,7 @@ const component = ({
                         window.scrollX,
                         window.scrollY + rect.top,
                     );
+                    return null;
                 }
                 return <span
                     key={'sub-rect-' + i}
