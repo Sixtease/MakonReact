@@ -89,12 +89,40 @@ export class TrackDetail extends React.Component {
             );
         }
 
-        const subs_rect = subs_el.getClientRects();
-        if (subs_rect.length > 0) {
-            me.setState({
-                subs_offset: subs_rect[0],
-            });
+        me.set_subs_offset();
+    }
+
+    componentDidUpdate() {
+        this.set_subs_offset();
+    }
+
+    set_subs_offset() {
+        const me = this;
+
+        const now = new Date();
+        if (me.last_set_subs_offset &&
+            now - me.last_set_subs_offset < 1000
+        ) {
+            return;
         }
+
+        if (!subs_el) {
+            return;
+        }
+        const subs_rects = subs_el.getClientRects();
+        if (subs_rects.length === 0) {
+            return;
+        }
+
+        const subs_rect = subs_rects[0];
+        me.setState({
+            subs_offset: {
+                top:  subs_rect.top,
+                left: subs_rect.left,
+            },
+        });
+
+        me.last_set_subs_offset = now;
     }
 };
 
