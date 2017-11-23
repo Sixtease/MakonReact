@@ -192,7 +192,7 @@ export function set_audio_metadata() {
         frame_cnt: time_to_frame(audio().duration),
     };
 };
-export function sync_current_time(loc, router) {
+export function sync_current_time() {
     const current_time = audio().currentTime;
     window.location.replace('#ts=' + current_time);
     return {
