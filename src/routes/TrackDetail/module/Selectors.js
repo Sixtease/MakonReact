@@ -109,7 +109,7 @@ export const get_current_word = createSelector(
     (word_timestamps, current_time, subs, subs_chunks) => {
         // pretend we're a bit ahead of time
         // to get the next word if we're just about to hit it
-        const time_ahead = current_time + 0.02;
+        const time_ahead = current_time + 0.03;
         if (subs.length === 0) {
             return NULL_CURRENT_WORD;
         }
@@ -152,12 +152,12 @@ export const get_next_word = createSelector(
             return NULL_CURRENT_WORD;
         }
         const i = current_word.i;
-        const sub = subs[i+i];
+        const sub = subs[i + 1];
         if (sub) {
             return {
                 i,
                 ...sub,
-            }
+            };
         }
         else {
             return NULL_CURRENT_WORD;
