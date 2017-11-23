@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { get_chunk_text_nodes } from '../component';
-import { to_array } from 'lib/Util';
+import { demagicize_rect, demagicize_rects } from 'lib/Util';
 
 function get_word_chunk_position(word_index, subs_chunks) {
     const chunk_index = subs_chunks.chunk_index_by_word_index[word_index];
@@ -25,7 +25,7 @@ export const get_word_rectangles = (words, subs, subs_chunks) => {
         if (start_word_el && end_word_el) {
             range.setStart(start_word_el, start_word_icco);
             range.setEnd  (  end_word_el,   end_word_icco);
-            rects = to_array(range.getClientRects());
+            rects = demagicize_rects(range.getClientRects());
         }
     }
     return rects;
@@ -125,7 +125,7 @@ export const get_current_word = createSelector(
                 }
                 range.setStart(text_node, start_offset);
                 range.setEnd  (text_node,   end_offset);
-                rects = to_array(range.getClientRects());
+                rects = demagicize_rects(range.getClientRects());
             }
         }
         current_word = {
@@ -287,7 +287,7 @@ export const get_marked_word = createSelector(
             const end_offset   = icco + marked_word.occurrence.length;
             range.setStart(text_node, start_offset);
             range.setEnd  (text_node,   end_offset);
-            const rect = range.getBoundingClientRect();
+            const rect = demagicize_rect(range.getBoundingClientRect());
             return {
                 ...marked_word,
                 rect,
