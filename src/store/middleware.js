@@ -31,9 +31,11 @@ export const autostop = store => next => action => {
         }
 
         const next_word = get_next_word(next_state);
-        if (!next_word.is_null) {
+        if (next_state.track_detail.is_playing && !next_word.is_null) {
             const t = next_word.timestamp - action.current_time;
-            setTimeout(() => store.dispatch(sync_current_time()), t);
+            if (t < 0.25 * SECOND) {
+                setTimeout(() => store.dispatch(sync_current_time()), t * SECOND);
+            }
         }
     }
     return result;
