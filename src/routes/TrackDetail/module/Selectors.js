@@ -97,6 +97,7 @@ export const get_word_timestamps = createSelector(
     (subs) => subs.map((sub, i) => sub.timestamp).concat(Infinity),
 );
 const NULL_CURRENT_WORD = {
+    is_null: true,
     occurrence: '',
     rects: [],
     start_offset: null,
@@ -136,6 +137,28 @@ export const get_current_word = createSelector(
             ...sub,
         };
         return current_word;
+    },
+);
+export const get_next_word = createSelector(
+    [get_subs, get_current_word],
+    (subs, current_word) => {
+        if (subs.length === 0) {
+            return NULL_CURRENT_WORD;
+        }
+        if (!current_word) {
+            return NULL_CURRENT_WORD;
+        }
+        const i = current_word.i;
+        const sub = subs[i+i];
+        if (sub) {
+            return {
+                i,
+                ...sub,
+            }
+        }
+        else {
+            return NULL_CURRENT_WORD;
+        }
     },
 );
 // TODO: use the index Luke (make selector index_by_timestamp that uses subs)

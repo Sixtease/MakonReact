@@ -1,4 +1,11 @@
-import { get_edit_window_timespan } from 'routes/TrackDetail/module';
+import {
+    get_edit_window_timespan,
+    get_next_word,
+} from 'routes/TrackDetail/module';
+import {
+    sync_current_time,
+} from 'routes/TrackDetail/module/TrackDetail';
+
 export const autostop_timeouts = [];
 const SECOND = 1000;
 let stop_time = null;
@@ -21,6 +28,12 @@ export const autostop = store => next => action => {
                 });
                 autostop_timeouts.shift();
             }, remaining * SECOND));
+        }
+
+        const next_word = get_next_word(next_state);
+        if (!next_word.is_null) {
+            const t = next_word.timestamp - action.current_time;
+            setTimeout(() => store.dispatch(sync_current_time()), t);
         }
     }
     return result;
