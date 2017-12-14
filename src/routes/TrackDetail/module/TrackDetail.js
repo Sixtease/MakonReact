@@ -54,7 +54,7 @@ const set_audio_controls = (store) => {
               && current_state.track_detail.forced_time
             !== previous_state.track_detail.forced_time
         ) {
-            audio().currentTime = current_state.track_detail.forced_time;
+            audio().set_time(current_state.track_detail.forced_time);
         }
         if (current_state.track_detail.is_playing
             && !previous_state.track_detail.is_playing
@@ -189,11 +189,11 @@ export function playback_off() {
 export function set_audio_metadata() {
     return {
         type: 'set_audio_metadata',
-        frame_cnt: time_to_frame(audio().duration),
+        frame_cnt: audio().buffer.length,
     };
 };
 export function sync_current_time() {
-    const current_time = audio().currentTime;
+    const current_time = audio().get_time();
     window.location.replace('#ts=' + current_time);
     return {
         type: 'sync_current_time',

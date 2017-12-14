@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import audio from 'store/audio';
+import { load_audio } from 'store/audio';
 import {
     ControlBar,
     EditWindow,
@@ -73,13 +73,13 @@ export class TrackDetail extends React.Component {
         const stub = AUDIO_BASE + stem;
         window.scrollTo(0, 0);
         set_selection();
-        me.audio = audio(stub);
-        me.audio.addEventListener(
-            'loadedmetadata', (evt) => set_audio_metadata(evt.target),
-        );
-        me.audio.addEventListener(
-            'timeupdate', sync_current_time,
-        );
+        const audio_promise = load_audio(stub);
+        audio_promise.then(audio => {
+            set_audio_metadata(audio)
+            audio.addEventListener(
+                'timeupdate', sync_current_time,
+            );
+        });
         if (!window.KEY_PLAYBACK_CTRL) {
             window.KEY_PLAYBACK_CTRL = document.addEventListener(
                 'keyup', (evt) => {
