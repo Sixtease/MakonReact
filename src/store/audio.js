@@ -2,10 +2,11 @@
 /* global window */
 /* global EventTarget */
 
+export const sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
 export const fetched_audio_event = 'fetched-audio';
 export const decoded_audio_event = 'decoded-audio';
-export const ac = new AudioContext({sampleRate:24000});
+export const ac = new AudioContext({sampleRate:sample_rate});
 export const format = (audio_el => AUDIO_FORMATS.find(f => audio_el.canPlayType(f.mime)))(new Audio());
 if (!format) {
     console.log('no supported format, no audio');
@@ -24,28 +25,42 @@ class MAudio {
         this.stub = stub;
         this.buffer = null;
         this.time = 0;
+        this.started_at = null;
         this.is_playing = false;
         this.playing_source = null;
     }
 
     load() {
         const me = this;
-        const sound_promise = new Promise(fulfill => {
+        return new Promise(fulfill => {
             const stub = me.stub;
             const src = [stub, format.suffix].join('.');
+            const stored_samples = localStorage.getItem(src);
+            if (stored_samples) {
+                ;;; console.log('restoring from localStorage');
+                me.buffer = ac.createBuffer(1, stored_samples.length, sample_rate)
+                me.buffer.copyToChannel(stored_samples, 0);
+                ;;; console.log('done');
+                fulfill(me);
+                return;
+            }
+            ;;; console.log('downloading');
             fetch(src).then(res => {    // TODO: progress bar
                 window.dispatchEvent(new Event(fetched_audio_event));
                 res.arrayBuffer().then(encoded_data => {
+                    ;;; console.log('decoding');
                     new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
                         me.buffer = decoded_buffer;
+                        ;;; console.log('storing');
+                        const samples = decoded_buffer.getChannelData(0);
+                        localStorage.setItem(src, samples);
                         window.dispatchEvent(new Event(decoded_audio_event));
+                        ;;; console.log('done');
                         fulfill(me);
                     });
                 });
             });
         });
-        this.sound_promise = sound_promise;
-        return sound_promise;
     }
 
     get_source() {
@@ -65,20 +80,24 @@ class MAudio {
             playing_source.disconnect();
         }
         me.playing_source = me.get_source();
+        me.started_at = ac.currentTime;
         me.playing_source.start(0, me.time);
         me.is_playing = true;
+        me.notify_playing();
         return true;
     }
 
     pause() {
         if (this.playing_source === null) { return null }
-        this.time = ac.currentTime;
+        this.time = ac.currentTime - this.started_at;
         this.playing_source.stop();
         this.playing_source = null;
+        this.is_playing = false;
+        this.unnotify_playing();
     }
 
     get_time() {
-        return ac.currentTime;
+        return this.is_playing ? ac.currentTime - started_at : this.time;
     }
 
     set_time(new_time) {
@@ -97,6 +116,27 @@ class MAudio {
         const source = me.get_source();
         source.start(0, from, to - from);
         return source;
+    }
+
+    notify_playing() {
+        const me = this;
+        if (me.timeupdate_interval !== null) {
+            me.timeupdate_interval = window.setInterval(function () {
+                if (typeof me.ontimeupdate === 'function') {
+                    me.ontimeupdate();
+                }
+                if (!me.is_playing) {
+                    me.unnotify_playing();
+                }
+            }, 250);
+        }
+    }
+
+    unnotify_playing() {
+        if (this.timeupdate_interval !== null) {
+            window.clearInterval(this.timeupdate_interval);
+        }
+        this.timeupdate_interval = null;
     }
 }
 

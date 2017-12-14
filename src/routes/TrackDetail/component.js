@@ -76,9 +76,7 @@ export class TrackDetail extends React.Component {
         const audio_promise = load_audio(stub);
         audio_promise.then(audio => {
             set_audio_metadata(audio)
-            audio.addEventListener(
-                'timeupdate', sync_current_time,
-            );
+            audio.ontimeupdate = sync_current_time;
         });
         if (!window.KEY_PLAYBACK_CTRL) {
             window.KEY_PLAYBACK_CTRL = document.addEventListener(
