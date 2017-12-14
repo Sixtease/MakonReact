@@ -107,7 +107,7 @@ export function load_audio(new_stub) {
     if (new_stub && new_stub !== stub) {
         stub = new_stub;
         audio = new MAudio(new_stub);
-        return new audio.load();
+        return audio.load();
     }
     else {
         return Promise.resolve(audio);
