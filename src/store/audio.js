@@ -35,15 +35,6 @@ class MAudio {
         return new Promise(fulfill => {
             const stub = me.stub;
             const src = [stub, format.suffix].join('.');
-            const stored_samples = localStorage.getItem(src);
-            if (stored_samples) {
-                ;;; console.log('restoring from localStorage');
-                me.buffer = ac.createBuffer(1, stored_samples.length, sample_rate)
-                me.buffer.copyToChannel(stored_samples, 0);
-                ;;; console.log('done');
-                fulfill(me);
-                return;
-            }
             ;;; console.log('downloading');
             fetch(src).then(res => {    // TODO: progress bar
                 window.dispatchEvent(new Event(fetched_audio_event));
@@ -51,9 +42,6 @@ class MAudio {
                     ;;; console.log('decoding');
                     new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
                         me.buffer = decoded_buffer;
-                        ;;; console.log('storing');
-                        const samples = decoded_buffer.getChannelData(0);
-                        localStorage.setItem(src, samples);
                         window.dispatchEvent(new Event(decoded_audio_event));
                         ;;; console.log('done');
                         fulfill(me);
