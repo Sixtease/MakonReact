@@ -29,7 +29,7 @@ export class TrackDetail extends React.Component {
 
     render() {
         const me = this;
-        const { marked_word, stem } = me.props;
+        const { locked_for_load, marked_word, stem } = me.props;
         const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
         const subs_props = {
             chunk_text_nodes,
@@ -41,6 +41,12 @@ export class TrackDetail extends React.Component {
         };
 
         return (<div>
+            {   locked_for_load ?
+                <div className="loading-overlay">
+                    <span>Nahrávám, může to trvat i několik minut...</span>
+                </div> :
+                null
+            }
             <h1>{stem}</h1>
             <div className='container-fluid'>
                 <div className='row'>
@@ -68,13 +74,16 @@ export class TrackDetail extends React.Component {
         const {
             set_audio_metadata, sync_current_time, set_selection,
             playback_off, playback_on,
+            lock_for_load, unlock_after_load,
             stem,
         } = me.props;
         const stub = AUDIO_BASE + stem;
         window.scrollTo(0, 0);
         set_selection();
         const audio_promise = load_audio(stub);
+        lock_for_load();
         audio_promise.then(audio => {
+            unlock_after_load();
             set_audio_metadata(audio)
             audio.ontimeupdate = sync_current_time;
         });
@@ -140,12 +149,15 @@ TrackDetail.propTypes = {
     force_current_frame:    PropTypes.func,
     frame_cnt:              PropTypes.number,
     is_playing:             PropTypes.bool,
+    lock_for_load:          PropTypes.func,
+    locked_for_load:        PropTypes.bool,
     marked_word:            PropTypes.object,
     playback_off:           PropTypes.func,
     playback_on:            PropTypes.func,
     sending_subs:           PropTypes.bool,
     sent_word_rectangles:   PropTypes.array,
     subs_chunks:            PropTypes.array,
+    unlock_after_load:      PropTypes.func,
 };
 
 export default TrackDetail;

@@ -12,6 +12,8 @@ import {
     sync_current_time,
     force_current_frame,
     force_current_time,
+    lock_for_load,
+    unlock_after_load,
 } from './TrackDetail';
 
 import {
@@ -50,4 +52,6 @@ export {
     sync_current_time,
     force_current_frame,
     force_current_time,
+    lock_for_load,
+    unlock_after_load,
 };

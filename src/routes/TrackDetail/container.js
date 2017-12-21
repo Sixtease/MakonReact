@@ -5,12 +5,14 @@ import {
     get_marked_word,
     get_selected_words,
     get_subs_chunks,
+    lock_for_load,
     playback_off,
     playback_on,
     set_audio_metadata,
     set_selection,
     sync_current_time,
     time_to_frame,
+    unlock_after_load,
 } from './module';
 
 import component from './component';
@@ -18,11 +20,13 @@ import './style.scss';
 
 const map_dispatch_to_props = {
     force_current_frame,
+    lock_for_load,
     playback_off,
     playback_on,
     set_audio_metadata,
     set_selection,
     sync_current_time,
+    unlock_after_load,
 };
 
 const map_state_to_props = (state) => ({
@@ -32,6 +36,7 @@ const map_state_to_props = (state) => ({
                     state.track_detail.failed_word_rectangles,
     frame_cnt:      state.track_detail.frame_cnt,
     is_playing:     state.track_detail.is_playing,
+    locked_for_load:state.track_detail.locked_for_load,
     marked_word:    get_marked_word(state),
     selected_words: get_selected_words(state),
     sending_subs:   state.track_detail.sending_subs,

@@ -136,4 +136,12 @@ export default {
             ],
         };
     },
+    lock_for_load: (state, action) => ({
+        ...state,
+        locked_for_load: true,
+    }),
+    unlock_after_load: (state, action) => ({
+        ...state,
+        locked_for_load: false,
+    }),
 };

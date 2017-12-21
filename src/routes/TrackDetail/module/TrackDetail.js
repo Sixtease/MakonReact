@@ -23,6 +23,7 @@ const initial_state = {
     selection_end_icco: null,
     sent_word_rectangles: [],
     failed_word_rectangles: [],
+    locked_for_load: false,
 };
 
 const fetch_subs = (store, stem) => {
@@ -207,6 +208,17 @@ export function force_current_time(current_time) {
     return {
         type: 'force_current_time',
         current_time,
+    };
+};
+
+export function lock_for_load() {
+    return {
+        type: 'lock_for_load',
+    };
+};
+export function unlock_after_load() {
+    return {
+        type: 'unlock_after_load',
     };
 };
 
