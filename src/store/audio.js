@@ -44,6 +44,9 @@ class MAudio {
                         window.dispatchEvent(new Event(decoded_audio_event));
                         ;;; console.log('done');
                         fulfill(me);
+                        if (me.is_playing) {
+                            me.play();
+                        }
                     });
                 });
             });
@@ -62,6 +65,7 @@ class MAudio {
 
     play() {
         const me = this;
+        me.is_playing = true;
         if (me.buffer === null) { return null }
         if (me.playing_source !== null) {
             playing_source.disconnect();
@@ -69,7 +73,6 @@ class MAudio {
         me.playing_source = me.get_source();
         me.started_at = ac.currentTime;
         me.playing_source.start(0, me.time);
-        me.is_playing = true;
         me.notify_playing();
         return true;
     }
