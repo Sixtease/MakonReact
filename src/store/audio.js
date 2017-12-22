@@ -11,15 +11,15 @@ if (!format) {
     console.log('no supported format, no audio');
 }
 
-let stub;
-let audio;
-
 class MAudio {
-    constructor(stub) {
+    constructor() {
         if (!format) {
             console.log('no supported format, no audio');
             return null;
         }
+    }
+
+    init(stub) {
         this.stub = stub;
         this.buffer = null;
         this.time = 0;
@@ -127,13 +127,13 @@ class MAudio {
     }
 }
 
+const audio = new MAudio();
 export default function get_audio() {
     return audio;
 };
 export function load_audio(new_stub) {
-    if (new_stub && new_stub !== stub) {
-        stub = new_stub;
-        audio = new MAudio(new_stub);
+    if (new_stub && new_stub !== audio.stub) {
+        audio.init(new_stub);
         return audio.load();
     }
     else {
