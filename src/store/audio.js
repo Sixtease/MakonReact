@@ -13,7 +13,6 @@ if (!format) {
 
 let stub;
 let audio;
-let timeupdate_interval = null;
 
 class MAudio {
     constructor(stub) {
@@ -27,6 +26,7 @@ class MAudio {
         this.started_at = null;
         this.is_playing = false;
         this.playing_source = null;
+        this.timeupdate_interval = null;
     }
 
     load() {
@@ -84,7 +84,7 @@ class MAudio {
     }
 
     get_time() {
-        return this.is_playing ? ac.currentTime - this.started_at : this.time;
+        return this.is_playing ? this.time + ac.currentTime - this.started_at : this.time;
     }
 
     set_time(new_time) {
@@ -107,7 +107,7 @@ class MAudio {
 
     notify_playing() {
         const me = this;
-        if (me.timeupdate_interval !== null) {
+        if (me.timeupdate_interval === null) {
             me.timeupdate_interval = window.setInterval(function () {
                 if (typeof me.ontimeupdate === 'function') {
                     me.ontimeupdate();
