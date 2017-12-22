@@ -1,6 +1,5 @@
 /* global AUDIO_FORMATS */
 /* global window */
-/* global EventTarget */
 
 export const sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -77,7 +76,7 @@ class MAudio {
 
     pause() {
         if (this.playing_source === null) { return null }
-        this.time = ac.currentTime - this.started_at;
+        this.time += ac.currentTime - this.started_at;
         this.playing_source.stop();
         this.playing_source = null;
         this.is_playing = false;
@@ -85,7 +84,7 @@ class MAudio {
     }
 
     get_time() {
-        return this.is_playing ? ac.currentTime - started_at : this.time;
+        return this.is_playing ? ac.currentTime - this.started_at : this.time;
     }
 
     set_time(new_time) {
