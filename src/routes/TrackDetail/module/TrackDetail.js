@@ -7,7 +7,7 @@ import {
 } from './Selectors';
 import ACTION_HANDLERS from './ActionHandlers';
 
-export const FRAME_RATE = 44100;
+export const FRAME_RATE = 24000;
 export const frame_to_time = (frame) => frame / FRAME_RATE;
 export const time_to_frame = (time)  => time  * FRAME_RATE;
 
