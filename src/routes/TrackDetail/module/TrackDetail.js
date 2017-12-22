@@ -81,6 +81,7 @@ const set_audio_controls = (store) => {
                 type: 'force_current_time',
                 current_time: marked_word.timestamp,
             });
+            reflect_time_in_hash(marked_word.timestamp);
         }
         previous_state = current_state;
         previous_marked_word = marked_word;
@@ -193,9 +194,12 @@ export function set_audio_metadata() {
         frame_cnt: audio().buffer.length,
     };
 };
+function reflect_time_in_hash(time) {
+    window.location.replace('#ts=' + time);
+}
 export function sync_current_time() {
     const current_time = audio().get_time();
-    window.location.replace('#ts=' + current_time);
+    reflect_time_in_hash(current_time);
     return {
         type: 'sync_current_time',
         current_time,
