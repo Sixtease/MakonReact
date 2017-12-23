@@ -1,11 +1,12 @@
 /* global AUDIO_FORMATS */
 /* global window */
 
-export const sample_rate = 24000;
+const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
 export const fetched_audio_event = 'fetched-audio';
 export const decoded_audio_event = 'decoded-audio';
-export const ac = new AudioContext({sampleRate:sample_rate});
+export const ac = new AudioContext({sampleRate: desired_sample_rate});
+export const audio_sample_rate = ac.sampleRate;
 export const format = (audio_el => AUDIO_FORMATS.find(f => audio_el.canPlayType(f.mime)))(new Audio());
 if (!format) {
     console.log('no supported format, no audio');
@@ -68,7 +69,7 @@ class MAudio {
         me.is_playing = true;
         if (me.buffer === null) { return null }
         if (me.playing_source !== null) {
-            playing_source.disconnect();
+            me.playing_source.disconnect();
         }
         me.playing_source = me.get_source();
         me.started_at = ac.currentTime;
@@ -148,3 +149,4 @@ export function load_audio(new_stub) {
     }
 };
 ;;; window.get_audio = get_audio;
+;;; window.audio_context = ac;

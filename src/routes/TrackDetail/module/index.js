@@ -1,7 +1,6 @@
 /* eslint no-duplicate-imports: 1 */
 import reducer from './TrackDetail';
 import {
-    FRAME_RATE,
     frame_to_time,
     time_to_frame,
     init,
@@ -31,7 +30,6 @@ import {
 
 export default reducer;
 export {
-    FRAME_RATE,
     frame_to_time,
     time_to_frame,
     init,

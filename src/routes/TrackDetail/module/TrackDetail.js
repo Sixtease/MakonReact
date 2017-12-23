@@ -1,6 +1,6 @@
 import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
-import audio from 'store/audio';
+import audio, { audio_sample_rate } from 'store/audio';
 import {
     get_edit_window_timespan,
     get_marked_word,
@@ -8,9 +8,8 @@ import {
 } from './Selectors';
 import ACTION_HANDLERS from './ActionHandlers';
 
-export const FRAME_RATE = 24000;
-export const frame_to_time = (frame) => frame / FRAME_RATE;
-export const time_to_frame = (time)  => time  * FRAME_RATE;
+export const frame_to_time = (frame) => frame / audio_sample_rate;
+export const time_to_frame = (time)  => time  * audio_sample_rate;
 
 const initial_state = {
     subs: [],
