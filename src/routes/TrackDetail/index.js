@@ -6,8 +6,6 @@ const get_component = (store, stem, next_state, cb) => {
         const reducer_module = require('./module/index.js');
         const reducer = reducer_module.default;
         injectReducer(store, { key: 'track_detail', reducer });
-        const edit_window_reducer = require('components/TrackDetail/EditWindow/module.js').default;
-        injectReducer(store, { key: 'edit_window', reducer: edit_window_reducer });
         reducer_module.init(store, stem, next_state.location.hash);
         cb(null, container(stem));
     }, 'track_detail');

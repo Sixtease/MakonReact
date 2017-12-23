@@ -2,9 +2,6 @@
 
 import axios from 'axios';
 
-const ACTION_HANDLERS = {
-};
-
 const endpoint = API_BASE + '/saveword/';
 
 export function save_word(form_values) {
@@ -40,12 +37,4 @@ export function save_word(form_values) {
             });
         });
     };
-};
-
-const initial_state = {
-};
-
-export default function reducer(state = initial_state, action) {
-    const handler = ACTION_HANDLERS[action.type];
-    return handler ? handler(state, action) : state;
 };

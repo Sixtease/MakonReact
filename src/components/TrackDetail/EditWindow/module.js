@@ -5,9 +5,6 @@ import {
     get_subs_chunks,
 } from 'routes/TrackDetail/module';
 
-const ACTION_HANDLERS = {
-};
-
 const endpoint = API_BASE + '/subsubmit/';
 
 export function send_subs(form_values, dispatch, props) {
@@ -55,12 +52,4 @@ export function send_subs(form_values, dispatch, props) {
             });
         });
     };
-};
-
-const initial_state = {
-};
-
-export default function reducer(state = initial_state, action) {
-    const handler = ACTION_HANDLERS[action.type];
-    return handler ? handler(state, action) : state;
 };
