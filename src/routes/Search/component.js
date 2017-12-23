@@ -17,7 +17,7 @@ export class Search extends React.Component {
         const to    = results && results.length ? +from + results.length : null;
         return (<div className='search-results'>
             dotaz: <code>{query}</code>
-            <ol>{
+            <ol start={+from + 1}>{
                 results.map(result => <li key={result.id}>
                     <Link to={`/zaznam/${result.stem}#ts=${result.time}`}>
                         <ReactMarkdown source={result.snip} />
