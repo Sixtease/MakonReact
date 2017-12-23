@@ -19,12 +19,12 @@ export function increment(value = 1) {
     creating async actions, especially when combined with redux-thunk! */
 
 export const doubleAsync = () => {
-    return (dispatch, getState) => {
+    return (dispatch, get_state) => {
         return new Promise((resolve) => {
             setTimeout(() => {
                 dispatch({
                     type    : COUNTER_DOUBLE_ASYNC,
-                    payload : getState().counter,
+                    payload : get_state().counter,
                 });
                 resolve();
             }, 200);

@@ -11,8 +11,8 @@ const ACTION_HANDLERS = {
 const endpoint = API_BASE + '/subsubmit/';
 
 export function send_subs(form_values, dispatch, props) {
-    return (dispatch, getState) => {
-        const state = getState();
+    return (dispatch, get_state) => {
+        const state = get_state();
         const selw = get_selected_words(state);
         const subs_chunks = get_subs_chunks(state);
         dispatch({

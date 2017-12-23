@@ -8,7 +8,7 @@ const ACTION_HANDLERS = {
 const endpoint = API_BASE + '/saveword/';
 
 export function save_word(form_values) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({
             type: 'save_word',
             ...form_values,

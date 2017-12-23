@@ -178,9 +178,9 @@ export function set_selection() {
 };
 
 export function playback_on() {
-    return (dispatch, getState) => dispatch({
+    return (dispatch, get_state) => dispatch({
         type: 'playback_on',
-        selected_words: get_selected_words(getState()),
+        selected_words: get_selected_words(get_state()),
     });
 };
 export function playback_off() {
