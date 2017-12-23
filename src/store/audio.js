@@ -21,9 +21,12 @@ class MAudio {
     }
 
     init(stub) {
+        const previous_stub = this.stub;
         this.stub = stub;
         this.buffer = null;
-        this.time = 0;
+        if (previous_stub) {
+            this.time = 0;
+        }
         this.started_at = null;
         this.is_playing = false;
         this.playing_source = null;
