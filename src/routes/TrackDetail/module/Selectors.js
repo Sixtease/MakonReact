@@ -311,6 +311,9 @@ export const get_marked_word = createSelector(
         if (selected_word_indices && selected_word_indices.only) {
             const marked_word = subs[selected_word_indices.only];
             const { text_node, icco } = get_word_chunk_position(selected_word_indices.only, subs_chunks);
+            if (text_node === null) {
+                return null;
+            }
             const start_offset = icco;
             const end_offset   = icco + marked_word.occurrence.length;
             range.setStart(text_node, start_offset);
