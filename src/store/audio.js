@@ -5,7 +5,7 @@ const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
 export const fetched_audio_event = 'fetched-audio';
 export const decoded_audio_event = 'decoded-audio';
-export const ac = new AudioContext({sampleRate: desired_sample_rate});
+export const ac = new AudioContext({ sampleRate: desired_sample_rate });
 export const audio_sample_rate = ac.sampleRate;
 export const format = (audio_el => AUDIO_FORMATS.find(f => audio_el.canPlayType(f.mime)))(new Audio());
 if (!format) {
@@ -35,7 +35,7 @@ class MAudio {
 
     load() {
         const me = this;
-        return new Promise(fulfill => {
+        return new Promise(resolve => {
             const stub = me.stub;
             const src = [stub, format.suffix].join('.');
             ;;; console.log('downloading');
@@ -47,7 +47,7 @@ class MAudio {
                         me.buffer = decoded_buffer;
                         window.dispatchEvent(new Event(decoded_audio_event));
                         ;;; console.log('done');
-                        fulfill(me);
+                        resolve(me);
                         if (me.is_playing) {
                             me.play();
                         }
@@ -58,7 +58,9 @@ class MAudio {
     }
 
     get_source() {
-        if (this.buffer === null) { return null }
+        if (this.buffer === null) {
+            return null;
+        }
         const audio_source = ac.createBufferSource();
         this.audio_source = audio_source;
         audio_source.buffer = this.buffer;
@@ -70,7 +72,9 @@ class MAudio {
     play() {
         const me = this;
         me.is_playing = true;
-        if (me.buffer === null) { return null }
+        if (me.buffer === null) {
+            return null;
+        }
         if (me.playing_source !== null) {
             me.playing_source.disconnect();
         }
@@ -82,7 +86,9 @@ class MAudio {
     }
 
     pause() {
-        if (this.playing_source === null) { return null }
+        if (this.playing_source === null) {
+            return null;
+        }
         this.time += ac.currentTime - this.started_at;
         this.playing_source.stop();
         this.playing_source = null;
@@ -96,7 +102,7 @@ class MAudio {
 
     set_time(new_time) {
         if (new_time < 0 || isNaN(new_time)) {
-            throw 'can only set time to non-negative number, not '+new_time;
+            throw new Error('can only set time to non-negative number, not ' + new_time);
         }
         this.time = +new_time;
         if (this.is_playing) {
@@ -106,9 +112,11 @@ class MAudio {
 
     play_window(from, to, { onended }) {
         const me = this;
-        if (me.buffer === null) { return null }
+        if (me.buffer === null) {
+            return null;
+        }
         if (me.playing_source !== null) {
-            playing_source.disconnect();
+            me.playing_source.disconnect();
         }
         me.playing_source = me.get_source();
         me.playing_source.addEventListener('ended', onended);

@@ -6,7 +6,6 @@ import {
 } from 'routes/TrackDetail/module/TrackDetail';
 
 const SECOND = 1000;
-let stop_time = null;
 export const autostop = store => next => action => {
     const result = next(action);
     const next_state = store.getState();

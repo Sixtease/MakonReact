@@ -70,7 +70,7 @@ const set_audio_controls = (store) => {
                     timespan.end,
                     { onended: () => store.dispatch({
                         type: 'playback_off',
-                    })}
+                    }) }
                 );
             }
             to_dispatch.push({

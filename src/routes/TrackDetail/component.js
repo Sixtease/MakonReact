@@ -42,7 +42,7 @@ export class TrackDetail extends React.Component {
 
         return (<div>
             {   locked_for_load ?
-                <div className="loading-overlay">
+                <div className='loading-overlay'>
                     <span>Nahrávám, může to trvat i několik minut...</span>
                 </div> :
                 null
@@ -84,7 +84,7 @@ export class TrackDetail extends React.Component {
         lock_for_load();
         audio_promise.then(audio => {
             unlock_after_load();
-            set_audio_metadata(audio)
+            set_audio_metadata(audio);
             audio.ontimeupdate = sync_current_time;
         });
         if (!window.KEY_PLAYBACK_CTRL) {

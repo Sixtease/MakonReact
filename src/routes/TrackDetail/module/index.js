@@ -1,6 +1,5 @@
 /* eslint no-duplicate-imports: 1 */
-import reducer from './TrackDetail';
-import {
+import reducer, {
     frame_to_time,
     time_to_frame,
     init,
