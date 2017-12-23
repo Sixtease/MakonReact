@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { frame_to_time } from 'routes/TrackDetail/module';
 export class ControlBar extends React.Component {
     render() {
         const me = this;
@@ -27,6 +28,7 @@ export class ControlBar extends React.Component {
                         />
                     )
                 }
+                <code>{frame_to_time(current_frame).toFixed(2)}</code>
                 <input
                     type='range'
                     min='0'
@@ -34,6 +36,7 @@ export class ControlBar extends React.Component {
                     value={current_frame}
                     onChange={(evt) => force_current_frame(evt.target.value)}
                 />
+                <code>{frame_to_time(frame_cnt).toFixed(2)}</code>
             </div>
         );
     }
