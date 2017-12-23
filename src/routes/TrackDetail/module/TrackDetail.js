@@ -2,6 +2,7 @@ import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
 import audio from 'store/audio';
 import {
+    get_edit_window_timespan,
     get_marked_word,
     get_selected_words,
 } from './Selectors';
@@ -60,7 +61,19 @@ const set_audio_controls = (store) => {
         if (current_state.track_detail.is_playing
             && !previous_state.track_detail.is_playing
         ) {
-            audio().play();
+            const timespan = get_edit_window_timespan(current_state);
+            if (timespan.start === null || timespan.end === null) {
+                audio().play();
+            }
+            else {
+                audio().play_window(
+                    timespan.start,
+                    timespan.end,
+                    { onended: () => store.dispatch({
+                        type: 'playback_off',
+                    })}
+                );
+            }
             to_dispatch.push({
                 type: 'clear_forced_time',
             });

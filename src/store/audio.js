@@ -100,12 +100,16 @@ class MAudio {
         }
     }
 
-    play_window(from, to) {
+    play_window(from, to, { onended }) {
         const me = this;
         if (me.buffer === null) { return null }
-        const source = me.get_source();
-        source.start(0, from, to - from);
-        return source;
+        if (me.playing_source !== null) {
+            playing_source.disconnect();
+        }
+        me.playing_source = me.get_source();
+        me.playing_source.addEventListener('ended', onended);
+        me.playing_source.start(0, from, to - from);
+        return true;
     }
 
     notify_playing() {
