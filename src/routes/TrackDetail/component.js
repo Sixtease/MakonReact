@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { load_audio } from 'store/audio';
+import audio, { load_audio } from 'store/audio';
 import {
     ControlBar,
     EditWindow,
@@ -98,6 +98,10 @@ export class TrackDetail extends React.Component {
         }
 
         me.set_subs_offset();
+    }
+
+    componentWillUnmount() {
+        audio().pause();
     }
 
     componentDidUpdate() {

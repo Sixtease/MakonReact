@@ -25,6 +25,7 @@ class MAudio {
         this.stub = stub;
         this.buffer = null;
         if (previous_stub) {
+            this.pause();
             this.time = 0;
         }
         this.started_at = null;
