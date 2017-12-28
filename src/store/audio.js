@@ -18,6 +18,7 @@ class MAudio {
             console.log('no supported format, no audio');
             return null;
         }
+        this.time = 0;
     }
 
     init(stub) {
