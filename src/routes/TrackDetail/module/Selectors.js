@@ -242,17 +242,14 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
     }
 
     const rv = { to_the_right: i };
-    ;;; console.log('char_offset_by_word_index[i]',char_offset_by_word_index[i],'word_position.icco',word_position.icco);
     if (char_offset_by_word_index[i] === word_position.icco ||
         char_offset_by_word_index[i] === word_position.icco + 1
     ) {
-        ;;; console.log('lower to the left');
         rv.to_the_left = i - 1;
     }
     else {
         rv.to_the_left = i;
     }
-    ;;; console.log({rv});
     return rv;
 };
 // TODO: simplify
