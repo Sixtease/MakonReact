@@ -179,13 +179,36 @@ export function get_word_index(word, subs) {
     return i;
 }
 const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
+    const null_rv = {
+        to_the_left:  null,
+        to_the_right: null,
+    };
     if (
            !subs
         || !subs_chunks
         || !subs_chunks.chunk_index_by_word_index
         || !subs_chunks.icco_by_word_index
     ) {
-        return null;
+        return null_rv;
+    }
+
+    if (word_position.chunk_index === 0 && word_position.icco === 0) {
+        return {
+            to_the_left: null,
+            to_the_right: 0,
+        };
+    };
+    const last_chunk_i = subs_chunks.chunks.length - 1;
+    if (word_position.chunk_index > last_chunk_i) {
+        return null_rv;
+    }
+    if (word_position.chunk_index === last_chunk_i &&
+        word_position.icco >= subs_chunks.chunks[last_chunk_i].str.length - 1
+    ) {
+        return {
+            to_the_left: subs.length - 1,
+            to_the_right: null,
+        };
     }
 
     if (i === void (0)) {
@@ -214,15 +237,23 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
         && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 < word_position.icco
     ) i++;
 
-    if (   chunk_index_by_word_index[i] === word_position.chunk_index
-        && char_offset_by_word_index[i] <= word_position.icco
-        && char_offset_by_word_index[i] + subs[i].occurrence.length - 1 >= word_position.icco
+    if (chunk_index_by_word_index[i] !== word_position.chunk_index) {
+        return null_rv;
+    }
+
+    const rv = { to_the_right: i };
+    ;;; console.log('char_offset_by_word_index[i]',char_offset_by_word_index[i],'word_position.icco',word_position.icco);
+    if (char_offset_by_word_index[i] === word_position.icco ||
+        char_offset_by_word_index[i] === word_position.icco + 1
     ) {
-        return i;
+        ;;; console.log('lower to the left');
+        rv.to_the_left = i - 1;
     }
     else {
-        return null;
+        rv.to_the_left = i;
     }
+    ;;; console.log({rv});
+    return rv;
 };
 // TODO: simplify
 export const get_selected_word_indices = createSelector(
@@ -237,13 +268,13 @@ export const get_selected_word_indices = createSelector(
             ||   end.icco === null
             || (
                    start.chunk_index === end.chunk_index
-                && start.chunk_index  >  end.chunk_index
+                && start.icco         >  end.icco
             )
         ) {
             return null;
         }
 
-        const end_index = get_word_index_by_position(end, subs, subs_chunks);
+        const end_index = get_word_index_by_position(end, subs, subs_chunks).to_the_left;
         if (end_index === null) {
             return null;
         }
@@ -257,7 +288,7 @@ export const get_selected_word_indices = createSelector(
             };
         }
 
-        const start_index = get_word_index_by_position(start, subs, subs_chunks, end_index);
+        const start_index = get_word_index_by_position(start, subs, subs_chunks, end_index).to_the_right;
         if (start_index === null) {
             return null;
         }
@@ -271,9 +302,9 @@ export const get_selected_word_indices = createSelector(
 export const get_selected_words = createSelector(
     [get_subs, get_selected_word_indices],
     (subs, selected_word_indices) => {
-        if (    selected_word_indices === null
-            || !selected_word_indices.start
-            || !selected_word_indices.end
+        if (     selected_word_indices === null
+            || !(selected_word_indices.start >= 0)
+            || !(selected_word_indices.end   >= 0)
         ) {
             return [];
         }
@@ -308,7 +339,7 @@ export const get_edit_window_timespan = createSelector(
 export const get_marked_word = createSelector(
     [get_subs, get_subs_chunks, get_selection_boundaries, get_selected_word_indices],
     (subs, subs_chunks, selection_boundaries, selected_word_indices) => {
-        if (selected_word_indices && selected_word_indices.only) {
+        if (selected_word_indices && selected_word_indices.only >= 0) {
             const marked_word = subs[selected_word_indices.only];
             const { text_node, icco } = get_word_chunk_position(selected_word_indices.only, subs_chunks);
             if (text_node === null) {
