@@ -1,6 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { frame_to_time } from 'routes/TrackDetail/module';
+
+function s_to_hms(sec) {
+    const s = sec % 60;
+    const m = Math.floor(sec / 60) % 60;
+    const h = Math.floor(sec / 3600);
+    const elements = [];
+    if (h > 0) {
+        elements.push(h);
+    }
+    if (m > 0 || h > 0) {
+        elements.push(m > 10 ? m : '0' + m);
+    }
+    elements.push(s > 10 ? s.toFixed(2) : '0' + s.toFixed(2));
+    return elements.join(':');
+}
+
 export class ControlBar extends React.Component {
     render() {
         const me = this;
@@ -28,7 +44,7 @@ export class ControlBar extends React.Component {
                         />
                     )
                 }
-                <code>{frame_to_time(current_frame).toFixed(2)}</code>
+                <code>{s_to_hms(frame_to_time(current_frame))}</code>
                 <input
                     type='range'
                     min='0'
@@ -36,7 +52,7 @@ export class ControlBar extends React.Component {
                     value={current_frame}
                     onChange={(evt) => force_current_frame(evt.target.value)}
                 />
-                <code>{frame_to_time(frame_cnt).toFixed(2)}</code>
+                <code>{s_to_hms(frame_to_time(frame_cnt))}</code>
             </div>
         );
     }
