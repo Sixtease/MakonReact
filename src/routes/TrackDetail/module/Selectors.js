@@ -194,7 +194,7 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
 
     if (word_position.chunk_index === 0 && word_position.icco === 0) {
         return {
-            to_the_left: null,
+            to_the_left:  0,
             to_the_right: 0,
         };
     };
