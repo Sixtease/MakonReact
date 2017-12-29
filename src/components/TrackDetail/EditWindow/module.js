@@ -18,6 +18,10 @@ export function send_subs(form_values, dispatch, props) {
             subs_chunks,
         });
         const timespan = get_edit_window_timespan(state);
+        dispatch({
+            type: 'force_current_time',
+            current_time: timespan.end,
+        });
         axios.request({
             url: endpoint,
             method: 'POST',
