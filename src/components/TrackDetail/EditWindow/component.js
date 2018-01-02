@@ -20,8 +20,8 @@ class EditWindow extends React.Component {
     render() {
         const me = this;
         const {
-            stem, is_playing, audio, playback_on, playback_off,
-            download_edit_window, handleSubmit, edit_window_timespan,
+            is_playing, audio, playback_on, playback_off,
+            handleSubmit,
         } = me.props;
         let cls = 'edit-window';
         if (me._is_shown()) {
@@ -55,12 +55,12 @@ class EditWindow extends React.Component {
                     onClick={handleSubmit}
                     title='odeslat'
                 />
-                <span style={{float: 'right'}} >
+                <span style={{ float: 'right' }} >
                     { me.state.show_filename_input ? [
                         <input
                             type='text'
                             value={me.state.download_filename}
-                            onChange={evt => me.setState({download_filename: evt.target.value})}
+                            onChange={evt => me.setState({ download_filename: evt.target.value })}
                             key={1}
                         />,
                         <a
@@ -72,7 +72,7 @@ class EditWindow extends React.Component {
                                 className='glyphicon glyphicon-download'
                                 type='button'
                             />
-                        </a>
+                        </a>,
                     ] : <button
                         className='glyphicon glyphicon-download'
                         onClick={() => me.commence_download()}
@@ -95,7 +95,7 @@ class EditWindow extends React.Component {
     commence_download() {
         const me = this;
         me.object_url = me.props.download_edit_window();
-        me.setState({show_filename_input: true});
+        me.setState({ show_filename_input: true });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -106,13 +106,13 @@ class EditWindow extends React.Component {
         if (nextProps.edit_window_timespan.start !== null &&
             nextProps.edit_window_timespan.end   !== null
         ) {
-            me.setState({download_filename: me.suggest_filename()});
+            me.setState({ download_filename: me.suggest_filename() });
         }
 
         if (me.props.edit_window_timespan.start !== nextProps.edit_window_timespan.start ||
             me.props.edit_window_timespan.end   !== nextProps.edit_window_timespan.end
         ) {
-            me.setState({show_filename_input: false});
+            me.setState({ show_filename_input: false });
             me.object_url = null;
         }
 
@@ -159,6 +159,8 @@ EditWindow.propTypes = {
     autofill:       PropTypes.func,
     download_edit_window:
                     PropTypes.func,
+    edit_window_timespan:
+                    PropTypes.object,
     handleSubmit:   PropTypes.func,
     is_playing:     PropTypes.bool,
     playback_off:   PropTypes.func,
