@@ -1,6 +1,8 @@
 /* global AUDIO_FORMATS */
 /* global window */
 
+import { slice } from 'audio-buffer-utils';
+
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
 export const fetched_audio_event = 'fetched-audio';
@@ -124,6 +126,14 @@ class MAudio {
         me.playing_source.addEventListener('ended', onended);
         me.playing_source.start(0, from, to - from);
         return true;
+    }
+
+    get_window(from, to) {
+        const me = this;
+        if (me.buffer === null) {
+            return null;
+        }
+        return slice(me.buffer, from * ac.sampleRate, to * ac.sampleRate);
     }
 
     notify_playing() {

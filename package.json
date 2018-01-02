@@ -83,6 +83,8 @@
   "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
   "license": "MIT",
   "dependencies": {
+    "audio-buffer-utils": "^5.1.1",
+    "audiobuffer-to-wav": "^1.0.0",
     "axios": "^0.15.3",
     "babel-core": "^6.17.0",
     "babel-loader": "^7.1.2",

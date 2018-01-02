@@ -13,6 +13,7 @@ class EditWindow extends React.Component {
         const me = this;
         const {
             is_playing, audio, playback_on, playback_off,
+            download_edit_window,
             handleSubmit,
         } = me.props;
         let cls = 'edit-window';
@@ -46,6 +47,11 @@ class EditWindow extends React.Component {
                     className='glyphicon glyphicon-ok'
                     onClick={handleSubmit}
                     title='odeslat'
+                />
+                <button
+                    className='glyphicon glyphicon-download'
+                    onClick={download_edit_window}
+                    title='stáhnout audio'
                 />
             </div>
         );
@@ -88,13 +94,15 @@ class EditWindow extends React.Component {
 };
 
 EditWindow.propTypes = {
-    is_playing:     PropTypes.bool,
-    selected_words: PropTypes.array,
     audio:          PropTypes.object,
-    playback_on:    PropTypes.func,
-    playback_off:   PropTypes.func,
-    handleSubmit:   PropTypes.func,
     autofill:       PropTypes.func,
+    download_edit_window:
+                    PropTypes.func,
+    handleSubmit:   PropTypes.func,
+    is_playing:     PropTypes.bool,
+    playback_off:   PropTypes.func,
+    playback_on:    PropTypes.func,
+    selected_words: PropTypes.array,
 };
 
 /* eslint no-class-assign: [0] */

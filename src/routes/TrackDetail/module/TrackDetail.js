@@ -1,3 +1,6 @@
+/* global Blob */
+
+import to_wav from 'audiobuffer-to-wav';
 import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
 import audio, { audio_sample_rate } from 'store/audio';
@@ -235,6 +238,24 @@ export function lock_for_load() {
 export function unlock_after_load() {
     return {
         type: 'unlock_after_load',
+    };
+};
+
+export function download_edit_window() {
+    return (dispatch, get_state) => {
+        const state = get_state();
+        const timespan = get_edit_window_timespan(state);
+        if (timespan.start === null || timespan.end === null) {
+            return;
+        }
+        const window_buffer = audio().get_window(timespan.start, timespan.end);
+        if (window_buffer === null) {
+            return;
+        }
+        const wav = to_wav(window_buffer);
+        const blob = new Blob([wav], {type: 'audio/wav'});
+        const object_url = URL.createObjectURL(blob);
+        window.open(object_url);
     };
 };
 
