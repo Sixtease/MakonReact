@@ -255,7 +255,7 @@ export function download_edit_window() {
         const wav = to_wav(window_buffer);
         const blob = new Blob([wav], {type: 'audio/wav'});
         const object_url = URL.createObjectURL(blob);
-        window.open(object_url);
+        return object_url;
     };
 };
 
