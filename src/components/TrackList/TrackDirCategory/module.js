@@ -1,8 +1,9 @@
+import { SET_CURRENT_SECTION } from '../module.js';
+import section_stemdir_map from '../../../store/section_stemdir_map.js';
+
 export const VISIBILITY_TOGGLE = 'VISIBILITY_TOGGLE';
 export const VISIBLE = true;
 export const COLLAPSED = false;
-import { SET_CURRENT_SECTION } from '../module.js';
-import section_stemdir_map from '../../../store/section_stemdir_map.js';
 
 export function toggle_visible(category) {
     return {

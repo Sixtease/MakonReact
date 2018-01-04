@@ -62,9 +62,9 @@ export class TrackDetail extends React.Component {
                         <div className='sidebar'>
                             <WordInfo word={marked_word} stem={stem} />
                             <Downloads stem={stem} />
-                            <div className="equalizer"><div
+                            <div className='equalizer'><div
                                 style={{ width: '100%', height: '100%' }}
-                                ref={el => me.equalizer_el = el}
+                                ref={el => (me.equalizer_el = el)}
                             /></div>
                         </div>
                     </div>

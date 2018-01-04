@@ -356,4 +356,3 @@ export const get_marked_word = createSelector(
         }
     },
 );
-

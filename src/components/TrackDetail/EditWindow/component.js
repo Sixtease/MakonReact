@@ -122,7 +122,7 @@ class EditWindow extends React.Component {
 
         if (!ps
             || ps.length !== ns.length
-            || ps[0] && !ns[0]
+            || (ps[0] && !ns[0])
             || ps[0].timestamp !== ns[0].timestamp
             || ps[ps.length - 1].timestamp !== ns[ns.length - 1].timestamp
         ) {
