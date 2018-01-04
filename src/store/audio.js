@@ -2,6 +2,7 @@
 /* global window */
 
 import { slice } from 'audio-buffer-utils';
+import CanvasEqualizer from 'canvas-equalizer';
 
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -13,6 +14,10 @@ export const format = (audio_el => AUDIO_FORMATS.find(f => audio_el.canPlayType(
 if (!format) {
     console.log('no supported format, no audio');
 }
+
+export const equalizer = new CanvasEqualizer(2048, ac, {
+});
+equalizer.convolver.connect(ac.destination);
 
 class MAudio {
     constructor() {
@@ -68,7 +73,7 @@ class MAudio {
         const audio_source = ac.createBufferSource();
         this.audio_source = audio_source;
         audio_source.buffer = this.buffer;
-        audio_source.connect(ac.destination);
+        audio_source.connect(equalizer.convolver);
         audio_source.addEventListener('ended', () => audio_source.disconnect());
         return audio_source;
     }

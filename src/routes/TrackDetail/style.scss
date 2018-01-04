@@ -45,7 +45,8 @@
 .sidebar {
     position: fixed;
     top: 69px;
-    height: 100%;
+    width: 100%;
+    height: calc(100% - 75px);
     overflow-y: auto;
 }
 
@@ -68,4 +69,8 @@
         padding: 30px 100px;
         border-radius: 10px;
     }
+}
+.equalizer {
+    width: calc(100% - 5px);
+    height: 200px;
 }

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import audio, { load_audio } from 'store/audio';
+import audio, { load_audio, equalizer } from 'store/audio';
+import 'canvas-equalizer/dist/css/CanvasEqualizer.css';
 import {
     ControlBar,
     EditWindow,
@@ -20,17 +21,20 @@ let subs_el;
 export const get_subs_el = () => subs_el;
 
 export class TrackDetail extends React.Component {
-    state: {
-        subs_offset: {
-            top: 0,
-            left: 0,
-        },
+    constructor(props) {
+        super(props);
+        this.state = {
+            subs_offset: {
+                top: 0,
+                left: 0,
+            },
+        };
     }
 
     render() {
         const me = this;
         const { locked_for_load, marked_word, stem } = me.props;
-        const subs_offset = me.state ? me.state.subs_offset : { top: 0, left: 0 };
+        const subs_offset = me.state.subs_offset;
         const subs_props = {
             chunk_text_nodes,
             set_subs_el: (el) => {
@@ -58,6 +62,10 @@ export class TrackDetail extends React.Component {
                         <div className='sidebar'>
                             <WordInfo word={marked_word} stem={stem} />
                             <Downloads stem={stem} />
+                            <div className="equalizer"><div
+                                style={{ width: '100%', height: '100%' }}
+                                ref={el => me.equalizer_el = el}
+                            /></div>
                         </div>
                     </div>
                 </div>
@@ -98,6 +106,18 @@ export class TrackDetail extends React.Component {
         }
 
         me.set_subs_offset();
+
+        me.try_connect_equalizer();
+    }
+
+    try_connect_equalizer() {
+        const me = this;
+        if (me.equalizer_el && me.equalizer_el.getBoundingClientRect().height > 0) {
+            equalizer.createControl(me.equalizer_el);
+        }
+        else {
+            requestAnimationFrame(() => me.try_connect_equalizer());
+        }
     }
 
     componentWillUnmount() {
