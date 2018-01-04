@@ -178,3 +178,4 @@ export function load_audio(new_stub) {
 };
 ;;; window.get_audio = get_audio;
 ;;; window.audio_context = ac;
+;;; window.equalizer = equalizer;
