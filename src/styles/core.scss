@@ -29,6 +29,10 @@ body a:hover {
     color: $active-link-color;
 }
 
-.clickable {
+a, .clickable {
     cursor: pointer;
+}
+
+.unclickable {
+    cursor: inherit;
 }
