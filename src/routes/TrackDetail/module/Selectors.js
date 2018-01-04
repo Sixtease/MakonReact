@@ -184,7 +184,7 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
         to_the_right: null,
     };
     if (
-           !subs
+           !subs    // eslint-disable-line indent
         || !subs_chunks
         || !subs_chunks.chunk_index_by_word_index
         || !subs_chunks.icco_by_word_index
@@ -263,7 +263,7 @@ export const get_selected_word_indices = createSelector(
             || start.icco === null
             ||   end.icco === null
             || (
-                   start.chunk_index === end.chunk_index
+                   start.chunk_index === end.chunk_index    // eslint-disable-line indent
                 && start.icco         >  end.icco
             )
         ) {
@@ -276,7 +276,7 @@ export const get_selected_word_indices = createSelector(
         }
 
         if (
-               start.chunk_index === end.chunk_index
+               start.chunk_index === end.chunk_index    // eslint-disable-line indent
             && start.icco        === end.icco
         ) {
             return {
