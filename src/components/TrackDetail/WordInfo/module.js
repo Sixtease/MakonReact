@@ -30,11 +30,11 @@ export function save_word(form_values) {
                 });
             }
         })
-        .catch(() => {
-            dispatch({
-                type: 'save_word_error',
-                ...form_values,
+            .catch(() => {
+                dispatch({
+                    type: 'save_word_error',
+                    ...form_values,
+                });
             });
-        });
     };
 };

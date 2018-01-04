@@ -6,14 +6,14 @@ import { updateLocation } from './location';
 import { autostop } from './middleware.js';
 
 export default (initialState = {}) => {
-  // ======================================================
-  // Middleware Configuration
-  // ======================================================
+    // ======================================================
+    // Middleware Configuration
+    // ======================================================
     const middleware = [thunk, autostop];
 
-  // ======================================================
-  // Store Enhancers
-  // ======================================================
+    // ======================================================
+    // Store Enhancers
+    // ======================================================
     const enhancers = [];
 
     let composeEnhancers = compose;
@@ -25,20 +25,20 @@ export default (initialState = {}) => {
         }
     }
 
-  // ======================================================
-  // Store Instantiation and HMR Setup
-  // ======================================================
+    // ======================================================
+    // Store Instantiation and HMR Setup
+    // ======================================================
     const store = createStore(
         makeRootReducer(),
         initialState,
         composeEnhancers(
-        applyMiddleware(...middleware),
+            applyMiddleware(...middleware),
             ...enhancers
         )
     );
     store.asyncReducers = {};
 
-  // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
+    // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
     store.unsubscribeHistory = browserHistory.listen(updateLocation(store));
 
     if (module.hot) {

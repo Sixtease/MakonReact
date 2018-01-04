@@ -37,14 +37,14 @@ const fetch_subs = (store, stem) => {
             jsonpCallbackFunction: 'jsonp_subtitles',
         }
     )
-    .then((res) => res.json())
-    .then((sub_data) => {
-//        calculate_word_positions(sub_data.data);
-        store.dispatch({
-            type: 'set_subs',
-            subs: sub_data.data,
+        .then((res) => res.json())
+        .then((sub_data) => {
+            // calculate_word_positions(sub_data.data);
+            store.dispatch({
+                type: 'set_subs',
+                subs: sub_data.data,
+            });
         });
-    });
 };
 let previous_state;
 let previous_marked_word;

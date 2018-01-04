@@ -37,8 +37,8 @@ export function load_search_results(query, from = 0) {
                             hit.highlight.occurrences &&
                             hit.highlight.occurrences.length > 0
                         )
-                        ? hit.highlight.occurrences[0]
-                        : hit.occurrences
+                            ? hit.highlight.occurrences[0]
+                            : hit.occurrences
                     );
                     return {
                         id, stem, time, snip,

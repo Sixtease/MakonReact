@@ -19,8 +19,8 @@ let render = () => {
 
     ReactDOM.render(
         <AppContainer store={store} routes={routes} />,
-    MOUNT_NODE
-  );
+        MOUNT_NODE
+    );
 };
 
 // This code is excluded from production bundle
@@ -34,7 +34,7 @@ if (__DEV__) {
             ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
         };
 
-    // Wrap render in try/catch
+        // Wrap render in try/catch
         render = () => {
             try {
                 renderApp();
@@ -45,13 +45,13 @@ if (__DEV__) {
             }
         };
 
-    // Setup hot module replacement
+        // Setup hot module replacement
         module.hot.accept('./routes/index', () =>
-      setImmediate(() => {
-          ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-          render();
-      })
-    );
+            setImmediate(() => {
+                ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+                render();
+            })
+        );
     }
 }
 

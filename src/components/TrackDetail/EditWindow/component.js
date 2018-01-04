@@ -35,20 +35,20 @@ class EditWindow extends React.Component {
                 />
                 {
                     is_playing
-                    ? (
-                        <button
-                            className='glyphicon glyphicon-stop'
-                            onClick={() => playback_off(audio)}
-                            title='zastavit'
-                        />
-                    )
-                    : (
-                        <button
-                            className='glyphicon glyphicon-play'
-                            onClick={() => playback_on(audio)}
-                            title='přehrát'
-                        />
-                    )
+                        ? (
+                            <button
+                                className='glyphicon glyphicon-stop'
+                                onClick={() => playback_off(audio)}
+                                title='zastavit'
+                            />
+                        )
+                        : (
+                            <button
+                                className='glyphicon glyphicon-play'
+                                onClick={() => playback_on(audio)}
+                                title='přehrát'
+                            />
+                        )
                 }
                 <button
                     className='glyphicon glyphicon-ok'

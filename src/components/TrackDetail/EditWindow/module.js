@@ -49,11 +49,11 @@ export function send_subs(form_values, dispatch, props) {
                 });
             }
         })
-        .catch(() => {
-            dispatch({
-                type: 'submission_error',
-                words: selw,
+            .catch(() => {
+                dispatch({
+                    type: 'submission_error',
+                    words: selw,
+                });
             });
-        });
     };
 };
