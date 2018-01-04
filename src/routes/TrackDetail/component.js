@@ -121,6 +121,7 @@ export class TrackDetail extends React.Component {
 
     componentWillUnmount() {
         audio().pause();
+        equalizer.destroyControl();
     }
 
     componentDidUpdate() {
