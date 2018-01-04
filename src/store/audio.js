@@ -3,6 +3,7 @@
 
 import { slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
+import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
 
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -16,7 +17,9 @@ if (!format) {
 }
 
 export const equalizer = new CanvasEqualizer(2048, ac, {
+    language: 'cs',
 });
+equalizer.loadLocale('cs', equalizer_locale_cs);
 equalizer.convolver.connect(ac.destination);
 
 class MAudio {
