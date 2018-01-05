@@ -1,0 +1,22 @@
+{
+  "cursor.label": "kurzor: <span></span> dB",
+  "curve.label": "křivka: <span></span> dB",
+
+  "frequency.label": "frekvencce: <span></span>",
+  "frequency.text": "{0} ({1})",
+  "frequency.format": "{0} {1}",
+  "frequency.unit.Hz": "Hz",
+  "frequency.unit.kHz": "kHz",
+
+  "menu": "volby",
+  "menu.both": "táž křivka pro oba kanály",
+  "menu.both.left": "použít levou křivku",
+  "menu.both.right": "použít pravou křivku",
+  "menu.one": "jedna křivka pro každý kanál",
+  "menu.one.left": "zobrazit levou křivku",
+  "menu.one.right": "zobrazit pravou křivku",
+  "menu.zones": "zobrazit zóny",
+  "menu.zoneEdit": "upravit po zónách",
+  "menu.normalizeCurves": "normalizovat křivky",
+  "menu.actualResponse": "zobrazit platnou odezvu"
+}
