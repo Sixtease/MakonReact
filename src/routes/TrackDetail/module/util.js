@@ -6,7 +6,7 @@ import audio, { audio_sample_rate } from 'store/audio';
 import {
     get_edit_window_timespan,
     get_marked_word,
-} from './Selectors';
+} from './selectors';
 import {
     initial_state,
 } from './reducer';

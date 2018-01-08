@@ -3,7 +3,7 @@ import {
     get_edit_window_timespan,
     get_selected_words,
     get_subs_chunks,
-} from 'routes/TrackDetail/module/Selectors';
+} from 'routes/TrackDetail/module/selectors';
 
 const endpoint = API_BASE + '/subsubmit/';
 

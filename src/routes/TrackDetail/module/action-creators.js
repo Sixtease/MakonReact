@@ -3,7 +3,7 @@ import audio from 'store/audio';
 import {
     get_edit_window_timespan,
     get_selected_words,
-} from './Selectors';
+} from './selectors';
 import {
     frame_to_time,
     reflect_time_in_hash,

@@ -1,4 +1,4 @@
-import { get_next_word } from 'routes/TrackDetail/module/Selectors';
+import { get_next_word } from 'routes/TrackDetail/module/selectors';
 import { sync_current_time } from 'routes/TrackDetail/module/action-creators';
 
 const SECOND = 1000;

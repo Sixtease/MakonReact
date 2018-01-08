@@ -14,7 +14,7 @@ import {
     get_marked_word,
     get_selected_words,
     get_subs_chunks,
-} from './module/Selectors';
+} from './module/selectors';
 import {
     time_to_frame,
 } from './module/util';

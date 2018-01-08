@@ -9,7 +9,7 @@ import {
 import {
     get_edit_window_timespan,
     get_selected_words,
-} from 'routes/TrackDetail/module/Selectors';
+} from 'routes/TrackDetail/module/selectors';
 
 import { send_subs } from './module';
 import './style.scss';
