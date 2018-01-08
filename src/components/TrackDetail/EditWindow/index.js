@@ -5,7 +5,7 @@ import {
     download_edit_window,
     playback_off,
     playback_on,
-} from 'routes/TrackDetail/module/ActionCreators';
+} from 'routes/TrackDetail/module/action-creators';
 import {
     get_edit_window_timespan,
     get_selected_words,

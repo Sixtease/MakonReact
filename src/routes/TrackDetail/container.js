@@ -8,7 +8,7 @@ import {
     set_selection,
     sync_current_time,
     unlock_after_load,
-} from './module/ActionCreators';
+} from './module/action-creators';
 import {
     get_current_word,
     get_marked_word,
