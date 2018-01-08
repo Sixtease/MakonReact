@@ -1,19 +1,23 @@
 import { connect } from 'react-redux';
 import {
     force_current_frame,
-    get_current_word,
-    get_marked_word,
-    get_selected_words,
-    get_subs_chunks,
     lock_for_load,
     playback_off,
     playback_on,
     set_audio_metadata,
     set_selection,
     sync_current_time,
-    time_to_frame,
     unlock_after_load,
-} from './module';
+} from './module/ActionCreators';
+import {
+    get_current_word,
+    get_marked_word,
+    get_selected_words,
+    get_subs_chunks,
+} from './module/Selectors';
+import {
+    time_to_frame,
+} from './module/util';
 
 import component from './component';
 import './style.scss';

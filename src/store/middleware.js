@@ -1,9 +1,5 @@
-import {
-    get_next_word,
-} from 'routes/TrackDetail/module';
-import {
-    sync_current_time,
-} from 'routes/TrackDetail/module/TrackDetail';
+import { get_next_word } from 'routes/TrackDetail/module/Selectors';
+import { sync_current_time } from 'routes/TrackDetail/module/ActionCreators';
 
 const SECOND = 1000;
 export const autostop = store => next => action => {

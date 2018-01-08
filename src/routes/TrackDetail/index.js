@@ -2,11 +2,13 @@ import { injectReducer } from '../../store/reducers';
 
 const get_component = (store, stem, next_state, cb) => {
     require.ensure([], (require) => {
-        const container = require('./container.js').default;
-        const reducer_module = require('./module/index.js');
-        const reducer = reducer_module.default;
+        const reducer = require('./module/reducer.js').default;
         injectReducer(store, { key: 'track_detail', reducer });
-        reducer_module.init(store, stem, next_state.location.hash);
+
+        const init = require('./module/util.js').init;
+        init(store, stem, next_state.location.hash);
+
+        const container = require('./container.js').default;
         cb(null, container(stem));
     }, 'track_detail');
 };

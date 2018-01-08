@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { frame_to_time } from 'routes/TrackDetail/module';
+import { frame_to_time } from 'routes/TrackDetail/module/util';
 
 function s_to_hms(sec) {
     const s = sec % 60;

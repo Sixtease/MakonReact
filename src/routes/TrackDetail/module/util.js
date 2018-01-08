@@ -1,33 +1,18 @@
-/* global Blob */
+/* global window */
 
-import to_wav from 'audiobuffer-to-wav';
 import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
 import audio, { audio_sample_rate } from 'store/audio';
 import {
     get_edit_window_timespan,
     get_marked_word,
-    get_selected_words,
 } from './Selectors';
-import ACTION_HANDLERS from './ActionHandlers';
+import {
+    initial_state,
+} from './reducer';
 
 export const frame_to_time = (frame) => frame / audio_sample_rate;
 export const time_to_frame = (time)  => time  * audio_sample_rate;
-
-const initial_state = {
-    subs: [],
-    frame_cnt: 0,
-    current_time: 0,
-    forced_time: null,
-    is_playing: false,
-    selection_start_chunk_index: null,
-    selection_start_icco: null,
-    selection_end_chunk_index: null,
-    selection_end_icco: null,
-    sent_word_rectangles: [],
-    failed_word_rectangles: [],
-    locked_for_load: false,
-};
 
 const fetch_subs = (store, stem) => {
     fetch_jsonp(
@@ -46,6 +31,11 @@ const fetch_subs = (store, stem) => {
             });
         });
 };
+
+export function reflect_time_in_hash(time) {
+    window.location.replace('#ts=' + time);
+};
+
 let previous_state;
 let previous_marked_word;
 const set_audio_controls = (store) => {
@@ -103,6 +93,7 @@ const set_audio_controls = (store) => {
         to_dispatch.forEach((action) => store.dispatch(action));
     });
 };
+
 const apply_hash = (store, hash) => {
     const bare_hash = hash.replace(/^#/, '');
     let query = query_string.parse(bare_hash);
@@ -114,6 +105,7 @@ const apply_hash = (store, hash) => {
         });
     }
 };
+
 export const init = (store, stem, hash) => {
     fetch_subs(store, stem);
     set_audio_controls(store);
@@ -130,9 +122,7 @@ function calculate_word_positions(subs, start_index = 0, start_position = 0) {
     });
     return subs;
 }
-*/
 
-/*
 function get_word_position(word, subs) {
     if (!word || !subs || subs.length === 0) {
         return null;
@@ -154,112 +144,3 @@ function get_word_position(word, subs) {
     }
 }
 */
-
-const sel = document.getSelection();
-export function set_selection() {
-    let start_chunk = null;
-    let   end_chunk = null;
-    let start_chunk_index = null;
-    let   end_chunk_index = null;
-    let start_icco = null;
-    let   end_icco = null;
-    let start_global_offset = null;
-    let   end_global_offset = null;
-    if (sel.rangeCount > 0) {
-        const start_range = sel.getRangeAt(0);
-        const   end_range = sel.getRangeAt(sel.rangeCount - 1);
-        if (start_range && end_range) {
-            start_chunk         =  start_range.startContainer.parentElement;
-            end_chunk           =    end_range.  endContainer.parentElement;
-            start_chunk_index   = +start_chunk.dataset.chunk_index;
-            end_chunk_index     =   +end_chunk.dataset.chunk_index;
-            start_icco          =  start_range.startOffset;
-            end_icco            =    end_range.  endOffset;
-            start_global_offset = +start_chunk.dataset.char_offset + start_icco;
-            end_global_offset   =   +end_chunk.dataset.char_offset +   end_icco;
-        }
-    }
-    return {
-        type: 'set_selection',
-        start_chunk,
-        end_chunk,
-        start_chunk_index,
-        end_chunk_index,
-        start_icco,
-        end_icco,
-        start_global_offset,
-        end_global_offset,
-    };
-};
-
-export function playback_on() {
-    return (dispatch, get_state) => dispatch({
-        type: 'playback_on',
-        selected_words: get_selected_words(get_state()),
-    });
-};
-export function playback_off() {
-    return {
-        type: 'playback_off',
-    };
-};
-export function set_audio_metadata() {
-    return {
-        type: 'set_audio_metadata',
-        frame_cnt: audio().buffer.length,
-    };
-};
-function reflect_time_in_hash(time) {
-    window.location.replace('#ts=' + time);
-}
-export function sync_current_time() {
-    const current_time = audio().get_time();
-    reflect_time_in_hash(current_time);
-    return {
-        type: 'sync_current_time',
-        current_time,
-    };
-};
-export function force_current_frame(current_frame) {
-    return force_current_time(frame_to_time(current_frame));
-};
-export function force_current_time(current_time) {
-    return {
-        type: 'force_current_time',
-        current_time,
-    };
-};
-
-export function lock_for_load() {
-    return {
-        type: 'lock_for_load',
-    };
-};
-export function unlock_after_load() {
-    return {
-        type: 'unlock_after_load',
-    };
-};
-
-export function download_edit_window() {
-    return (dispatch, get_state) => {
-        const state = get_state();
-        const timespan = get_edit_window_timespan(state);
-        if (timespan.start === null || timespan.end === null) {
-            return;
-        }
-        const window_buffer = audio().get_window(timespan.start, timespan.end);
-        if (window_buffer === null) {
-            return;
-        }
-        const wav = to_wav(window_buffer);
-        const blob = new Blob([wav], { type: 'audio/wav' });
-        const object_url = URL.createObjectURL(blob);
-        return object_url;
-    };
-};
-
-export default function reducer(state = initial_state, action) {
-    const handler = ACTION_HANDLERS[action.type];
-    return handler ? handler(state, action) : state;
-};
