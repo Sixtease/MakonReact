@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'lib/react-router';
+import { Link } from 'react-router-dom';
 import TrackDirCategory from './TrackDirCategory';
 import stemdir from '../../store/stemdir.json';
 import stemsec from '../../store/stemsec.json';

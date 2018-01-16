@@ -78,6 +78,16 @@ export class TrackDetail extends React.Component {
     _is_playing() {
         return this.props.is_playing;
     }
+
+    componentWillMount() {
+        const me = this;
+        me.props.init(
+            me.context.store,
+            me.props.stem,
+            me.props.location.hash
+        );
+    }
+
     componentDidMount() {
         const me = this;
         const {
@@ -182,6 +192,8 @@ TrackDetail.propTypes = {
     sent_word_rectangles:   PropTypes.array,
     subs_chunks:            PropTypes.array,
     unlock_after_load:      PropTypes.func,
+    match:                  PropTypes.object,
+    location:               PropTypes.object,
 };
 
 export default TrackDetail;

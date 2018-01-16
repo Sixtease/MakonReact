@@ -1,14 +1,10 @@
 import { injectReducer } from '../../store/reducers';
+import container from './container';
+import reducer from './module';
 
-export default (store) => ({
-    path : 'vyhledavani/',
-    getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-            const container = require('./container.js').default;
-            const reducer_module = require('./module.js');
-            const reducer = reducer_module.default;
-            injectReducer(store, { key: 'search', reducer });
-            cb(null, container);
-        }, 'search');
+export default {
+    component: container,
+    init_reducer: store => {
+        injectReducer(store, { key: 'search', reducer });
     },
-});
+};

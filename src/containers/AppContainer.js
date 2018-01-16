@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory, Router } from 'lib/react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import CoreLayout from '../layouts/CoreLayout';
 
 class AppContainer extends Component {
     static propTypes = {
-        routes : PropTypes.object.isRequired,
         store  : PropTypes.object.isRequired,
     }
 
@@ -18,9 +18,11 @@ class AppContainer extends Component {
 
         return (
             <Provider store={store}>
-                <div style={{ height: '100%' }}>
-                    <Router history={browserHistory} children={routes} />
-                </div>
+                <BrowserRouter>
+                    <div style={{ height: '100%' }}>
+                        <CoreLayout />
+                    </div>
+                </BrowserRouter>
             </Provider>
         );
     }

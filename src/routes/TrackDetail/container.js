@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
     force_current_frame,
     lock_for_load,
@@ -16,6 +17,7 @@ import {
     get_subs_chunks,
 } from './module/selectors';
 import {
+    init,
     time_to_frame,
 } from './module/util';
 
@@ -52,6 +54,6 @@ const map_state_to_props = (state) => ({
 
 const get_container = stem => connect(
     map_state_to_props, map_dispatch_to_props,
-    (s, d) => ({ ...s, ...d, stem }),
-)(component);
+    (s, d) => ({ ...s, ...d, stem, init }),
+)(withRouter(component));
 export default get_container;

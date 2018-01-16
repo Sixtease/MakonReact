@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
     load_search_results,
     prev_page, next_page,
 } from './module.js';
 
-import Search from './component.js';
+import component from './component.js';
 import './style.scss';
 
 const map_dispatch_to_props = {
@@ -18,7 +19,6 @@ const map_state_to_props = (state) => ({
     total:   state.search.total,
 });
 
-let search = connect(
+export default connect(
     map_state_to_props, map_dispatch_to_props,
-)(Search);
-export default search;
+)(withRouter(component));

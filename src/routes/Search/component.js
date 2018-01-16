@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import { browserHistory, Link } from 'lib/react-router';
+import { Link } from 'react-router-dom';
+import qs from 'query-string';
 
 export class Search extends React.Component {
     render() {
@@ -11,9 +12,11 @@ export class Search extends React.Component {
             results,
             total,
             prev_page, next_page,
+            history,
         } = me.props;
-        const query = loc.query.dotaz;
-        const from  = loc.query.from || 0;
+        const q = qs.parse(me.props.location.search);
+        const query = q.dotaz;
+        const from  = q.from || 0;
         const to    = results && results.length ? +from + results.length : null;
         return (<div className='search-results'>
             dotaz: <code>{query}</code>
@@ -27,9 +30,9 @@ export class Search extends React.Component {
             {
                 results && results.length
                     ? <div className='pager'>
-                        <a onClick={() => prev_page(       loc, browserHistory)}>předchozí</a>{' '}
+                        <a onClick={() => prev_page(       loc, history)}>předchozí</a>{' '}
                         {+from + 1} - {to} / {total}{' '}
-                        <a onClick={() => next_page(total, loc, browserHistory)}>další</a>
+                        <a onClick={() => next_page(total, loc, history)}>další</a>
                     </div>
                     : null
             }
@@ -38,7 +41,7 @@ export class Search extends React.Component {
 
     componentWillMount() {
         const me = this;
-        const q = me.props.location.query;
+        const q = qs.parse(me.props.location.search);
         this.props.load_search_results(q.dotaz, q.from);
     }
 };
@@ -53,6 +56,8 @@ Search.propTypes = {
     prev_page:              PropTypes.func,
     next_page:              PropTypes.func,
     total:                  PropTypes.number,
+    location:               PropTypes.object,
+    history:                PropTypes.object,
 };
 
 export default Search;

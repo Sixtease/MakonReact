@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export class TrackDirCategoryView extends React.Component {
     is_visible() {
         const { cat, visible } = this.props;
-        if (!visible[cat.key]) {
+        if (!visible || !visible[cat.key]) {
             return 'none';
         }
         return visible[cat.key].visible ? 'block' : 'none';

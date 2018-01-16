@@ -1,5 +1,6 @@
 import React from 'react';
-import { IndexLink, Link } from 'lib/react-router';
+import { NavLink } from 'react-router-dom';
+import qs from 'query-string';
 import './Header.scss';
 import UsernameInput from 'components/UsernameInput/index.js';
 
@@ -12,14 +13,14 @@ export class Header extends React.Component {
                     <nav className='navbar navbar-default'>
                         <ul className='nav navbar-nav'>
                             <li>
-                                <IndexLink to='/' activeClassName='route--active'>
+                                <NavLink to='/' activeClassName='route--active'>
                                     rádio Makoň
-                                </IndexLink>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link to='/o-projektu/' activeClassName='route--active'>
+                                <NavLink to='/o-projektu/' activeClassName='route--active'>
                                     o projektu
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
                         <form className='navbar-form navbar-left' action='/vyhledavani/' method='get'>
@@ -31,7 +32,7 @@ export class Header extends React.Component {
                                     name='dotaz'
                                     ref={(el) => {
                                         if (el) {
-                                            el.value = me.props.location.query.dotaz || '';
+                                            el.value = qs.parse(me.props.location.search).dotaz || '';
                                         }
                                     }}
                                 />
