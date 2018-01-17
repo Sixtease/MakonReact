@@ -63,7 +63,10 @@ export function prev_page(loc, history) {
             return;
         }
         const new_from = Math.max(from - PAGE_SIZE, 0);
-        history.push({...loc, search: qs.stringify({...q, from: new_from})});
+        history.push({
+            ...loc,
+            search: qs.stringify({ ...q, from: new_from }),
+        });
         load_search_results(loc.query.dotaz, new_from)(dispatch);
     };
 };
@@ -75,7 +78,10 @@ export function next_page(total, loc, history) {
         if (new_from >= total) {
             return;
         }
-        history.push({...loc, search: qs.stringify({...q, from: new_from})});
+        history.push({
+            ...loc,
+            search: qs.stringify({ ...q, from: new_from }),
+        });
         load_search_results(loc.query.dotaz, new_from)(dispatch);
     };
 }

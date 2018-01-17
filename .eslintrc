@@ -23,6 +23,7 @@
     "func-call-spacing"    : 0,
     "key-spacing"          : 0,
     "jsx-quotes"           : [1, "prefer-single"],
+    "react/jsx-boolean-value": [2, "always"],
     "react/jsx-indent"     : [1, 4],
     "react/jsx-indent-props":[1, 4],
     "react/no-unused-prop-types": [0],

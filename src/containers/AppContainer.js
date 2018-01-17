@@ -7,22 +7,22 @@ import CoreLayout from '../layouts/CoreLayout';
 let previous_location;
 const router_set_state = Router.prototype.setState;
 const ref_path = '/zaznam/';
-Router.prototype.setState = function(...args) {
+Router.prototype.setState = function (...args) {
     const loc = this.props.history.location;
     if (loc.pathname.substr(0, ref_path.length) === ref_path &&
         loc.pathname === previous_location.pathname &&
         loc.search   === previous_location.search   &&
         loc.hash     !== previous_location.hash
     ) {
-        previous_location = {...loc};
+        previous_location = { ...loc };
         return;
     }
 
-    previous_location = {...loc};
+    previous_location = { ...loc };
     return router_set_state.apply(this, args);
 };
 const router_did_mount = Router.prototype.componentDidMount;
-Router.prototype.componentDidMount = function(...args) {
+Router.prototype.componentDidMount = function (...args) {
     previous_location = {
         ...this.props.history.location,
     };
@@ -41,7 +41,7 @@ class AppContainer extends Component {
     }
 
     render() {
-        const { routes, store } = this.props;
+        const { store } = this.props;
 
         return (
             <Provider store={store}>

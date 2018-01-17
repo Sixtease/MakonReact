@@ -16,18 +16,18 @@ export class CoreLayout extends React.Component {
                 <div className='row'>
                     <div className='col-xs-12'>
                         <div className='core-layout__viewport'>
-                            <Route path="/" exact={true} component={home_route.component} />
-                            <Route path="/zaznam/:id" exact={true} component={({match}) => {
+                            <Route path='/' exact={true} component={home_route.component} />
+                            <Route path='/zaznam/:id' exact={true} component={({ match }) => {
                                 return React.createElement(
                                     track_detail_route.component(match.params.id)
                                 );
                             }} />
-                            <Route path="/zaznam/prevzate/:id" exact={true} component={({match}) => {
+                            <Route path='/zaznam/prevzate/:id' exact={true} component={({ match }) => {
                                 return React.createElement(
                                     track_detail_route.component('prevzate/' + match.params.id)
                                 );
                             }} />
-                            <Route path="/vyhledavani/" component={search_route.component} />
+                            <Route path='/vyhledavani/' component={search_route.component} />
                         </div>
                     </div>
                 </div>

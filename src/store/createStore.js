@@ -1,7 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
-import { updateLocation } from './location';
 import { autostop } from './middleware.js';
 
 export default (initialState = {}) => {
