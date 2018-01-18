@@ -67,7 +67,7 @@ export function prev_page(loc, history) {
             ...loc,
             search: qs.stringify({ ...q, from: new_from }),
         });
-        load_search_results(loc.query.dotaz, new_from)(dispatch);
+        load_search_results(q.dotaz, new_from)(dispatch);
     };
 };
 
@@ -82,7 +82,7 @@ export function next_page(total, loc, history) {
             ...loc,
             search: qs.stringify({ ...q, from: new_from }),
         });
-        load_search_results(loc.query.dotaz, new_from)(dispatch);
+        load_search_results(q.dotaz, new_from)(dispatch);
     };
 }
 
