@@ -24,7 +24,6 @@ const splitter = ac.createChannelSplitter(2);
 equalizer.convolver.connect(splitter);
 splitter.connect(ac.destination, 0);
 
-
 class MAudio {
     constructor() {
         if (!format) {
