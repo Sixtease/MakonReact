@@ -20,7 +20,10 @@ export const equalizer = new CanvasEqualizer(2048, ac, {
     language: 'cs',
 });
 equalizer.loadLocale('cs', equalizer_locale_cs);
-equalizer.convolver.connect(ac.destination);
+const splitter = ac.createChannelSplitter(2);
+equalizer.convolver.connect(splitter);
+splitter.connect(ac.destination, 0);
+
 
 class MAudio {
     constructor() {
