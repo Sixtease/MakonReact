@@ -4,6 +4,8 @@
 import { slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
+import { basename } from 'lib/Util';
+import { save_buffer, load_buffer } from './localsave';
 
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -51,20 +53,33 @@ class MAudio {
         const me = this;
         return new Promise(resolve => {
             const stub = me.stub;
-            const src = [stub, format.suffix].join('.');
-            ;;; console.log('downloading');
-            fetch(src).then(res => {    // TODO: progress bar
-                window.dispatchEvent(new Event(fetched_audio_event));
-                res.arrayBuffer().then(encoded_data => {
-                    ;;; console.log('decoding');
-                    new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
-                        me.buffer = decoded_buffer;
-                        window.dispatchEvent(new Event(decoded_audio_event));
-                        ;;; console.log('done');
-                        resolve(me);
-                        if (me.is_playing) {
-                            me.play();
-                        }
+			const stem = basename(stub);
+
+            ;;; console.log('checking for saved buffer');
+            load_buffer(stem, ac).then(buffer => {
+                ;;; console.log('restoring from local DB');
+                me.buffer = buffer;
+                ;;; console.log('done');
+                resolve(me);
+                return;
+            })
+            .catch(err => {
+                const src = [stub, format.suffix].join('.');
+                ;;; console.log('downloading', err);
+                fetch(src).then(res => {    // TODO: progress bar
+                    window.dispatchEvent(new Event(fetched_audio_event));
+                    res.arrayBuffer().then(encoded_data => {
+                        ;;; console.log('decoding');
+                        new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
+                            me.buffer = decoded_buffer;
+                            window.dispatchEvent(new Event(decoded_audio_event));
+                            ;;; console.log('done');
+                            resolve(me);
+                            if (me.is_playing) {
+                                me.play();
+                            }
+                            save_buffer(decoded_buffer, stem);
+                        });
                     });
                 });
             });

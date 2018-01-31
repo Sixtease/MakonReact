@@ -25,3 +25,7 @@ export function demagicize_rect(rect, x_offset, y_offset) {
 export function demagicize_rects(rects, x_offset, y_offset) {
     return to_array(rects).map(r => demagicize_rect(r, x_offset, y_offset));
 }
+
+export function basename(path) {
+    return path.substr(path.lastIndexOf('/') + 1);
+}
