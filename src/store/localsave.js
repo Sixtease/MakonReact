@@ -13,7 +13,7 @@ function get_db() {
 }
 
 export function save_buffer(buffer, stem) {
-    const channel_data = buffer.getChannelData(0)
+    const channel_data = buffer.getChannelData(0);
     const db = get_db();
     db.raw.clear().then(() => {
         db.raw.add({
@@ -29,11 +29,11 @@ export function load_buffer(stem, audio_context) {
         const db = get_db();
         db.raw.where('stem').equals(stem).first(record => {
             if (!record) {
-                reject(stem + ' not stored');
+                reject(new Error(stem + ' not stored'));
             }
             const stored_samples = record.channel_data;
             const sample_rate = record.sample_rate;
-            const buffer = audio_context.createBuffer(1, stored_samples.length, sample_rate)
+            const buffer = audio_context.createBuffer(1, stored_samples.length, sample_rate);
             buffer.copyToChannel(stored_samples, 0);
             resolve(buffer);
         }).catch(e => reject(e));

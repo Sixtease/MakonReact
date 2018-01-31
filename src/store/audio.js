@@ -53,7 +53,7 @@ class MAudio {
         const me = this;
         return new Promise(resolve => {
             const stub = me.stub;
-			const stem = basename(stub);
+            const stem = basename(stub);
 
             ;;; console.log('checking for saved buffer');
             load_buffer(stem, ac).then(buffer => {
@@ -61,9 +61,7 @@ class MAudio {
                 me.buffer = buffer;
                 ;;; console.log('done');
                 resolve(me);
-                return;
-            })
-            .catch(err => {
+            }).catch(err => {
                 const src = [stub, format.suffix].join('.');
                 ;;; console.log('downloading', err);
                 fetch(src).then(res => {    // TODO: progress bar
