@@ -5,7 +5,7 @@ import { slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
 import { basename } from 'lib/Util';
-import { save_buffer, load_buffer } from './localsave';
+import { load_buffer } from './localsave';
 
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -76,7 +76,6 @@ class MAudio {
                             if (me.is_playing) {
                                 me.play();
                             }
-                            save_buffer(decoded_buffer, stem);
                         });
                     });
                 });

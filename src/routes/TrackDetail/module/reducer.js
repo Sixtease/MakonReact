@@ -147,6 +147,23 @@ const ACTION_HANDLERS = {
         ...state,
         locked_for_load: false,
     }),
+    commence_store_stem: (state, action) => ({
+        ...state,
+        storing_stem: true,
+    }),
+    complete_store_stem: (state, action) => ({
+        ...state,
+        storing_stem: false,
+        stored_stem: action.stem,
+    }),
+    failed_store_stem: (state, action) => ({
+        ...state,
+        storing_stem: false,
+    }),
+    set_stem_storable: (state, action) => ({
+        ...state,
+        storable_stem: action.stem,
+    }),
 };
 
 export const initial_state = {
@@ -162,6 +179,9 @@ export const initial_state = {
     sent_word_rectangles: [],
     failed_word_rectangles: [],
     locked_for_load: false,
+    storable_stem: null,
+    stored_stem: null,
+    storing_stem: false,
 };
 
 export default function reducer(state = initial_state, action) {

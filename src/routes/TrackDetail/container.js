@@ -7,6 +7,7 @@ import {
     playback_on,
     set_audio_metadata,
     set_selection,
+    set_stem_storable,
     sync_current_time,
     unlock_after_load,
 } from './module/action-creators';
@@ -31,6 +32,7 @@ const map_dispatch_to_props = {
     playback_on,
     set_audio_metadata,
     set_selection,
+    set_stem_storable,
     sync_current_time,
     unlock_after_load,
 };

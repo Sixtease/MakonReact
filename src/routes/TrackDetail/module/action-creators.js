@@ -1,5 +1,6 @@
 import to_wav from 'audiobuffer-to-wav';
 import audio from 'store/audio';
+import { save_buffer } from 'store/localsave';
 import {
     get_edit_window_timespan,
     get_selected_words,
@@ -115,3 +116,22 @@ export function download_edit_window() {
         return object_url;
     };
 };
+
+export function store_stem(stem) {
+    return (dispatch, get_state) => {
+        const state = get_state();
+        dispatch({ type: 'commence_store_stem' });
+        const buffer = audio().buffer;
+        save_buffer(buffer, stem).then(() => dispatch({
+            type: 'complete_store_stem',
+            stem,
+        })).catch(() => dispatch({ type: 'failed_store_stem' }));
+    }
+};
+
+export function set_stem_storable(stem) {
+    return {
+        type: 'set_stem_storable',
+        stem,
+    };
+}

@@ -13,14 +13,16 @@ function get_db() {
 }
 
 export function save_buffer(buffer, stem) {
-    const channel_data = buffer.getChannelData(0);
-    const db = get_db();
-    db.raw.clear().then(() => {
-        db.raw.add({
-            stem,
-            channel_data,
-            sample_rate: buffer.sampleRate,
-        });
+    return new Promise((fulfill, reject) => {
+        const channel_data = buffer.getChannelData(0);
+        const db = get_db();
+        db.raw.clear().then(() => {
+            db.raw.add({
+                stem,
+                channel_data,
+                sample_rate: buffer.sampleRate,
+            }).then(fulfill).catch(reject);
+        }).catch(reject);
     });
 }
 

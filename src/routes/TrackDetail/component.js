@@ -12,6 +12,7 @@ import {
     Downloads,
 } from 'components/TrackDetail';
 import { demagicize_rects } from 'lib/Util';
+import RecSaver from 'components/RecSaver';
 
 const SPACE = ' ';
 
@@ -67,6 +68,7 @@ export class TrackDetail extends React.Component {
                                 style={{ width: '100%', height: '100%' }}
                                 ref={el => (me.equalizer_el = el)}
                             /></div>
+                            <RecSaver stem={stem} />
                         </div>
                     </div>
                 </div>
@@ -105,6 +107,7 @@ export class TrackDetail extends React.Component {
             unlock_after_load();
             set_audio_metadata(audio);
             audio.ontimeupdate = sync_current_time;
+            set_stem_storable(stem);
         });
         if (!window.KEY_PLAYBACK_CTRL) {
             window.KEY_PLAYBACK_CTRL = document.addEventListener(
@@ -132,6 +135,7 @@ export class TrackDetail extends React.Component {
     componentWillUnmount() {
         audio().pause();
         equalizer.destroyControl();
+        set_stem_storable(null);
     }
 
     componentDidUpdate() {
@@ -190,6 +194,7 @@ TrackDetail.propTypes = {
     playback_on:            PropTypes.func,
     sending_subs:           PropTypes.bool,
     sent_word_rectangles:   PropTypes.array,
+    set_stem_storable:      PropTypes.func,
     subs_chunks:            PropTypes.array,
     unlock_after_load:      PropTypes.func,
     match:                  PropTypes.object,
