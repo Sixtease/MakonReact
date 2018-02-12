@@ -119,14 +119,15 @@ export function download_edit_window() {
 
 export function store_stem(stem) {
     return (dispatch, get_state) => {
-        const state = get_state();
         dispatch({ type: 'commence_store_stem' });
         const buffer = audio().buffer;
         save_buffer(buffer, stem).then(() => dispatch({
             type: 'complete_store_stem',
             stem,
-        })).catch(() => dispatch({ type: 'failed_store_stem' }));
-    }
+        })).catch(() => dispatch({
+            type: 'failed_store_stem',
+        }));
+    };
 };
 
 export function set_stem_storable(stem) {
@@ -134,4 +135,4 @@ export function set_stem_storable(stem) {
         type: 'set_stem_storable',
         stem,
     };
-}
+};

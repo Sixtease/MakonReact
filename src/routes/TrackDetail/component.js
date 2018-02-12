@@ -96,6 +96,7 @@ export class TrackDetail extends React.Component {
             set_audio_metadata, sync_current_time, set_selection,
             playback_off, playback_on,
             lock_for_load, unlock_after_load,
+            set_stem_storable,
             stem,
         } = me.props;
         const stub = AUDIO_BASE + stem;
@@ -135,7 +136,7 @@ export class TrackDetail extends React.Component {
     componentWillUnmount() {
         audio().pause();
         equalizer.destroyControl();
-        set_stem_storable(null);
+        this.props.set_stem_storable(null);
     }
 
     componentDidUpdate() {

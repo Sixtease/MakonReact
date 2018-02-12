@@ -13,7 +13,7 @@ function get_db() {
 }
 
 export function save_buffer(buffer, stem) {
-    return new Promise((fulfill, reject) => {
+    return new Promise((resolve, reject) => {
         const channel_data = buffer.getChannelData(0);
         const db = get_db();
         db.raw.clear().then(() => {
@@ -21,7 +21,7 @@ export function save_buffer(buffer, stem) {
                 stem,
                 channel_data,
                 sample_rate: buffer.sampleRate,
-            }).then(fulfill).catch(reject);
+            }).then(resolve).catch(reject);
         }).catch(reject);
     });
 }
@@ -39,5 +39,12 @@ export function load_buffer(stem, audio_context) {
             buffer.copyToChannel(stored_samples, 0);
             resolve(buffer);
         }).catch(e => reject(e));
+    });
+}
+
+export function list_saved_buffers() {
+    return new Promise((resolve, reject) => {
+        const db = get_db();
+        db.raw.toCollection().uniqueKeys(resolve).catch(reject);
     });
 }
