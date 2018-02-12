@@ -124,8 +124,9 @@ export function store_stem(stem) {
         save_buffer(buffer, stem).then(() => dispatch({
             type: 'complete_store_stem',
             stem,
-        })).catch(() => dispatch({
+        })).catch(error => dispatch({
             type: 'failed_store_stem',
+            error,
         }));
     };
 };

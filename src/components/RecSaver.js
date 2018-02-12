@@ -7,8 +7,12 @@ const UnconnectedRecSaver = ({
     storable_stem,
     stored_stem,
     store_stem,
+    storing_stem,
 }) => {
-    if (stored_stem === stem) {
+    if (storing_stem) {
+        return <div>...ukládám...</div>
+    }
+    else if (stored_stem === stem) {
         return <div>✓ uloženo v prohlížeči</div>;
     }
     else if (storable_stem) {
@@ -24,6 +28,7 @@ const UnconnectedRecSaver = ({
 const map_state_to_props = state => ({
     storable_stem: state.track_detail.storable_stem,
     stored_stem: state.track_detail.stored_stem,
+    storing_stem: state.track_detail.storing_stem,
 });
 
 const map_dispatch_to_props = {
