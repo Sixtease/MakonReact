@@ -63,12 +63,12 @@ export class TrackDetail extends React.Component {
                         <div className='sidebar'>
                             <WordInfo word={marked_word} stem={stem} />
                             <Downloads stem={stem} />
+                            <RecSaver stem={stem} />
                             <a onClick={() => me.try_connect_equalizer()}>Frekvenční korekce</a>
                             <div className='equalizer'><div
                                 style={{ width: '100%', height: '100%' }}
                                 ref={el => (me.equalizer_el = el)}
                             /></div>
-                            <RecSaver stem={stem} />
                         </div>
                     </div>
                 </div>
