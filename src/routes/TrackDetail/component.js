@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import audio, { load_audio, equalizer } from 'store/audio';
+import { load_audio, equalizer } from 'store/audio';
 import 'canvas-equalizer/dist/css/CanvasEqualizer.css';
 import {
     ControlBar,
@@ -134,7 +134,7 @@ export class TrackDetail extends React.Component {
     }
 
     componentWillUnmount() {
-        audio().pause();
+        this.props.playback_off();
         equalizer.destroyControl();
         this.props.set_stem_storable(null);
     }

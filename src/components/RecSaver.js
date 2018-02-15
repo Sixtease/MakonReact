@@ -10,7 +10,7 @@ const UnconnectedRecSaver = ({
     storing_stem,
 }) => {
     if (storing_stem) {
-        return <div>...ukládám...</div>
+        return <div>ukládám...</div>;
     }
     else if (stored_stem === stem) {
         return <div>✓ uloženo v prohlížeči</div>;
