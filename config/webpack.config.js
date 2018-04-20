@@ -107,15 +107,6 @@ else if (__PROD__) {
   );
 }
 
-// Don't split bundles during testing, since we only want import one bundle
-if (!__TEST__) {
-    webpackConfig.plugins.push(
-    new webpack.optimize.CommonsChunkPlugin({
-        names : ['vendor'],
-    })
-  );
-}
-
 // ------------------------------------
 // Loaders
 // ------------------------------------
