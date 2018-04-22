@@ -87,6 +87,7 @@ if (__TEST__ && !argv.watch) {
 }
 
 if (__DEV__) {
+    webpackConfig.mode = 'development';
     debug('Enabling plugins for live development (HMR, NoErrors).');
     webpackConfig.plugins.push(
     //new webpack.HotModuleReplacementPlugin(),
@@ -94,6 +95,7 @@ if (__DEV__) {
   );
 }
 else if (__PROD__) {
+    webpackConfig.mode = 'production';
     debug('Enabling plugins for production (OccurenceOrder & UglifyJS).');
     webpackConfig.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
