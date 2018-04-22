@@ -63,7 +63,7 @@ export function playback_off() {
 export function set_audio_metadata() {
     return {
         type: 'set_audio_metadata',
-        frame_cnt: audio().buffer.length,
+        frame_cnt: audio().get_frame_cnt(),
     };
 };
 

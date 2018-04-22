@@ -18,6 +18,16 @@ if (!format) {
     console.log('no supported format, no audio');
 }
 
+let _audio_element;
+export function audio_element() {
+    if (_audio_element === undefined) {
+        _audio_element = new Audio();
+        _audio_element.crossOrigin = 'anonymous';
+    }
+    return _audio_element;
+}
+;;; window.audio_element = audio_element;
+
 export const equalizer = new CanvasEqualizer(2048, ac, {
     language: 'cs',
 });
@@ -25,6 +35,10 @@ equalizer.loadLocale('cs', equalizer_locale_cs);
 const splitter = ac.createChannelSplitter(2);
 equalizer.convolver.connect(splitter);
 splitter.connect(ac.destination, 0);
+
+const use_oac = false;
+
+const get_src = (stub) => [stub, format.suffix].join('.');
 
 class MAudio {
     constructor() {
@@ -55,41 +69,63 @@ class MAudio {
             const stub = me.stub;
             const stem = basename(stub);
 
-            ;;; console.log('checking for saved buffer');
-            load_buffer(stem, ac).then(buffer => {
-                ;;; console.log('restoring from local DB');
-                me.buffer = buffer;
-                ;;; console.log('done');
-                resolve(me);
-            }).catch(err => {
-                const src = [stub, format.suffix].join('.');
-                ;;; console.log('downloading', err);
-                fetch(src).then(res => {    // TODO: progress bar
-                    window.dispatchEvent(new Event(fetched_audio_event));
-                    res.arrayBuffer().then(encoded_data => {
-                        ;;; console.log('decoding');
-                        new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
-                            me.buffer = decoded_buffer;
-                            window.dispatchEvent(new Event(decoded_audio_event));
-                            ;;; console.log('done');
-                            resolve(me);
-                            if (me.is_playing) {
-                                me.play();
-                            }
+            if (use_oac) {
+                ;;; console.log('checking for saved buffer');
+                load_buffer(stem, ac).then(buffer => {
+                    ;;; console.log('restoring from local DB');
+                    me.buffer = buffer;
+                    ;;; console.log('done');
+                    resolve(me);
+                }).catch(err => {
+                    const src = get_src(stub);
+                    ;;; console.log('downloading', err);
+                    fetch(src).then(res => {    // TODO: progress bar
+                        window.dispatchEvent(new Event(fetched_audio_event));
+                        res.arrayBuffer().then(encoded_data => {
+                            ;;; console.log('decoding');
+                            new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
+                                me.buffer = decoded_buffer;
+                                window.dispatchEvent(new Event(decoded_audio_event));
+                                ;;; console.log('done');
+                                resolve(me);
+                                if (me.is_playing) {
+                                    me.play();
+                                }
+                            });
                         });
                     });
                 });
-            });
+            }
+            else {
+                audio_element().src = get_src(stub);
+                me.media_audio_source = ac.createMediaElementSource(audio_element());
+                audio_element().addEventListener('loadedmetadata', () => resolve(me));
+            }
         });
     }
 
-    get_source() {
-        if (this.buffer === null) {
-            return null;
+    get_frame_cnt() {
+        if (use_oac) {
+            return this.buffer.length;
         }
-        const audio_source = ac.createBufferSource();
+        else {
+            return audio_element().duration * audio_sample_rate;
+        }
+    }
+
+    get_source() {
+        let audio_source;
+        if (use_oac) {
+            if (this.buffer === null) {
+                return null;
+            }
+            audio_source = ac.createBufferSource();
+            audio_source.buffer = this.buffer;
+        }
+        else {
+            audio_source = this.media_audio_source;
+        }
         this.audio_source = audio_source;
-        audio_source.buffer = this.buffer;
         audio_source.connect(equalizer.convolver);
         audio_source.addEventListener('ended', () => audio_source.disconnect());
         return audio_source;
@@ -98,8 +134,10 @@ class MAudio {
     play() {
         const me = this;
         me.is_playing = true;
-        if (me.buffer === null) {
-            return null;
+        if (use_oac) {
+            if (me.buffer === null) {
+                return null;
+            }
         }
         if (me.playing_source !== null) {
             me.playing_source.disconnect();
@@ -190,6 +228,7 @@ export function load_audio(new_stub) {
         return audio.load();
     }
     else {
+        // TODO: return self-promise: we expect we're loaded, which we may not be
         return Promise.resolve(audio);
     }
 };
