@@ -4,8 +4,9 @@
 import { slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
-import { basename } from 'lib/Util';
+import { basename, dirname } from 'lib/Util';
 import { load_buffer } from './localsave';
+import splits from 'store/splits';
 
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -25,6 +26,20 @@ equalizer.loadLocale('cs', equalizer_locale_cs);
 const splitter = ac.createChannelSplitter(2);
 equalizer.convolver.connect(splitter);
 splitter.connect(ac.destination, 0);
+
+function get_src(stub, time) {
+    const dirpath = dirname(stub);
+    const stem = basename(stub);
+    const chunks = splits[stem];
+    const hit = chunks.find(x => {
+        const [, start, end] = /from-(\d+)--to-(\d+)/.exec(x);
+        return start <= time && end > time;
+    });
+    if (!hit) {
+        throw 'no corresponding chunk';
+    }
+    return [dirpath, '/splits/', hit, '.', format.suffix].join('');
+}
 
 class MAudio {
     constructor() {
@@ -54,6 +69,7 @@ class MAudio {
         return new Promise(resolve => {
             const stub = me.stub;
             const stem = basename(stub);
+            const time = me.time;
 
             ;;; console.log('checking for saved buffer');
             load_buffer(stem, ac).then(buffer => {
@@ -62,7 +78,7 @@ class MAudio {
                 ;;; console.log('done');
                 resolve(me);
             }).catch(err => {
-                const src = [stub, format.suffix].join('.');
+                const src = get_src(stub, time);
                 ;;; console.log('downloading', err);
                 fetch(src).then(res => {    // TODO: progress bar
                     window.dispatchEvent(new Event(fetched_audio_event));
