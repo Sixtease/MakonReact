@@ -79,22 +79,18 @@ class MAudio {
 
     play() {
         const me = this;
-        ;;; console.log('play!'); console.trace();
         me.is_playing = true;
         const ahead_window = me.audio_chunks.ensure_ahead_window(me.time);
         for (let i = 0; i < ahead_window.length; i++) {
             const chunk = ahead_window[i];
             if (chunk.buffer) {
                 chunk.audio_source = get_source(chunk.buffer);
-                //;;; console.log('directly scheduling', chunk);
                 me.schedule(chunk);
             }
             else {
-                ;;; console.log('scheduling scheduling', chunk, chunk.promise);
                 chunk.promise.then(buffer => {
                     chunk.audio_source = get_source(buffer);
                     if (me.is_playing) {
-                        //;;; console.log('late scheduling', chunk);
                         me.schedule(chunk);
                     }
                 });

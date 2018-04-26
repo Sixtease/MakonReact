@@ -145,7 +145,6 @@ export default class AudioChunks {
             i++;
             c = me.chunks[i];
         }
-        ;;; console.log({ahead_chunks});
         return ahead_chunks;
     }
 }
