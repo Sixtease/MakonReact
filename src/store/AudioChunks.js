@@ -101,27 +101,21 @@ export default class AudioChunks {
         return chunk.ea_promise;
     }
 
-    /*
     get_ahead_window(pos, requested) {
         const me = this;
-        if (requested !== 'promise' && requested !== 'buffer') {
+        if (!(({ promise: true, buffer: true, audio_source: true })[requested])) {
             throw 'unexpected ahead window attribute ' + requested;
         }
         const { floor_chunk, floor_index } = me.get_floor_chunk(pos);
-        if (!floor_chunk.buffer) {
-            return { pos: null, len: 0 };
+        if (!floor_chunk[requested]) {
+            return [];
         }
         let ceil_index;
         for (let i = floor_index; me.chunks[i][requested]; i++) {
             ceil_index = i;
         }
-        const ceil_chunk = me.chunks[i];
-        return {
-            pos: ceil_chunk.to,
-            len: ceil_chunk.to - pos,
-        };
+        return me.chunks.slice(floor_index, ceil_index + 1);
     }
-    */
 
     ensure_ahead_window(pos, len = AHEAD_SIZE) {
         const me = this;

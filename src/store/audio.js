@@ -100,14 +100,17 @@ class MAudio {
     }
 
     pause() {
-        if (this.playing_source === null) {
+        const me = this;
+        if (me.playing_source === null) {
             return null;
         }
-        this.time += ac.currentTime - this.started_at;
-        this.playing_source.stop();
-        this.playing_source = null;
-        this.is_playing = false;
-        this.unnotify_playing();
+        me.time += ac.currentTime - me.started_at;
+        me.audio_chunks.get_ahead_window(me.time, 'audio_source').forEach(chunk => {
+            chunk.audio_source.stop();
+            chunk.audio_source.disconnect();
+        });
+        me.is_playing = false;
+        me.unnotify_playing();
     }
 
     get_time() {
