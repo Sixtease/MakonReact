@@ -66,6 +66,9 @@ class MAudio {
 
     schedule(chunk) {
         const me = this;
+        if (me.time > chunk.to) {
+            return;
+        }
         const start_in = chunk.from - me.time;
         if (start_in <= 0) {
             me.started_at = ac.currentTime;
