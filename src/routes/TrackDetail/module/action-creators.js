@@ -1,5 +1,5 @@
 import to_wav from 'audiobuffer-to-wav';
-import audio from 'store/audio';
+import audio, { audio_sample_rate } from 'store/audio';
 import { save_buffer } from 'store/localsave';
 import {
     get_edit_window_timespan,
@@ -63,7 +63,7 @@ export function playback_off() {
 export function set_audio_metadata() {
     return {
         type: 'set_audio_metadata',
-        frame_cnt: audio().buffer.length,
+        frame_cnt: (chunks => chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0)(audio().audio_chunks.chunks),
     };
 };
 
