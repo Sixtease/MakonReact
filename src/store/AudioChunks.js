@@ -14,6 +14,8 @@ export default class AudioChunks {
         if (!this.chunks) {
             throw 'no chunks for stem "' + stem + '" and format "' + format + '"';
         }
+        this.ensured_for_min = -1;
+        this.ensured_for_max = -2;
     }
 
     get_floor_chunk(pos) {
@@ -119,6 +121,9 @@ export default class AudioChunks {
 
     ensure_ahead_window(pos, len = AHEAD_SIZE) {
         const me = this;
+        if (pos >= me.ensured_for_min && pos <= me.ensured_for_max) {
+            return [];
+        }
         /*
         const ahead_window = me.get_ahead_window(pos, 'promise');
         if (ahead_window.len >= len) {
@@ -130,15 +135,20 @@ export default class AudioChunks {
         let i = floor_index;
         let c = floor_chunk;
         const target_pos = pos + len;
-        let reached_pos = -1;
-        const ahead_chunks = [];
+        let reached_pos = -2;
+        let newly_loaded_chunks = [];
         while (reached_pos < target_pos && i < me.chunks.length) {
-            me.get_chunk_promise(c);
+            if (!c.promise) {
+                me.get_chunk_promise(c);
+                newly_loaded_chunks.push(c);
+            }
             reached_pos = c.to;
-            ahead_chunks.push(c);
             i++;
             c = me.chunks[i];
         }
-        return ahead_chunks;
+
+        me.ensured_for_min = floor_chunk.from;
+        me.ensured_for_max = reached_pos - len;
+        return newly_loaded_chunks;
     }
 }

@@ -77,23 +77,29 @@ class MAudio {
         }
     }
 
+    on_chunk_load(chunk) {
+        const me = this;
+        chunk.audio_source = get_source(chunk.buffer);
+        if (me.is_playing) {
+            me.schedule(chunk);
+        }
+    }
+
     play() {
         const me = this;
         me.is_playing = true;
-        const ahead_window = me.audio_chunks.ensure_ahead_window(me.time);
+        me.audio_chunks.ensure_ahead_window(me.time);
+        me.playing_since = ac.currentTime;
+        const ahead_window = me.audio_chunks.get_ahead_window(me.time, 'promise');
         for (let i = 0; i < ahead_window.length; i++) {
             const chunk = ahead_window[i];
+            chunk.scheduled_for = me.playing_since;
             if (chunk.buffer) {
                 chunk.audio_source = get_source(chunk.buffer);
                 me.schedule(chunk);
             }
             else {
-                chunk.promise.then(buffer => {
-                    chunk.audio_source = get_source(buffer);
-                    if (me.is_playing) {
-                        me.schedule(chunk);
-                    }
-                });
+                chunk.promise.then(() => me.on_chunk_load(chunk));
             }
         }
         return true;
@@ -149,6 +155,14 @@ class MAudio {
         return slice(me.buffer, from * ac.sampleRate, to * ac.sampleRate);
     }
 
+    sliding_ensure_ahead_window() {
+        const me = this;
+        const newly_loading = me.audio_chunks.ensure_ahead_window(me.get_time());
+        newly_loading.forEach(chunk => {
+            chunk.promise.then(() => me.on_chunk_load(chunk));
+        });
+    }
+
     notify_playing() {
         const me = this;
         if (me.timeupdate_interval === null) {
@@ -156,6 +170,7 @@ class MAudio {
                 if (typeof me.ontimeupdate === 'function') {
                     me.ontimeupdate();
                 }
+                me.sliding_ensure_ahead_window();
                 if (!me.is_playing) {
                     me.unnotify_playing();
                 }
