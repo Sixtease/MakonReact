@@ -7,6 +7,7 @@ import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
 import { basename, dirname } from 'lib/Util';
 import { load_buffer } from './localsave';
 import splits from 'store/splits';
+import Chunks from './AudioChunks';
 
 const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
@@ -27,18 +28,12 @@ const splitter = ac.createChannelSplitter(2);
 equalizer.convolver.connect(splitter);
 splitter.connect(ac.destination, 0);
 
-function get_src(stub, time) {
-    const dirpath = dirname(stub);
-    const stem = basename(stub);
-    const chunks = splits[stem];
-    const hit = chunks.find(x => {
-        const [, start, end] = /from-(\d+)--to-(\d+)/.exec(x);
-        return start <= time && end > time;
-    });
-    if (!hit) {
-        throw 'no corresponding chunk';
-    }
-    return [dirpath, '/splits/', hit, '.', format.suffix].join('');
+function get_source(buffer) {
+    const audio_source = ac.createBufferSource();
+    audio_source.buffer = buffer;
+    audio_source.connect(equalizer.convolver);
+    audio_source.addEventListener('ended', () => audio_source.disconnect());
+    return audio_source;
 }
 
 class MAudio {
@@ -50,80 +45,61 @@ class MAudio {
         this.time = 0;
     }
 
-    init(stub) {
-        const previous_stub = this.stub;
-        this.stub = stub;
-        this.buffer = null;
-        if (previous_stub) {
+    init(stem) {
+        const previous_stem = this.stem;
+        this.stem = stem;
+        this.audio_chunks = new Chunks(stem);
+        if (previous_stem) {
             this.pause();
             this.time = 0;
         }
+        this.audio_chunks.ensure_ahead_window(this.time);
         this.started_at = null;
         this.is_playing = false;
-        this.playing_source = null;
+        // this.playing_source = null;
         this.timeupdate_interval = null;
     }
 
     load() {
-        const me = this;
-        return new Promise(resolve => {
-            const stub = me.stub;
-            const stem = basename(stub);
-            const time = me.time;
-
-            ;;; console.log('checking for saved buffer');
-            load_buffer(stem, ac).then(buffer => {
-                ;;; console.log('restoring from local DB');
-                me.buffer = buffer;
-                ;;; console.log('done');
-                resolve(me);
-            }).catch(err => {
-                const src = get_src(stub, time);
-                ;;; console.log('downloading', err);
-                fetch(src).then(res => {    // TODO: progress bar
-                    window.dispatchEvent(new Event(fetched_audio_event));
-                    res.arrayBuffer().then(encoded_data => {
-                        ;;; console.log('decoding');
-                        new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
-                            me.buffer = decoded_buffer;
-                            window.dispatchEvent(new Event(decoded_audio_event));
-                            ;;; console.log('done');
-                            resolve(me);
-                            if (me.is_playing) {
-                                me.play();
-                            }
-                        });
-                    });
-                });
-            });
-        });
+        return Promise.resolve(this);
     }
 
-    get_source() {
-        if (this.buffer === null) {
-            return null;
+    schedule(chunk) {
+        const me = this;
+        const start_in = chunk.from - me.time;
+        if (start_in <= 0) {
+            me.started_at = ac.currentTime;
+            chunk.audio_source.start(0, -start_in);
+            me.notify_playing();
         }
-        const audio_source = ac.createBufferSource();
-        this.audio_source = audio_source;
-        audio_source.buffer = this.buffer;
-        audio_source.connect(equalizer.convolver);
-        audio_source.addEventListener('ended', () => audio_source.disconnect());
-        return audio_source;
+        else {
+            chunk.audio_source.start(start_in + ac.currentTime);
+        }
     }
 
     play() {
         const me = this;
+        ;;; console.log('play!'); console.trace();
         me.is_playing = true;
-        if (me.buffer === null) {
-            return null;
+        const ahead_window = me.audio_chunks.ensure_ahead_window(me.time);
+        for (let i = 0; i < ahead_window.length; i++) {
+            const chunk = ahead_window[i];
+            if (chunk.buffer) {
+                chunk.audio_source = get_source(chunk.buffer);
+                //;;; console.log('directly scheduling', chunk);
+                me.schedule(chunk);
+            }
+            else {
+                ;;; console.log('scheduling scheduling', chunk, chunk.promise);
+                chunk.promise.then(buffer => {
+                    chunk.audio_source = get_source(buffer);
+                    if (me.is_playing) {
+                        //;;; console.log('late scheduling', chunk);
+                        me.schedule(chunk);
+                    }
+                });
+            }
         }
-        if (me.playing_source !== null) {
-            me.playing_source.disconnect();
-        }
-        me.playing_source = me.get_source();
-        me.started_at = ac.currentTime;
-        me.playing_source.start(0, me.time);
-        me.notify_playing();
         return true;
     }
 
@@ -200,9 +176,9 @@ const audio = new MAudio();
 export default function get_audio() {
     return audio;
 };
-export function load_audio(new_stub) {
-    if (new_stub && new_stub !== audio.stub) {
-        audio.init(new_stub);
+export function load_audio(new_stem) {
+    if (new_stem && new_stem !== audio.stem) {
+        audio.init(new_stem);
         return audio.load();
     }
     else {

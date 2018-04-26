@@ -5,6 +5,8 @@ const AHEAD_SIZE = 60;
 import splits from './splits';
 import { format } from './audio';
 
+let last_floor_index = 0;
+
 export default class AudioChunks {
     constructor(stem) {
         this.stem = stem;
@@ -18,7 +20,8 @@ export default class AudioChunks {
         const me = this;
         let floor_chunk;
         let floor_index;
-        for (let i = 0; i < me.chunks.length; i++) {
+        const start = me.chunks[last_floor_index].from < pos ? last_floor_index : 0;
+        for (let i = start; i < me.chunks.length; i++) {
             const chunk = me.chunks[i];
             if (chunk.from <= pos) {
                 floor_chunk = chunk;
@@ -31,6 +34,7 @@ export default class AudioChunks {
         if (!floor_chunk) {
             throw "could not find floor chunk for stem " + me.stem + ", position " + pos;
         }
+        last_floor_index = floor_index;
         return { floor_index, floor_chunk };
     }
 
@@ -65,8 +69,8 @@ export default class AudioChunks {
         chunk.promise = new Promise((fulfill, reject) => {
             me.get_chunk_ea_promise(chunk).then(encoded_audio => {
                 new AudioContext().decodeAudioData(encoded_audio, decoded_buffer => {
-                    // chunk.buffer = decoded_buffer;
-                    fulfill(chunk);
+                    chunk.buffer = decoded_buffer;
+                    fulfill(decoded_buffer);
                 });
             });
         });
@@ -97,6 +101,7 @@ export default class AudioChunks {
         return chunk.ea_promise;
     }
 
+    /*
     get_ahead_window(pos, requested) {
         const me = this;
         if (requested !== 'promise' && requested !== 'buffer') {
@@ -104,7 +109,7 @@ export default class AudioChunks {
         }
         const { floor_chunk, floor_index } = me.get_floor_chunk(pos);
         if (!floor_chunk.buffer) {
-            return { chunk: null, pos: null, len: 0 };
+            return { pos: null, len: 0 };
         }
         let ceil_index;
         for (let i = floor_index; me.chunks[i][requested]; i++) {
@@ -112,29 +117,35 @@ export default class AudioChunks {
         }
         const ceil_chunk = me.chunks[i];
         return {
-            chunk: null,
             pos: ceil_chunk.to,
             len: ceil_chunk.to - pos,
         };
     }
+    */
 
     ensure_ahead_window(pos, len = AHEAD_SIZE) {
         const me = this;
+        /*
         const ahead_window = me.get_ahead_window(pos, 'promise');
         if (ahead_window.len >= len) {
             return;
         }
+        */
         let { floor_index, floor_chunk } = me.get_floor_chunk(pos);
 
         let i = floor_index;
         let c = floor_chunk;
         const target_pos = pos + len;
         let reached_pos = -1;
-        while (reached_pos < target_pos) {
+        const ahead_chunks = [];
+        while (reached_pos < target_pos && i < me.chunks.length) {
             me.get_chunk_promise(c);
             reached_pos = c.to;
+            ahead_chunks.push(c);
             i++;
             c = me.chunks[i];
         }
+        ;;; console.log({ahead_chunks});
+        return ahead_chunks;
     }
 }
