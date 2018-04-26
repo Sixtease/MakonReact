@@ -8,7 +8,7 @@ import { format } from './audio';
 export default class AudioChunks {
     constructor(stem) {
         this.stem = stem;
-        this.chunks = splits(stem).formats[format];
+        this.chunks = splits(stem).formats[format.suffix];
         if (!this.chunks) {
             throw 'no chunks for stem "' + stem + '" and format "' + format + '"';
         }
@@ -20,7 +20,7 @@ export default class AudioChunks {
         let floor_index;
         for (let i = 0; i < me.chunks.length; i++) {
             const chunk = me.chunks[i];
-            if (chunk.from < pos) {
+            if (chunk.from <= pos) {
                 floor_chunk = chunk;
                 floor_index = i;
             }
@@ -38,6 +38,7 @@ export default class AudioChunks {
         const me = this;
         return new Promise((fulfill, reject) => {
             const { floor_chunk, floor_index } = me.get_floor_chunk(pos);
+            let containing_chunk;
 
             if (floor_chunk && floor_chunk.to > pos) {
                 containing_chunk = floor_chunk;
@@ -50,6 +51,7 @@ export default class AudioChunks {
     }
 
     get_chunk_promise(chunk) {
+        const me = this;
         if (chunk.promise) {
             return chunk.promise;
         }
@@ -59,19 +61,40 @@ export default class AudioChunks {
     }
 
     load_chunk(chunk) {
-        chunk.url = AUDIO_BASE + 'splits/' + chunk.basename;
+        const me = this;
         chunk.promise = new Promise((fulfill, reject) => {
-            fetch(chunk.url).then(res => {
-                res.arrayBuffer().then(encoded_data => {
-                    chunk.encoded_data = encoded_data;
-                    new AudioContext().decodeAudioData(encoded_data, decoded_buffer => {
-                        chunk.buffer = decoded_buffer;
-                        fulfill(chunk);
-                    });
+            me.get_chunk_ea_promise(chunk).then(encoded_audio => {
+                new AudioContext().decodeAudioData(encoded_audio, decoded_buffer => {
+                    // chunk.buffer = decoded_buffer;
+                    fulfill(chunk);
                 });
             });
         });
         return chunk.promise;
+    }
+
+    get_chunk_ea_promise(chunk) { // ea = encoded audio
+        const me = this;
+        if (chunk.ea_promise) {
+            return chunk.ea_promise;
+        }
+        else {
+            return me.load_chunk_ea(chunk);
+        }
+    }
+
+    load_chunk_ea(chunk) {
+        const me = this;
+        chunk.url = AUDIO_BASE + 'splits/' + chunk.basename;
+        chunk.ea_promise = new Promise((fulfill, reject) => {
+            fetch(chunk.url).then(res => {
+                res.arrayBuffer().then(encoded_audio => {
+                    // chunk.encoded_audio = encoded_audio;
+                    fulfill(encoded_audio);
+                }).catch(reject);
+            }).catch(reject);
+        });
+        return chunk.ea_promise;
     }
 
     get_ahead_window(pos, requested) {
@@ -106,8 +129,10 @@ export default class AudioChunks {
         let i = floor_index;
         let c = floor_chunk;
         const target_pos = pos + len;
-        while (c.to < target_pos) {
+        let reached_pos = -1;
+        while (reached_pos < target_pos) {
             me.get_chunk_promise(c);
+            reached_pos = c.to;
             i++;
             c = me.chunks[i];
         }
