@@ -87,18 +87,6 @@ export function force_current_time(current_time) {
     };
 };
 
-export function lock_for_load() {
-    return {
-        type: 'lock_for_load',
-    };
-};
-
-export function unlock_after_load() {
-    return {
-        type: 'unlock_after_load',
-    };
-};
-
 export function download_edit_window() {
     return (dispatch, get_state) => {
         const state = get_state();

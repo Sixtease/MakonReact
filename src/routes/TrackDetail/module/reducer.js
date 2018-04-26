@@ -139,14 +139,6 @@ const ACTION_HANDLERS = {
             ],
         };
     },
-    lock_for_load: (state, action) => ({
-        ...state,
-        locked_for_load: true,
-    }),
-    unlock_after_load: (state, action) => ({
-        ...state,
-        locked_for_load: false,
-    }),
     commence_store_stem: (state, action) => ({
         ...state,
         storing_stem: true,
@@ -178,7 +170,6 @@ export const initial_state = {
     selection_end_icco: null,
     sent_word_rectangles: [],
     failed_word_rectangles: [],
-    locked_for_load: false,
     storable_stem: null,
     stored_stem: null,
     storing_stem: false,
