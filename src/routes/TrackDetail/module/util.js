@@ -53,6 +53,7 @@ const set_audio_controls = (store) => {
         }
         if (current_state.track_detail.is_playing
             && !previous_state.track_detail.is_playing
+            && !audio().is_playing
         ) {
             const timespan = get_edit_window_timespan(current_state);
             if (timespan.start === null || timespan.end === null) {
