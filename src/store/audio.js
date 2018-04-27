@@ -129,8 +129,12 @@ class MAudio {
         if (new_time < 0 || isNaN(new_time)) {
             throw new Error('can only set time to non-negative number, not ' + new_time);
         }
+        const is_playing = this.is_playing;
+        if (is_playing) {
+            this.pause();
+        }
         this.time = +new_time;
-        if (this.is_playing) {
+        if (is_playing) {
             this.play();
         }
     }
