@@ -95,11 +95,9 @@ class MAudio {
         const me = this;
         me.is_playing = true;
         me.audio_chunks.ensure_ahead_window(me.time);
-        me.playing_since = ac.currentTime;
         const ahead_window = me.audio_chunks.get_ahead_window(me.time, 'promise');
         for (let i = 0; i < ahead_window.length; i++) {
             const chunk = ahead_window[i];
-            chunk.scheduled_for = me.playing_since;
             if (chunk.buffer) {
                 chunk.audio_source = get_source(chunk.buffer);
                 me.schedule(chunk);
