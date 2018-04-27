@@ -79,8 +79,8 @@ class MAudio {
         }
         else {
             chunk.audio_source.start(start_in + ac.currentTime);
-            me.audio_sources.push(chunk.audio_source);
         }
+        me.audio_sources.push(chunk.audio_source);
     }
 
     on_chunk_load(chunk) {
