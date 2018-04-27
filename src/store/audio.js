@@ -132,11 +132,12 @@ class MAudio {
             throw new Error('can only set time to non-negative number, not ' + new_time);
         }
         const is_playing = this.is_playing;
+        const should_play = this.should_play;
         if (is_playing) {
             this.pause();
         }
         this.time = +new_time;
-        if (is_playing) {
+        if (should_play) {
             this.play();
         }
     }
