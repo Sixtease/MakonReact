@@ -72,13 +72,20 @@ class MAudio {
             return;
         }
         const start_in = chunk.from - time;
+        let duration = undefined;
+        if (me.stop_pos && me.stop_pos > chunk.from && me.stop_pos < chunk.to) {
+            duration = me.stop_pos - chunk.from;
+            if (me.stop_callback) {
+                chunk.audio_source.addEventListener('ended', me.stop_callback);
+            }
+        }
         if (start_in <= 0) {
             me.started_at = ac.currentTime;
-            chunk.audio_source.start(0, -start_in);
+            chunk.audio_source.start(0, -start_in, duration);
             me.notify_playing();
         }
         else {
-            chunk.audio_source.start(start_in + ac.currentTime);
+            chunk.audio_source.start(start_in + ac.currentTime, 0, duration);
         }
         me.is_playing = true;
         me.audio_sources.push(chunk.audio_source);
@@ -92,8 +99,11 @@ class MAudio {
         }
     }
 
-    play() {
+    play(opt = {}) {
         const me = this;
+        if (opt.delete_stop_pos !== false) {
+            me.stop_pos = null;
+        }
         me.should_play = true;
         me.audio_chunks.ensure_ahead_window(me.time);
         const ahead_window = me.audio_chunks.get_ahead_window(me.time, 'promise');
@@ -144,15 +154,11 @@ class MAudio {
 
     play_window(from, to, { onended }) {
         const me = this;
-        if (me.buffer === null) {
-            return null;
-        }
-        if (me.playing_source !== null) {
-            me.playing_source.disconnect();
-        }
-        me.playing_source = me.get_source();
-        me.playing_source.addEventListener('ended', onended);
-        me.playing_source.start(0, from, to - from);
+        me.pause();
+        me.set_time(from);
+        me.stop_pos = to;
+        me.stop_callback = onended;
+        me.play({delete_stop_pos: false});
         return true;
     }
 
