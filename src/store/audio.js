@@ -56,8 +56,8 @@ class MAudio {
         }
         this.audio_chunks.ensure_ahead_window(this.time);
         this.started_at = null;
+        this.should_play = false;
         this.is_playing = false;
-        // this.playing_source = null;
         this.timeupdate_interval = null;
     }
 
@@ -67,7 +67,7 @@ class MAudio {
 
     schedule(chunk) {
         const me = this;
-        const time = me.get_time();
+        const time = me.time;
         if (time > chunk.to) {
             return;
         }
@@ -80,20 +80,21 @@ class MAudio {
         else {
             chunk.audio_source.start(start_in + ac.currentTime);
         }
+        me.is_playing = true;
         me.audio_sources.push(chunk.audio_source);
     }
 
     on_chunk_load(chunk) {
         const me = this;
         chunk.audio_source = get_source(chunk.buffer);
-        if (me.is_playing) {
+        if (me.should_play) {
             me.schedule(chunk);
         }
     }
 
     play() {
         const me = this;
-        me.is_playing = true;
+        me.should_play = true;
         me.audio_chunks.ensure_ahead_window(me.time);
         const ahead_window = me.audio_chunks.get_ahead_window(me.time, 'promise');
         for (let i = 0; i < ahead_window.length; i++) {
@@ -113,6 +114,7 @@ class MAudio {
         const me = this;
         me.time += ac.currentTime - me.started_at;
         me.is_playing = false;
+        me.should_play = false;
         me.unnotify_playing();
         me.audio_sources.forEach(audio_source => {
             audio_source.stop();
@@ -177,7 +179,7 @@ class MAudio {
                     me.ontimeupdate();
                 }
                 me.sliding_ensure_ahead_window();
-                if (!me.is_playing) {
+                if (!me.should_play) {
                     me.unnotify_playing();
                 }
             }, 250);
