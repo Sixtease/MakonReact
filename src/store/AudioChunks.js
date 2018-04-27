@@ -40,22 +40,6 @@ export default class AudioChunks {
         return { floor_index, floor_chunk };
     }
 
-    load_from_pos(pos) {
-        const me = this;
-        return new Promise((fulfill, reject) => {
-            const { floor_chunk, floor_index } = me.get_floor_chunk(pos);
-            let containing_chunk;
-
-            if (floor_chunk && floor_chunk.to > pos) {
-                containing_chunk = floor_chunk;
-            }
-            else {
-                throw "could not find containing chunk for stem " + me.stem + ", position " + pos;
-            }
-            me.get_chunk_promise(containing_chunk).catch(reject).then(fulfill);
-        });
-    }
-
     get_chunk_promise(chunk) {
         const me = this;
         if (chunk.promise) {
