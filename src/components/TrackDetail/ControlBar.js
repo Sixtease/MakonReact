@@ -11,7 +11,7 @@ function s_to_hms(sec) {
         elements.push(h);
     }
     if (m > 0 || h > 0) {
-        elements.push(m > 10 ? m : '0' + m);
+        elements.push(m >= 10 ? m : '0' + m);
     }
     elements.push(s > 10 ? s.toFixed(2) : '0' + s.toFixed(2));
     return elements.join(':');
