@@ -43,6 +43,7 @@ class MAudio {
             return null;
         }
         this.time = 0;
+        this.audio_sources = [];
     }
 
     init(stem) {
@@ -78,6 +79,7 @@ class MAudio {
         }
         else {
             chunk.audio_source.start(start_in + ac.currentTime);
+            me.audio_sources.push(chunk.audio_source);
         }
     }
 
@@ -111,16 +113,14 @@ class MAudio {
 
     pause() {
         const me = this;
-        if (me.playing_source === null) {
-            return null;
-        }
         me.time += ac.currentTime - me.started_at;
-        me.audio_chunks.get_ahead_window(me.time, 'audio_source').forEach(chunk => {
-            chunk.audio_source.stop();
-            chunk.audio_source.disconnect();
-        });
         me.is_playing = false;
         me.unnotify_playing();
+        me.audio_sources.forEach(audio_source => {
+            audio_source.stop();
+            audio_source.disconnect();
+        });
+        me.audio_sources.length = 0;
     }
 
     get_time() {
