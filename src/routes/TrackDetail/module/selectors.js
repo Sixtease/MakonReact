@@ -2,6 +2,7 @@
 
 import { createSelector } from 'reselect';
 import { get_chunk_text_nodes } from '../component';
+import { frame_to_time } from './util';
 import { demagicize_rect, demagicize_rects } from 'lib/Util';
 
 function get_word_chunk_position(word_index, subs_chunks) {
@@ -315,9 +316,10 @@ export const get_selected_word_rectangles = createSelector(
     get_word_rectangles,
 
 );
+export const get_total_time = (state) => frame_to_time(state.track_detail.frame_cnt);
 export const get_edit_window_timespan = createSelector(
-    [get_subs, get_selected_words],
-    (subs, selected_words) => {
+    [get_subs, get_selected_words, get_total_time],
+    (subs, selected_words, total_time) => {
         if (!selected_words || selected_words.length === 0) {
             return {
                 start: null,
@@ -325,7 +327,7 @@ export const get_edit_window_timespan = createSelector(
             };
         }
         const i = get_word_index(selected_words[selected_words.length - 1], subs);
-        const pad_word = subs[i + 1] || subs[i];
+        const pad_word = subs[i + 1] || {timestamp: total_time};
         return {
             start: selected_words[0].timestamp,
             end:   pad_word.timestamp,
