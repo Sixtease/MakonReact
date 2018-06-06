@@ -18,7 +18,7 @@ export const time_to_frame = (time)  => time  * audio_sample_rate;
 const fetch_subs = (store, stem) => {
     fetch_jsonp(
         API_BASE + '/static/subs/' + stem + '.sub.js', {
-            timeout:               30000,
+            timeout:               300000,
             jsonpCallback:         'jsonp_subtitles',
             jsonpCallbackFunction: 'jsonp_subtitles',
         }
