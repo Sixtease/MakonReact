@@ -3,16 +3,16 @@ const Phonet = {
         a: 'a', aa: 'á', aw: 'au',
         b: 'b',
         c: 'c', ch: 'č',
-        d: 'd', dj: 'ď',
-        e: 'e', ee: 'é',
+        d: 'd', dj: 'ď', dz: 'dz', dzh: 'dž',
+        e: 'e', ee: 'é', ew: 'eu',
         f: 'f',
         g: 'g',
         h: 'h',
         i: 'i', ii: 'í', j: 'j',
         k: 'k',
         l: 'l',
-        m: 'm',
-        n: 'n', ng: 'n', nj: 'ň',
+        m: 'm', mg: "m'",
+        n: 'n', ng: "n'", nj: 'ň',
         o: 'o', ow: 'ou',
         p: 'p',
         r: 'r', rsh: "ř'", rzh: 'ř',
@@ -26,19 +26,19 @@ const Phonet = {
         sil: '', sp: ''
     },
     tbl_from_human: {
-        'a': 'a', 'á': 'aa', 'aw': 'aw',
+        'a': 'a', 'á': 'aa', 'au': 'aw',
         'b': 'b',
         'c': 'c', 'č': 'ch',
-        'd': 'd', 'ď': 'dj',
-        'e': 'e', 'é': 'ee',
+        'd': 'd', 'ď': 'dj', 'dz': 'dz', 'dž': 'dzh',
+        'e': 'e', 'é': 'ee', 'eu': 'ew',
         'f': 'f',
         'g': 'g',
         'h': 'h', 'ch': 'x',
         'i': 'i', 'í': 'ii', 'j': 'j',
         'k': 'k',
         'l': 'l',
-        'm': 'm',
-        'n': 'n', 'ng': 'ng', 'ň': 'nj',
+        'm': 'm', "m'": 'mg',
+        'n': 'n', "n'": 'ng', 'ň': 'nj',
         'o': 'o', 'ou': 'ow',
         'p': 'p',
         'r': 'r', 'ř': 'rzh', "ř'": 'rsh',
@@ -84,10 +84,19 @@ const Phonet = {
             if (phone === 'a' && lookahead === 'u') {
                 rv.str += "'";
             }
+            if (phone === 'e' && lookahead === 'u') {
+                rv.str += "'";
+            }
             if (phone === 'o' && lookahead === 'u') {
                 rv.str += "'";
             }
             if (phone === 'c' && lookahead === 'h') {
+                rv.str += "'";
+            }
+            if (phone === 'd' && lookahead === 'z') {
+                rv.str += "'";
+            }
+            if (phone === 'd' && lookahead === 'zh') {
                 rv.str += "'";
             }
         }
@@ -118,15 +127,37 @@ const Phonet = {
             var lookbehind = human[i-1];
             
             if (chr === "'") {
+                if (lookbehind === 'a' && lookahead === 'u') {
+                    continue;
+                }
+                if (lookbehind === 'e' && lookahead === 'u') {
+                    continue;
+                }
                 if (lookbehind === 'o' && lookahead === 'u') {
                     continue;
                 }
                 if (lookbehind === 'c' && lookahead === 'h') {
                     continue;
                 }
+                if (lookbehind === 'd' && lookahead === 'z') {
+                    continue;
+                }
+                if (lookbehind === 'd' && lookahead === 'ž') {
+                    continue;
+                }
             }
             if (chr === 'c' && lookahead === 'h') {
                 chr = 'ch';
+                i++;
+                lookahead = human[i+1];
+            }
+            if (chr === 'a' && lookahead === 'u') {
+                chr = 'au';
+                i++;
+                lookahead = human[i+1];
+            }
+            if (chr === 'e' && lookahead === 'u') {
+                chr = 'eu';
                 i++;
                 lookahead = human[i+1];
             }
