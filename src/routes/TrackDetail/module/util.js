@@ -15,10 +15,24 @@ import {
 export const frame_to_time = (frame) => frame / audio_sample_rate;
 export const time_to_frame = (time)  => time  * audio_sample_rate;
 
-const fetch_subs = (store, stem) => {
+function fetch_subs(store, stem) {
+    if (!store.getState().global.subversions_arrived) {
+        let unsubscribe;
+        unsubscribe = store.subscribe(() => {
+            if (store.getState().global.subversions_arrived) {
+                unsubscribe();
+                fetch_subs(store, stem);
+            }
+        });
+        return;
+    }
+    const subversions = store.getState().global.subversions;
+    const v = subversions[stem];
+    const v_par = v ? '?v=' + v : '';
+    const url = API_BASE + '/static/subs/' + stem + '.sub.js' + v_par;
     fetch_jsonp(
-        API_BASE + '/static/subs/' + stem + '.sub.js', {
-            timeout:               30000,
+        url, {
+            timeout:               300000,
             jsonpCallback:         'jsonp_subtitles',
             jsonpCallbackFunction: 'jsonp_subtitles',
         }

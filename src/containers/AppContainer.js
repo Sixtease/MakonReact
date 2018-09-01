@@ -33,7 +33,7 @@ Router.prototype.componentDidMount = function (...args) {
 
 class AppContainer extends Component {
     static propTypes = {
-        store  : PropTypes.object.isRequired,
+        store: PropTypes.object.isRequired,
     }
 
     shouldComponentUpdate() {
@@ -52,6 +52,13 @@ class AppContainer extends Component {
                 </BrowserRouter>
             </Provider>
         );
+    }
+
+    componentDidMount() {
+        const { store } = this.props;
+        store.dispatch({
+            type: 'commence_session_init',
+        });
     }
 }
 
