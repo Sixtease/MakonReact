@@ -1,13 +1,13 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
-import { autostop } from './middleware.js';
+import { autostop, init } from './middleware.js';
 
 export default (initialState = {}) => {
     // ======================================================
     // Middleware Configuration
     // ======================================================
-    const middleware = [thunk, autostop];
+    const middleware = [thunk, autostop, init];
 
     // ======================================================
     // Store Enhancers
