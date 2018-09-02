@@ -12,7 +12,7 @@
             "74-01",
             "74-02-tatry",
             "74-03-Tatry-pohadka_o_Honzovi",
-            "prevzate/74-01B"
+            "prevzate-74-01B"
         ]
     },
     {
@@ -80,7 +80,7 @@
             "79-07-G.-Zliv",
             "79-08-Zliv",
             "79-09-Zliv-Kaly-P",
-            "prevzate/79-10A"
+            "prevzate-79-10A"
         ]
     },
     {
@@ -176,11 +176,11 @@
             "82-29",
             "82-30",
             "82-31A",
-            "prevzate/82-01",
-            "prevzate/82-02",
-            "prevzate/82-03",
-            "prevzate/82-04",
-            "prevzate/82-05"
+            "prevzate-82-01",
+            "prevzate-82-02",
+            "prevzate-82-03",
+            "prevzate-82-04",
+            "prevzate-82-05"
         ]
     },
     {
@@ -543,21 +543,21 @@
             "88-13B",
             "88-14A",
             "88-14B",
-            "prevzate/88-Terezka",
-            "prevzate/88-00-Tereza",
-            "prevzate/88-01-Terezka",
-            "prevzate/88-03",
-            "prevzate/88-03-Tereza",
-            "prevzate/88-04",
-            "prevzate/88-04-Tereza",
-            "prevzate/88-05",
-            "prevzate/88-06",
-            "prevzate/88-07-J",
-            "prevzate/88-08-J",
-            "prevzate/88-09-J",
-            "prevzate/88-10-j",
-            "prevzate/88-11-J",
-            "prevzate/88-12-J"
+            "prevzate-88-Terezka",
+            "prevzate-88-00-Tereza",
+            "prevzate-88-01-Terezka",
+            "prevzate-88-03",
+            "prevzate-88-03-Tereza",
+            "prevzate-88-04",
+            "prevzate-88-04-Tereza",
+            "prevzate-88-05",
+            "prevzate-88-06",
+            "prevzate-88-07-J",
+            "prevzate-88-08-J",
+            "prevzate-88-09-J",
+            "prevzate-88-10-j",
+            "prevzate-88-11-J",
+            "prevzate-88-12-J"
         ]
     },
     {
@@ -817,47 +817,47 @@
     {
         "section": "kazety-cislo-1",
         "items": [
-            "prevzate/1a",
-            "prevzate/01a",
-            "prevzate/001a",
-            "prevzate/001b",
-            "prevzate/001b-2",
-            "prevzate/001c"
+            "prevzate-1a",
+            "prevzate-01a",
+            "prevzate-001a",
+            "prevzate-001b",
+            "prevzate-001b-2",
+            "prevzate-001c"
         ]
     },
     {
         "section": "kazety-cislo-2",
         "items": [
-            "prevzate/002a"
+            "prevzate-002a"
         ]
     },
     {
         "section": "kazety-cislo-3",
         "items": [
-            "prevzate/003a",
-            "prevzate/003b",
-            "prevzate/003c",
-            "prevzate/003d",
-            "prevzate/003e"
+            "prevzate-003a",
+            "prevzate-003b",
+            "prevzate-003c",
+            "prevzate-003d",
+            "prevzate-003e"
         ]
     },
     {
         "section": "kazety-cislo-4",
         "items": [
-            "prevzate/004a",
-            "prevzate/004b",
-            "prevzate/004c",
-            "prevzate/004d",
-            "prevzate/004e"
+            "prevzate-004a",
+            "prevzate-004b",
+            "prevzate-004c",
+            "prevzate-004d",
+            "prevzate-004e"
         ]
     },
     {
         "section": "kazety-cislo-5",
         "items": [
-            "prevzate/005a",
-            "prevzate/005b",
-            "prevzate/005c",
-            "prevzate/005d"
+            "prevzate-005a",
+            "prevzate-005b",
+            "prevzate-005c",
+            "prevzate-005d"
         ]
     },
     {
@@ -876,9 +876,9 @@
     {
         "section": "kazety-ostatni-ostatni",
         "items": [
-            "prevzate/KM01-extempore",
-            "prevzate/KM02-za_extase",
-            "prevzate/Untitled"
+            "prevzate-KM01-extempore",
+            "prevzate-KM02-za_extase",
+            "prevzate-Untitled"
         ]
     },
     {
@@ -1067,48 +1067,48 @@
     {
         "section": "kotouc-rocnik-73",
         "items": [
-            "prevzate/kotouc-73-01A",
-            "prevzate/kotouc-73-01B",
-            "prevzate/kotouc-73-02A"
+            "prevzate-kotouc-73-01A",
+            "prevzate-kotouc-73-01B",
+            "prevzate-kotouc-73-02A"
         ]
     },
     {
         "section": "kotouc-rocnik-74",
         "items": [
-            "prevzate/kotouc-74-01",
-            "prevzate/kotouc-74-01B",
-            "prevzate/kotouc-74-02",
-            "prevzate/kotouc-74-02A",
-            "prevzate/kotouc-74-02B",
-            "prevzate/kotouc-74-03",
-            "prevzate/kotouc-74-03A",
-            "prevzate/kotouc-74-03B"
+            "prevzate-kotouc-74-01",
+            "prevzate-kotouc-74-01B",
+            "prevzate-kotouc-74-02",
+            "prevzate-kotouc-74-02A",
+            "prevzate-kotouc-74-02B",
+            "prevzate-kotouc-74-03",
+            "prevzate-kotouc-74-03A",
+            "prevzate-kotouc-74-03B"
         ]
     },
     {
         "section": "kotouc-rocnik-75",
         "items": [
-            "prevzate/kotouc-75-01A",
-            "prevzate/kotouc-75-01B"
+            "prevzate-kotouc-75-01A",
+            "prevzate-kotouc-75-01B"
         ]
     },
     {
         "section": "kotouc-rocnik-76",
         "items": [
-            "prevzate/kotouc-76-01A",
-            "prevzate/kotouc-76-01B",
-            "prevzate/kotouc-76-02A",
-            "prevzate/kotouc-76-02B",
-            "prevzate/kotouc-76-02Bb",
-            "prevzate/kotouc-76-03A",
-            "prevzate/kotouc-76-03B",
-            "prevzate/kotouc-76-04A",
-            "prevzate/kotouc-76-04B",
-            "prevzate/kotouc-76-05A",
-            "prevzate/kotouc-76-05B",
-            "prevzate/kotouc-76-06A",
-            "prevzate/kotouc-76-06a-nekval",
-            "prevzate/kotouc-76-06B"
+            "prevzate-kotouc-76-01A",
+            "prevzate-kotouc-76-01B",
+            "prevzate-kotouc-76-02A",
+            "prevzate-kotouc-76-02B",
+            "prevzate-kotouc-76-02Bb",
+            "prevzate-kotouc-76-03A",
+            "prevzate-kotouc-76-03B",
+            "prevzate-kotouc-76-04A",
+            "prevzate-kotouc-76-04B",
+            "prevzate-kotouc-76-05A",
+            "prevzate-kotouc-76-05B",
+            "prevzate-kotouc-76-06A",
+            "prevzate-kotouc-76-06a-nekval",
+            "prevzate-kotouc-76-06B"
         ]
     },
     {
@@ -1118,72 +1118,72 @@
             "kotouc-77-brezen01-b",
             "kotouc-77-brezen01-c",
             "kotouc-77-brezen01-d",
-            "prevzate/kotouc-77-01A",
-            "prevzate/kotouc-77-01B",
-            "prevzate/kotouc-77-02A",
-            "prevzate/kotouc-77-02B",
-            "prevzate/kotouc-77-03A",
-            "prevzate/kotouc-77-03B",
-            "prevzate/kotouc-77-03Bb",
-            "prevzate/kotouc-77-04A",
-            "prevzate/kotouc-77-04B",
-            "prevzate/kotouc-77-05A",
-            "prevzate/kotouc-77-05B",
-            "prevzate/kotouc-77-06A",
-            "prevzate/kotouc-77-06A-spr",
-            "prevzate/kotouc-77-06A2",
-            "prevzate/kotouc-77-06B"
+            "prevzate-kotouc-77-01A",
+            "prevzate-kotouc-77-01B",
+            "prevzate-kotouc-77-02A",
+            "prevzate-kotouc-77-02B",
+            "prevzate-kotouc-77-03A",
+            "prevzate-kotouc-77-03B",
+            "prevzate-kotouc-77-03Bb",
+            "prevzate-kotouc-77-04A",
+            "prevzate-kotouc-77-04B",
+            "prevzate-kotouc-77-05A",
+            "prevzate-kotouc-77-05B",
+            "prevzate-kotouc-77-06A",
+            "prevzate-kotouc-77-06A-spr",
+            "prevzate-kotouc-77-06A2",
+            "prevzate-kotouc-77-06B"
         ]
     },
     {
         "section": "kotouc-rocnik-78",
         "items": [
-            "prevzate/kotouc-78-01A",
-            "prevzate/kotouc-78-01B",
-            "prevzate/kotouc-78-02A",
-            "prevzate/kotouc-78-02B",
-            "prevzate/kotouc-78-03A",
-            "prevzate/kotouc-78-03B",
-            "prevzate/kotouc-78-04A",
-            "prevzate/kotouc-78-04B",
-            "prevzate/kotouc-78-05A",
-            "prevzate/kotouc-78-05B",
-            "prevzate/kotouc-78-06A",
-            "prevzate/kotouc-78-06B",
-            "prevzate/kotouc-78-07A"
+            "prevzate-kotouc-78-01A",
+            "prevzate-kotouc-78-01B",
+            "prevzate-kotouc-78-02A",
+            "prevzate-kotouc-78-02B",
+            "prevzate-kotouc-78-03A",
+            "prevzate-kotouc-78-03B",
+            "prevzate-kotouc-78-04A",
+            "prevzate-kotouc-78-04B",
+            "prevzate-kotouc-78-05A",
+            "prevzate-kotouc-78-05B",
+            "prevzate-kotouc-78-06A",
+            "prevzate-kotouc-78-06B",
+            "prevzate-kotouc-78-07A"
         ]
     },
     {
         "section": "kotouc-rocnik-79",
         "items": [
-            "prevzate/kotouc-79-01B",
-            "prevzate/kotouc-79-06A",
-            "prevzate/kotouc-79-06B",
-            "prevzate/kotouc-79-07A",
-            "prevzate/kotouc-79-07B",
-            "prevzate/kotouc-79-08A",
-            "prevzate/kotouc-79-08B",
-            "prevzate/kotouc-79-09A",
-            "prevzate/kotouc-79-09B",
-            "prevzate/kotouc-79-10A"
+            "prevzate-kotouc-79-01B",
+            "prevzate-kotouc-79-06A",
+            "prevzate-kotouc-79-06B",
+            "prevzate-kotouc-79-07A",
+            "prevzate-kotouc-79-07B",
+            "prevzate-kotouc-79-08A",
+            "prevzate-kotouc-79-08B",
+            "prevzate-kotouc-79-09A",
+            "prevzate-kotouc-79-09B",
+            "prevzate-kotouc-79-10A"
         ]
     },
     {
         "section": "kotouc-rocnik-80",
         "items": [
-            "prevzate/kotouc-80-01A",
-            "prevzate/kotouc-80-01B-80-02A",
-            "prevzate/kotouc-80-02B",
-            "prevzate/kotouc-80-03AB",
-            "prevzate/kotouc-80-04AB",
-            "prevzate/kotouc-80-05AB",
-            "prevzate/kotouc-80-06AB",
-            "prevzate/kotouc-80-07AB",
-            "prevzate/kotouc-80-08AB",
-            "prevzate/kotouc-80-09AB",
-            "prevzate/kotouc-80-10AB",
-            "prevzate/kotouc-80-11-AB",
-            "prevzate/kotouc-80-12AB"
+            "prevzate-kotouc-80-01A",
+            "prevzate-kotouc-80-01B-80-02A",
+            "prevzate-kotouc-80-02B",
+            "prevzate-kotouc-80-03AB",
+            "prevzate-kotouc-80-04AB",
+            "prevzate-kotouc-80-05AB",
+            "prevzate-kotouc-80-06AB",
+            "prevzate-kotouc-80-07AB",
+            "prevzate-kotouc-80-08AB",
+            "prevzate-kotouc-80-09AB",
+            "prevzate-kotouc-80-10AB",
+            "prevzate-kotouc-80-11-AB",
+            "prevzate-kotouc-80-12AB"
         ]
     },
     {
@@ -1202,40 +1202,40 @@
     {
         "section": "kotouc-rocnik-82",
         "items": [
-            "prevzate/kotouc-82-1",
-            "prevzate/kotouc-82-2",
-            "prevzate/kotouc-82-3",
-            "prevzate/kotouc-82-3spr",
-            "prevzate/kotouc-82-4",
-            "prevzate/kotouc-82-5"
+            "prevzate-kotouc-82-1",
+            "prevzate-kotouc-82-2",
+            "prevzate-kotouc-82-3",
+            "prevzate-kotouc-82-3spr",
+            "prevzate-kotouc-82-4",
+            "prevzate-kotouc-82-5"
         ]
     },
     {
         "section": "kotouc-rocnik-88",
         "items": [
-            "prevzate/kotouc-88-01-Tereza",
-            "prevzate/kotouc-88-02-Tereza",
-            "prevzate/kotouc-88-03",
-            "prevzate/kotouc-88-03-Tereza",
-            "prevzate/kotouc-88-04",
-            "prevzate/kotouc-88-04-Tereza",
-            "prevzate/kotouc-88-05",
-            "prevzate/kotouc-88-05-Tereza",
-            "prevzate/kotouc-88-06",
-            "prevzate/kotouc-88-06-Tereza",
-            "prevzate/kotouc-88-07-J",
-            "prevzate/kotouc-88-07-Tereza",
-            "prevzate/kotouc-88-08-J",
-            "prevzate/kotouc-88-08-Tereza",
-            "prevzate/kotouc-88-09-J",
-            "prevzate/kotouc-88-09-Tereza",
-            "prevzate/kotouc-88-10-J",
-            "prevzate/kotouc-88-10-Tereza",
-            "prevzate/kotouc-88-11-J",
-            "prevzate/kotouc-88-11-Tereza",
-            "prevzate/kotouc-88-12-J",
-            "prevzate/kotouc-88-12-Tereza",
-            "prevzate/kotouc-88-13-Tereza"
+            "prevzate-kotouc-88-01-Tereza",
+            "prevzate-kotouc-88-02-Tereza",
+            "prevzate-kotouc-88-03",
+            "prevzate-kotouc-88-03-Tereza",
+            "prevzate-kotouc-88-04",
+            "prevzate-kotouc-88-04-Tereza",
+            "prevzate-kotouc-88-05",
+            "prevzate-kotouc-88-05-Tereza",
+            "prevzate-kotouc-88-06",
+            "prevzate-kotouc-88-06-Tereza",
+            "prevzate-kotouc-88-07-J",
+            "prevzate-kotouc-88-07-Tereza",
+            "prevzate-kotouc-88-08-J",
+            "prevzate-kotouc-88-08-Tereza",
+            "prevzate-kotouc-88-09-J",
+            "prevzate-kotouc-88-09-Tereza",
+            "prevzate-kotouc-88-10-J",
+            "prevzate-kotouc-88-10-Tereza",
+            "prevzate-kotouc-88-11-J",
+            "prevzate-kotouc-88-11-Tereza",
+            "prevzate-kotouc-88-12-J",
+            "prevzate-kotouc-88-12-Tereza",
+            "prevzate-kotouc-88-13-Tereza"
         ]
     },
     {
@@ -1247,11 +1247,11 @@
     {
         "section": "kotouc-cislo-1",
         "items": [
-            "prevzate/kotouc-1a",
-            "prevzate/kotouc-01a",
-            "prevzate/kotouc-001a",
-            "prevzate/kotouc-001b",
-            "prevzate/kotouc-001c"
+            "prevzate-kotouc-1a",
+            "prevzate-kotouc-01a",
+            "prevzate-kotouc-001a",
+            "prevzate-kotouc-001b",
+            "prevzate-kotouc-001c"
         ]
     },
     {
@@ -1261,7 +1261,7 @@
             "kotouc-2-b",
             "kotouc-2-c",
             "kotouc-2-d",
-            "prevzate/kotouc-002a"
+            "prevzate-kotouc-002a"
         ]
     },
     {
@@ -1271,11 +1271,11 @@
             "kotouc-3-b",
             "kotouc-3-c",
             "kotouc-3-d",
-            "prevzate/kotouc-003a",
-            "prevzate/kotouc-003b",
-            "prevzate/kotouc-003c",
-            "prevzate/kotouc-003d",
-            "prevzate/kotouc-003e"
+            "prevzate-kotouc-003a",
+            "prevzate-kotouc-003b",
+            "prevzate-kotouc-003c",
+            "prevzate-kotouc-003d",
+            "prevzate-kotouc-003e"
         ]
     },
     {
@@ -1285,20 +1285,20 @@
             "kotouc-4-b",
             "kotouc-4-c",
             "kotouc-4-d",
-            "prevzate/kotouc-004a",
-            "prevzate/kotouc-004b",
-            "prevzate/kotouc-004c",
-            "prevzate/kotouc-004d",
-            "prevzate/kotouc-004e"
+            "prevzate-kotouc-004a",
+            "prevzate-kotouc-004b",
+            "prevzate-kotouc-004c",
+            "prevzate-kotouc-004d",
+            "prevzate-kotouc-004e"
         ]
     },
     {
         "section": "kotouc-cislo-5",
         "items": [
-            "prevzate/kotouc-005a",
-            "prevzate/kotouc-005b",
-            "prevzate/kotouc-005c",
-            "prevzate/kotouc-005d"
+            "prevzate-kotouc-005a",
+            "prevzate-kotouc-005b",
+            "prevzate-kotouc-005c",
+            "prevzate-kotouc-005d"
         ]
     },
     {
@@ -1317,23 +1317,23 @@
     {
         "section": "kotouc-ostatni-jir",
         "items": [
-            "prevzate/kotouc-JIR",
-            "prevzate/kotouc-JIR09",
-            "prevzate/kotouc-JIR09ev1",
-            "prevzate/kotouc-JIR09ev2",
-            "prevzate/kotouc-JIR09ev3",
-            "prevzate/kotouc-JIR091",
-            "prevzate/kotouc-JIR091b",
-            "prevzate/kotouc-JIR092",
-            "prevzate/kotouc-JIR093",
-            "prevzate/kotouc-JIR094",
-            "prevzate/kotouc-JIR095",
-            "prevzate/kotouc-JIR096",
-            "prevzate/kotouc-JIR097",
-            "prevzate/kotouc-JIR098",
-            "prevzate/kotouc-JIR099",
-            "prevzate/kotouc-kmjiret09ZAV",
-            "prevzate/kotouc-kmjir 098"
+            "prevzate-kotouc-JIR",
+            "prevzate-kotouc-JIR09",
+            "prevzate-kotouc-JIR09ev1",
+            "prevzate-kotouc-JIR09ev2",
+            "prevzate-kotouc-JIR09ev3",
+            "prevzate-kotouc-JIR091",
+            "prevzate-kotouc-JIR091b",
+            "prevzate-kotouc-JIR092",
+            "prevzate-kotouc-JIR093",
+            "prevzate-kotouc-JIR094",
+            "prevzate-kotouc-JIR095",
+            "prevzate-kotouc-JIR096",
+            "prevzate-kotouc-JIR097",
+            "prevzate-kotouc-JIR098",
+            "prevzate-kotouc-JIR099",
+            "prevzate-kotouc-kmjiret09ZAV",
+            "prevzate-kotouc-kmjir 098"
         ]
     },
     {

@@ -22,11 +22,6 @@ export class CoreLayout extends React.Component {
                                     track_detail_route.component(match.params.id)
                                 );
                             }} />
-                            <Route path='/zaznam/prevzate/:id' exact={true} component={({ match }) => {
-                                return React.createElement(
-                                    track_detail_route.component('prevzate/' + match.params.id)
-                                );
-                            }} />
                             <Route path='/vyhledavani/' component={search_route.component} />
                         </div>
                     </div>
