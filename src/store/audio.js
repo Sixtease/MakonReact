@@ -42,6 +42,7 @@ class MAudio {
             console.log('no supported format, no audio');
             return null;
         }
+        this.chunks_loaded = false;
         this.time = 0;
         this.audio_sources = [];
     }
@@ -49,20 +50,28 @@ class MAudio {
     init(stem) {
         const previous_stem = this.stem;
         this.stem = stem;
-        this.audio_chunks = new Chunks(stem);
         if (previous_stem) {
             this.pause();
             this.time = 0;
         }
-        this.audio_chunks.ensure_ahead_window(this.time);
         this.started_at = null;
         this.should_play = false;
         this.is_playing = false;
         this.timeupdate_interval = null;
+        this.audio_chunks = new Chunks(stem);
+        this.audio_chunks.chunks_promise.then(() => {
+            this.chunks_loaded = true;
+            this.audio_chunks.ensure_ahead_window(this.time);
+        });
     }
 
     load() {
-        return Promise.resolve(this);
+        const me = this
+        return new Promise(fulfill => {
+            me.audio_chunks.chunks_promise.then(() => {
+                fulfill(me);
+            });
+        })
     }
 
     schedule(chunk) {

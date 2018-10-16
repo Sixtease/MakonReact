@@ -1,7 +1,9 @@
 /* global AUDIO_BASE */
+/* global API_BASE */
 
 const AHEAD_SIZE = 60;
 
+import fetch_jsonp from 'fetch-jsonp';
 import splits from './splits';
 import { format } from './audio';
 
@@ -10,12 +12,32 @@ let last_floor_index = 0;
 export default class AudioChunks {
     constructor(stem) {
         this.stem = stem;
-        this.chunks = splits(stem).formats[format.suffix];
-        if (!this.chunks) {
-            throw 'no chunks for stem "' + stem + '" and format "' + format + '"';
-        }
         this.ensured_for_min = -1;
         this.ensured_for_max = -2;
+        this.load();
+    }
+
+    load() {
+        const me = this;
+        this.chunks_promise = new Promise((fulfill, reject) => {
+            const url = AUDIO_BASE + '/split-meta/' + me.stem + '.js';
+            fetch_jsonp(url, {
+                timeout:               300000,
+                jsonpCallback:         'jsonp_splits',
+                jsonpCallbackFunction: 'jsonp_splits',
+            })
+                .catch(reject)
+                .then(res => res.json())
+                .then(splits => {
+                    if (splits &&
+                        splits[stem] &&
+                        splits[stem].formats[format.suffix]
+                    ) {
+                        this.chunks = splits[stem].formats[format.suffix];
+                        fulfill(this.chunks);
+                    }
+                });
+        });
     }
 
     get_floor_chunk(pos) {
@@ -75,7 +97,7 @@ export default class AudioChunks {
 
     load_chunk_ea(chunk) {
         const me = this;
-        chunk.url = AUDIO_BASE + 'splits/' + chunk.basename;
+        chunk.url = AUDIO_BASE + ['splits', stem, format, chunk.basename].join('/');
         chunk.ea_promise = new Promise((fulfill, reject) => {
             fetch(chunk.url).then(res => {
                 res.arrayBuffer().then(encoded_audio => {

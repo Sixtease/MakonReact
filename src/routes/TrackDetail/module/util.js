@@ -30,13 +30,11 @@ function fetch_subs(store, stem) {
     const v = subversions[stem];
     const v_par = v ? '?v=' + v : '';
     const url = API_BASE + '/static/subs/' + stem + '.sub.js' + v_par;
-    fetch_jsonp(
-        url, {
-            timeout:               300000,
-            jsonpCallback:         'jsonp_subtitles',
-            jsonpCallbackFunction: 'jsonp_subtitles',
-        }
-    )
+    fetch_jsonp(url, {
+        timeout:               300000,
+        jsonpCallback:         'jsonp_subtitles',
+        jsonpCallbackFunction: 'jsonp_subtitles',
+    })
         .then((res) => res.json())
         .then((sub_data) => {
             // calculate_word_positions(sub_data.data);
