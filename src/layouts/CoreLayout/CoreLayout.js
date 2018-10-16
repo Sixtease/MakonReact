@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import home_route         from '../../routes/Home';
 import track_detail_route from '../../routes/TrackDetail';
 import search_route       from '../../routes/Search';
+import about_route        from '../../routes/About';
 import './CoreLayout.scss';
 import '../../styles/core.scss';
 
@@ -23,6 +24,7 @@ export class CoreLayout extends React.Component {
                                 );
                             }} />
                             <Route path='/vyhledavani/' component={search_route.component} />
+                            <Route path='/o-projektu/' component={about_route.component} />
                         </div>
                     </div>
                 </div>
@@ -34,6 +36,7 @@ export class CoreLayout extends React.Component {
         home_route        .init_reducer(this.context.store);
         track_detail_route.init_reducer(this.context.store);
         search_route      .init_reducer(this.context.store);
+        about_route       .init_reducer(this.context.store);
     }
 }
 
