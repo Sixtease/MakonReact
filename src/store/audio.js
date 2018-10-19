@@ -76,12 +76,12 @@ class MAudio {
 
     schedule(chunk) {
         const me = this;
-        const time = me.time;
+        const time = me.get_time();
         if (time > chunk.to) {
             return;
         }
         const start_in = chunk.from - time;
-        let duration = undefined;
+        let duration = chunk.duration;
         if (me.stop_pos && me.stop_pos > chunk.from && me.stop_pos < chunk.to) {
             duration = me.stop_pos - chunk.from;
             if (me.stop_callback) {
@@ -114,18 +114,20 @@ class MAudio {
             me.stop_pos = null;
         }
         me.should_play = true;
-        me.audio_chunks.ensure_ahead_window(me.time);
-        const ahead_window = me.audio_chunks.get_ahead_window(me.time, 'promise');
-        for (let i = 0; i < ahead_window.length; i++) {
-            const chunk = ahead_window[i];
-            if (chunk.buffer) {
-                chunk.audio_source = get_source(chunk.buffer);
-                me.schedule(chunk);
+        me.audio_chunks.chunks_promise.then(() => {
+            me.audio_chunks.ensure_ahead_window(me.time);
+            const ahead_window = me.audio_chunks.get_ahead_window(me.time, 'promise');
+            for (let i = 0; i < ahead_window.length; i++) {
+                const chunk = ahead_window[i];
+                if (chunk.buffer) {
+                    chunk.audio_source = get_source(chunk.buffer);
+                    me.schedule(chunk);
+                }
+                else {
+                    chunk.promise.then(() => me.on_chunk_load(chunk));
+                }
             }
-            else {
-                chunk.promise.then(() => me.on_chunk_load(chunk));
-            }
-        }
+        });
         return true;
     }
 
