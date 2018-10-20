@@ -94,14 +94,15 @@ export function download_edit_window() {
         if (timespan.start === null || timespan.end === null) {
             return;
         }
-        const window_buffer = audio().get_window(timespan.start, timespan.end);
-        if (window_buffer === null) {
-            return;
-        }
-        const wav = to_wav(window_buffer);
-        const blob = new Blob([wav], { type: 'audio/wav' });
-        const object_url = URL.createObjectURL(blob);
-        return object_url;
+        audio().get_window(timespan.start, timespan.end).then(window_buffer => {
+            const wav = to_wav(window_buffer);
+            const blob = new Blob([wav], { type: 'audio/wav' });
+            const object_url = URL.createObjectURL(blob);
+            dispatch({
+                type: 'window_download_ready',
+                object_url,
+            });
+        });
     };
 };
 

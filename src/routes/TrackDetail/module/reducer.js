@@ -49,6 +49,7 @@ const ACTION_HANDLERS = {
             selection_start_icco: action.start_icco, // icco is in-chunk character offset
             selection_end_icco:   action.  end_icco,
             is_playing: false,
+            download_object_url: null,
         };
         return new_state;
     },
@@ -156,12 +157,17 @@ const ACTION_HANDLERS = {
         ...state,
         storable_stem: action.stem,
     }),
+    window_download_ready: (state, action) => ({
+        ...state,
+        download_object_url: action.object_url,
+    }),
 };
 
 export const initial_state = {
     subs: [],
     frame_cnt: 0,
     current_time: 0,
+    download_object_url: null,
     forced_time: null,
     is_playing: false,
     selection_start_chunk_index: null,

@@ -63,16 +63,24 @@ class EditWindow extends React.Component {
                             onChange={evt => me.setState({ download_filename: evt.target.value })}
                             key={1}
                         />,
-                        <a
-                            href={me.object_url}
-                            download={me.state.download_filename}
-                            key={2}
-                        >
+                        ( me.props.download_object_url ?
+                            <a
+                                href={me.props.download_object_url}
+                                download={me.state.download_filename}
+                                key={2}
+                            >
+                                <button
+                                    className='glyphicon glyphicon-download'
+                                    type='button'
+                                />
+                            </a> :
                             <button
+                                disabled="disabled"
+                                key={2}
                                 className='glyphicon glyphicon-download'
                                 type='button'
                             />
-                        </a>,
+                        ),
                     ] : <button
                         className='glyphicon glyphicon-download'
                         onClick={() => me.commence_download()}
@@ -95,7 +103,9 @@ class EditWindow extends React.Component {
     commence_download() {
         const me = this;
         me.object_url = me.props.download_edit_window();
-        me.setState({ show_filename_input: true });
+        me.setState({
+            show_filename_input: true,
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -159,6 +169,8 @@ EditWindow.propTypes = {
     autofill:       PropTypes.func,
     download_edit_window:
                     PropTypes.func,
+    download_object_url:
+                    PropTypes.string,
     edit_window_timespan:
                     PropTypes.object,
     handleSubmit:   PropTypes.func,

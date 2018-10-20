@@ -92,9 +92,10 @@ config.globals = {
                      ? '"http://rock.positron.cz:8080"'
                      : '"http://localhost:5000"',
     AUDIO_BASE     : env === 'production'
-                     ? '"http://commondatastorage.googleapis.com/karel-makon-mp3/"'
+                     ? '"http://commondatastorage.googleapis.com/karel-makon-splits/"'
                      : '"http://localhost:5000/static/audio/"',
     AUDIO_FORMATS  : '[{mime:"audio/ogg",suffix:"ogg"},{mime:"audio/mpeg",suffix:"mp3"}]',
+    SAMPLE_RATE    : 24000,
 };
 
 // ------------------------------------

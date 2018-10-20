@@ -1,7 +1,8 @@
 /* global AUDIO_FORMATS */
+/* global SAMPLE_RATE */
 /* global window */
 
-import { slice } from 'audio-buffer-utils';
+import { concat, slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
 import { basename, dirname } from 'lib/Util';
@@ -9,11 +10,10 @@ import { load_buffer } from './localsave';
 import splits from 'store/splits';
 import Chunks from './AudioChunks';
 
-const desired_sample_rate = 24000;
 export const fetching_audio_event = 'fetching-audio';
 export const fetched_audio_event = 'fetched-audio';
 export const decoded_audio_event = 'decoded-audio';
-export const ac = new AudioContext({ sampleRate: desired_sample_rate });
+export const ac = new AudioContext({ sampleRate: SAMPLE_RATE });
 export const audio_sample_rate = ac.sampleRate;
 export const format = (audio_el => AUDIO_FORMATS.find(f => audio_el.canPlayType(f.mime)))(new Audio());
 if (!format) {
@@ -77,7 +77,7 @@ class MAudio {
     schedule(chunk) {
         const me = this;
         const time = me.get_time();
-        if (time > chunk.to || me.stop_pos < chunk.from) {
+        if (time > chunk.to || (me.stop_pos && me.stop_pos < chunk.from)) {
             return;
         }
         const start_in = chunk.from - time;
@@ -176,10 +176,39 @@ class MAudio {
 
     get_window(from, to) {
         const me = this;
-        if (me.buffer === null) {
-            return null;
-        }
-        return slice(me.buffer, from * ac.sampleRate, to * ac.sampleRate);
+        const len = to - from;
+        return new Promise((fulfill, reject) => {
+            const containing_chunks = me.audio_chunks.get_window_chunks(from, to);
+            const chunk_promises = containing_chunks.map(c => c.promise);
+            Promise.all(chunk_promises).then(() => {
+                if (containing_chunks.length === 1) {
+                    const chunk = containing_chunks[0];
+                    const buf = chunk.buffer;
+                    const start = from - chunk.from;
+                    const end = to - chunk.from;
+                    fulfill(slice(buf, start * buf.sampleRate, end * buf.sampleRate));
+                }
+                else {
+                    const first_chunk = containing_chunks.shift();
+                    const first_buf = slice(
+                        first_chunk.buffer,
+                        (from - first_chunk.from) * first_chunk.buffer.sampleRate,
+                        first_chunk.duration * first_chunk.buffer.sampleRate
+                    );
+                    const last_chunk = containing_chunks.pop();
+                    const last_buf = slice(
+                        last_chunk.buffer,
+                        0,
+                        (to - last_chunk.from) * last_chunk.buffer.sampleRate
+                    );
+                    fulfill(concat(
+                        first_buf,
+                        ...containing_chunks.map(c => slice(c.buffer, 0, c.duration * c.buffer.sampleRate)),
+                        last_buf
+                    ));
+                }
+            });
+        });
     }
 
     sliding_ensure_ahead_window() {

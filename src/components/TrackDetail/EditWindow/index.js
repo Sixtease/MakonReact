@@ -22,6 +22,7 @@ const map_dispatch_to_props = {
 };
 
 const map_state_to_props = (state) => ({
+    download_object_url: state.track_detail.download_object_url,
     edit_window_timespan: get_edit_window_timespan(state),
     is_playing: state.track_detail.is_playing,
     selected_words: get_selected_words(state),

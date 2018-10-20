@@ -1,4 +1,5 @@
 /* global AUDIO_BASE */
+/* global SAMPLE_RATE */
 
 const AHEAD_SIZE = 60;
 
@@ -75,7 +76,7 @@ export default class AudioChunks {
         const me = this;
         chunk.promise = new Promise((fulfill, reject) => {
             me.get_chunk_ea_promise(chunk).then(encoded_audio => {
-                new AudioContext().decodeAudioData(encoded_audio, decoded_buffer => {
+                new AudioContext({ sampleRate: SAMPLE_RATE }).decodeAudioData(encoded_audio, decoded_buffer => {
                     chunk.buffer = decoded_buffer;
                     fulfill(decoded_buffer);
                 });
@@ -135,13 +136,13 @@ export default class AudioChunks {
             return;
         }
         */
-        let { floor_index, floor_chunk } = me.get_floor_chunk(pos);
+        const { floor_index, floor_chunk } = me.get_floor_chunk(pos);
 
         let i = floor_index;
         let c = floor_chunk;
         const target_pos = pos + len;
         let reached_pos = -2;
-        let newly_loaded_chunks = [];
+        const newly_loaded_chunks = [];
         while (reached_pos < target_pos && i < me.chunks.length) {
             if (!c.promise) {
                 me.get_chunk_promise(c);
@@ -155,5 +156,24 @@ export default class AudioChunks {
         me.ensured_for_min = floor_chunk.from;
         me.ensured_for_max = reached_pos - len;
         return newly_loaded_chunks;
+    }
+
+    get_window_chunks(from, to) {
+        const me = this;
+        const { floor_index, floor_chunk } = me.get_floor_chunk(from);
+
+        let i = floor_index;
+        let c = floor_chunk;
+        let reached_pos = -2;
+        const rv = [];
+        while (reached_pos < to && i < me.chunks.length) {
+            me.get_chunk_promise(c);
+            rv.push(c);
+            reached_pos = c.to;
+            i++;
+            c = me.chunks[i];
+        }
+
+        return rv;
     }
 }
