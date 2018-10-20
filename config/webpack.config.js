@@ -89,24 +89,16 @@ if (__TEST__ && !argv.watch) {
 if (__DEV__) {
     webpackConfig.mode = 'development';
     debug('Enabling plugins for live development (HMR, NoErrors).');
+    webpackConfig.optimization = { minimize: true };
     webpackConfig.plugins.push(
-    //new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin()
   );
 }
 else if (__PROD__) {
     webpackConfig.mode = 'production';
+    webpackConfig.optimization = { minimize: true };
     debug('Enabling plugins for production (OccurenceOrder & UglifyJS).');
-    webpackConfig.plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-        compress : {
-            unused    : true,
-            dead_code : true,
-            warnings  : false,
-        },
-    })
-  );
 }
 
 // ------------------------------------
