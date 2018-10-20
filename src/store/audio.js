@@ -77,13 +77,14 @@ class MAudio {
     schedule(chunk) {
         const me = this;
         const time = me.get_time();
-        if (time > chunk.to) {
+        if (time > chunk.to || me.stop_pos < chunk.from) {
             return;
         }
         const start_in = chunk.from - time;
-        let duration = chunk.duration;
+        const start_pos = Math.max(time, chunk.from);
+        let duration = 0.05 + chunk.to - start_pos;
         if (me.stop_pos && me.stop_pos > chunk.from && me.stop_pos < chunk.to) {
-            duration = me.stop_pos - chunk.from;
+            duration = me.stop_pos - start_pos;
             if (me.stop_callback) {
                 chunk.audio_source.addEventListener('ended', me.stop_callback);
             }
