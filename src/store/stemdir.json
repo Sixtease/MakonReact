@@ -44,8 +44,9 @@
                 "name": "ostatní",
                 "key": "kazety/ostatní",
                 "items": [
-                    { "name": "X",       "section": "kazety-ostatni-x"       },
-                    { "name": "ostatní", "section": "kazety-ostatni-ostatni" }
+                    { "name": "Jablonec", "section": "kazety-ostatni-jablonec" },
+                    { "name": "X",        "section": "kazety-ostatni-x"        },
+                    { "name": "ostatní",  "section": "kazety-ostatni-ostatni"  }
                 ]
             }
         ]
@@ -93,8 +94,7 @@
                     { "name": "80",    "section": "kotouc-rocnik-80"    },
                     { "name": "81-82", "section": "kotouc-rocnik-81-82" },
                     { "name": "82",    "section": "kotouc-rocnik-82"    },
-                    { "name": "88",    "section": "kotouc-rocnik-88"    },
-                    { "name": "88-89", "section": "kotouc-rocnik-88-89" }
+                    { "name": "88",    "section": "kotouc-rocnik-88"    }
                 ]
             },
             {
@@ -112,8 +112,9 @@
                 "name": "ostatní",
                 "key": "kotouče/ostatní",
                 "items": [
-                    { "name": "neident", "section": "kotouc-ostatni-neident" },
-                    { "name": "jiřetín", "section": "kotouc-ostatni-jir"     }
+                    { "name": "Jiřetín", "section": "kotouc-ostatni-jir"     },
+                    { "name": "Plzeň", 	 "section": "kotouc-ostatni-plzen"   },
+                    { "name": "neident", "section": "kotouc-ostatni-neident" }
                 ]
             }
         ]
