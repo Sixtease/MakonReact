@@ -75,7 +75,7 @@ class EditWindow extends React.Component {
                                 />
                             </a> :
                             <button
-                                disabled="disabled"
+                                disabled='disabled'
                                 key={2}
                                 className='glyphicon glyphicon-download'
                                 type='button'

@@ -1,11 +1,10 @@
 /* global AUDIO_BASE */
 /* global SAMPLE_RATE */
 
-const AHEAD_SIZE = 60;
-
 import fetch_jsonp from 'fetch-jsonp';
-import splits from './splits';
 import { format } from './audio';
+
+const AHEAD_SIZE = 60;
 
 let last_floor_index = 0;
 
@@ -19,7 +18,7 @@ export default class AudioChunks {
 
     load() {
         const me = this;
-        me.chunks_promise = new Promise((fulfill, reject) => {
+        me.chunks_promise = new Promise((resolve, reject) => {
             const url = AUDIO_BASE + 'split-meta/' + me.stem + '.jsonp';
             fetch_jsonp(url, {
                 timeout:               300000,
@@ -34,7 +33,7 @@ export default class AudioChunks {
                         splits[me.stem].formats[format.suffix]
                     ) {
                         me.chunks = splits[me.stem].formats[format.suffix];
-                        fulfill(me.chunks);
+                        resolve(me.chunks);
                     }
                 });
         });
@@ -56,7 +55,7 @@ export default class AudioChunks {
             }
         }
         if (!floor_chunk) {
-            throw "could not find floor chunk for stem " + me.stem + ", position " + pos;
+            throw new Error('could not find floor chunk for stem ' + me.stem + ', position ' + pos);
         }
         last_floor_index = floor_index;
         return { floor_index, floor_chunk };
@@ -74,11 +73,11 @@ export default class AudioChunks {
 
     load_chunk(chunk) {
         const me = this;
-        chunk.promise = new Promise((fulfill, reject) => {
+        chunk.promise = new Promise((resolve, reject) => {
             me.get_chunk_ea_promise(chunk).then(encoded_audio => {
                 new AudioContext({ sampleRate: SAMPLE_RATE }).decodeAudioData(encoded_audio, decoded_buffer => {
                     chunk.buffer = decoded_buffer;
-                    fulfill(decoded_buffer);
+                    resolve(decoded_buffer);
                 });
             });
         });
@@ -98,11 +97,11 @@ export default class AudioChunks {
     load_chunk_ea(chunk) {
         const me = this;
         chunk.url = AUDIO_BASE + ['splits', me.stem, format.suffix, chunk.basename].join('/');
-        chunk.ea_promise = new Promise((fulfill, reject) => {
+        chunk.ea_promise = new Promise((resolve, reject) => {
             fetch(chunk.url).then(res => {
                 res.arrayBuffer().then(encoded_audio => {
                     // chunk.encoded_audio = encoded_audio;
-                    fulfill(encoded_audio);
+                    resolve(encoded_audio);
                 }).catch(reject);
             }).catch(reject);
         });
@@ -112,7 +111,7 @@ export default class AudioChunks {
     get_ahead_window(pos, requested) {
         const me = this;
         if (!(({ promise: true, buffer: true, audio_source: true })[requested])) {
-            throw 'unexpected ahead window attribute ' + requested;
+            throw new Error('unexpected ahead window attribute ' + requested);
         }
         const { floor_chunk, floor_index } = me.get_floor_chunk(pos);
         if (!floor_chunk[requested]) {

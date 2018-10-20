@@ -1,30 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactMarkdown from 'react-markdown';
-import { Link } from 'react-router-dom';
 
 export class AboutRouteComponent extends React.Component {
     render() {
-        const me = this;
-        const {
-            location: loc,
-            results,
-            total,
-            prev_page, next_page,
-            history,
-        } = me.props;
         return (<div className='page-about'>
             <h1>O projektu Rádio Makoň</h1>
             <h2>Karel Makoň</h2>
+            <p>
+                Karel Makoň žil ve dvacátém století v Československu, prožil konec světa
+                a znovuzrození z vody a z ducha a pokusil se předat návod na napodobení
+                svojí zkušenosti a dosažení věčného života ostatním.
+            </p>
             <h2>Cíle</h2>
             <p>
-                
-            </p>
-
-            <h2>Manuál</h2>
-            <p>
-                Zde najdete
-                <a href="javascript:void 0">Nápovědu k použití aplikace</a>
+                Cílem projektu je zachování a zužitkování odkazu Karla Makoně.
             </p>
 
             <h2>Autor</h2>
@@ -33,10 +22,10 @@ export class AboutRouteComponent extends React.Component {
                 zde dostupných automatických přepisů,
                 digitálních verzí nahrávek
                 a osobou zodpovědnou za obsah je{' '}
-                <a href="mailto:jan@sixtease.net">
+                <a href='mailto:jan@sixtease.net'>
                     Jan Evangelista Oldřich Krůza
                 </a>{' '}
-                (<a _target="blank" href="http://www.sixtease.net/">sixtease.net</a>).
+                (<a _target='blank' href='http://www.sixtease.net/'>sixtease.net</a>).
             </p>
         </div>);
     }

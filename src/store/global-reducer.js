@@ -7,7 +7,7 @@ const action_handlers = {
 };
 
 const initial_state = {
-	subversions: {},
+    subversions: {},
     subversions_arrived: false,
 };
 

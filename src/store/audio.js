@@ -5,9 +5,6 @@
 import { concat, slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
-import { basename, dirname } from 'lib/Util';
-import { load_buffer } from './localsave';
-import splits from 'store/splits';
 import Chunks from './AudioChunks';
 
 export const fetching_audio_event = 'fetching-audio';
@@ -66,12 +63,12 @@ class MAudio {
     }
 
     load() {
-        const me = this
-        return new Promise(fulfill => {
+        const me = this;
+        return new Promise(resolve => {
             me.audio_chunks.chunks_promise.then(() => {
-                fulfill(me);
+                resolve(me);
             });
-        })
+        });
     }
 
     schedule(chunk) {
@@ -170,14 +167,13 @@ class MAudio {
         me.set_time(from);
         me.stop_pos = to;
         me.stop_callback = onended;
-        me.play({delete_stop_pos: false});
+        me.play({ delete_stop_pos: false });
         return true;
     }
 
     get_window(from, to) {
         const me = this;
-        const len = to - from;
-        return new Promise((fulfill, reject) => {
+        return new Promise((resolve, reject) => {
             const containing_chunks = me.audio_chunks.get_window_chunks(from, to);
             const chunk_promises = containing_chunks.map(c => c.promise);
             Promise.all(chunk_promises).then(() => {
@@ -186,7 +182,7 @@ class MAudio {
                     const buf = chunk.buffer;
                     const start = from - chunk.from;
                     const end = to - chunk.from;
-                    fulfill(slice(buf, start * buf.sampleRate, end * buf.sampleRate));
+                    resolve(slice(buf, start * buf.sampleRate, end * buf.sampleRate));
                 }
                 else {
                     const first_chunk = containing_chunks.shift();
@@ -201,7 +197,7 @@ class MAudio {
                         0,
                         (to - last_chunk.from) * last_chunk.buffer.sampleRate
                     );
-                    fulfill(concat(
+                    resolve(concat(
                         first_buf,
                         ...containing_chunks.map(c => slice(c.buffer, 0, c.duration * c.buffer.sampleRate)),
                         last_buf

@@ -1,5 +1,3 @@
-/* global AUDIO_BASE */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { load_audio, equalizer } from 'store/audio';

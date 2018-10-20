@@ -21,20 +21,20 @@ export const autostop = store => next => action => {
 export const init = store => next => action => {
     const result = next(action);
     if (action.type === 'commence_session_init') {
-		fetch_jsonp( API_BASE + '/init', {
-			timeout:               300000,
-			jsonpCallback:         'jsonp_init',
-			jsonpCallbackFunction: 'jsonp_init',
-		})
-		.then(res => res.json())
-		.then(init_data => {
-            if (init_data && init_data.subversions) {
-                store.dispatch({
-                    type: 'set_subversions',
-                    subversions: init_data.subversions,
-                });
-            }
-        });
+        fetch_jsonp( API_BASE + '/init', {
+            timeout:               300000,
+            jsonpCallback:         'jsonp_init',
+            jsonpCallbackFunction: 'jsonp_init',
+        })
+            .then(res => res.json())
+            .then(init_data => {
+                if (init_data && init_data.subversions) {
+                    store.dispatch({
+                        type: 'set_subversions',
+                        subversions: init_data.subversions,
+                    });
+                }
+            });
     }
     return result;
 };

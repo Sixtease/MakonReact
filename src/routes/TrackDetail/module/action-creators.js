@@ -63,7 +63,9 @@ export function playback_off() {
 export function set_audio_metadata() {
     return {
         type: 'set_audio_metadata',
-        frame_cnt: (chunks => chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0)(audio().audio_chunks.chunks),
+        frame_cnt: (
+            chunks => chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0
+        )(audio().audio_chunks.chunks),
     };
 };
 

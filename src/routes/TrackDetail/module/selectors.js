@@ -327,7 +327,7 @@ export const get_edit_window_timespan = createSelector(
             };
         }
         const i = get_word_index(selected_words[selected_words.length - 1], subs);
-        const pad_word = subs[i + 1] || {timestamp: total_time};
+        const pad_word = subs[i + 1] || { timestamp: total_time };
         return {
             start: selected_words[0].timestamp,
             end:   pad_word.timestamp,
