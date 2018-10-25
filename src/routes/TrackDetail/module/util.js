@@ -46,7 +46,11 @@ function fetch_subs(store, stem) {
 };
 
 export function reflect_time_in_hash(time) {
-    window.location.replace('#ts=' + time);
+    const old_hash = window.location.hash;
+    const new_hash = '#ts=' + time;
+    if (new_hash !== old_hash) {
+        window.location.replace(new_hash);
+    }
 };
 
 let previous_state;
