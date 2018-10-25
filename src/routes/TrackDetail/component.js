@@ -10,7 +10,6 @@ import {
     Downloads,
 } from 'components/TrackDetail';
 import { demagicize_rects } from 'lib/Util';
-import RecSaver from 'components/RecSaver';
 
 const SPACE = ' ';
 
@@ -55,7 +54,6 @@ export class TrackDetail extends React.Component {
                         <div className='sidebar'>
                             <WordInfo word={marked_word} stem={stem} />
                             <Downloads stem={stem} />
-                            <RecSaver stem={stem} />
                             {
                                 equalizer ?
                                 <a onClick={() => me.try_connect_equalizer()}>Frekvenční korekce</a>
@@ -91,7 +89,6 @@ export class TrackDetail extends React.Component {
         const {
             set_audio_metadata, sync_current_time, set_selection,
             playback_off, playback_on,
-            set_stem_storable,
             stem,
         } = me.props;
         window.scrollTo(0, 0);
@@ -100,7 +97,6 @@ export class TrackDetail extends React.Component {
         audio_promise.then(audio => {
             set_audio_metadata(audio);
             audio.ontimeupdate = sync_current_time;
-            set_stem_storable(stem);
         });
         if (!window.KEY_PLAYBACK_CTRL) {
             window.KEY_PLAYBACK_CTRL = document.addEventListener(
@@ -133,7 +129,6 @@ export class TrackDetail extends React.Component {
         if (equalizer) {
             equalizer.destroyControl();
         }
-        this.props.set_stem_storable(null);
     }
 
     componentDidUpdate() {
@@ -190,7 +185,6 @@ TrackDetail.propTypes = {
     playback_on:            PropTypes.func,
     sending_subs:           PropTypes.bool,
     sent_word_rectangles:   PropTypes.array,
-    set_stem_storable:      PropTypes.func,
     subs_chunks:            PropTypes.array,
     match:                  PropTypes.object,
     location:               PropTypes.object,

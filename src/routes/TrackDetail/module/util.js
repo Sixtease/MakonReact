@@ -3,7 +3,6 @@
 import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
 import audio, { audio_sample_rate } from 'store/audio';
-import { list_saved_buffers } from 'store/localsave';
 import {
     get_edit_window_timespan,
     get_marked_word,
@@ -124,28 +123,10 @@ const apply_hash = (store, hash) => {
     }
 };
 
-function set_stored_stem(store) {
-    list_saved_buffers().then(stems => {
-        if (!stems || stems.length === 0) {
-            // nothing saved
-        }
-        else if (stems.length === 1) {
-            store.dispatch({
-                type: 'complete_store_stem',
-                stem: stems[0],
-            });
-        }
-        else {
-            console.log('more than 1 stem stored, unexpectedly', stems);
-        }
-    });
-}
-
 export const init = (store, stem, hash) => {
     fetch_subs(store, stem);
     set_audio_controls(store);
     apply_hash(store, hash);
-    set_stored_stem(store);
 };
 
 /*

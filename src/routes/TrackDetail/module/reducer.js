@@ -140,23 +140,6 @@ const ACTION_HANDLERS = {
             ],
         };
     },
-    commence_store_stem: (state, action) => ({
-        ...state,
-        storing_stem: true,
-    }),
-    complete_store_stem: (state, action) => ({
-        ...state,
-        storing_stem: false,
-        stored_stem: action.stem,
-    }),
-    failed_store_stem: (state, action) => ({
-        ...state,
-        storing_stem: false,
-    }),
-    set_stem_storable: (state, action) => ({
-        ...state,
-        storable_stem: action.stem,
-    }),
     window_download_ready: (state, action) => ({
         ...state,
         download_object_url: action.object_url,
@@ -176,9 +159,6 @@ export const initial_state = {
     selection_end_icco: null,
     sent_word_rectangles: [],
     failed_word_rectangles: [],
-    storable_stem: null,
-    stored_stem: null,
-    storing_stem: false,
 };
 
 export default function reducer(state = initial_state, action) {
