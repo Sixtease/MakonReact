@@ -89,7 +89,7 @@ if (__TEST__ && !argv.watch) {
 if (__DEV__) {
     webpackConfig.mode = 'development';
     debug('Enabling plugins for live development (HMR, NoErrors).');
-    webpackConfig.optimization = { minimize: true };
+    webpackConfig.optimization = { minimize: false };
     webpackConfig.plugins.push(
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
