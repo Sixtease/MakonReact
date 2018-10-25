@@ -56,7 +56,11 @@ export class TrackDetail extends React.Component {
                             <WordInfo word={marked_word} stem={stem} />
                             <Downloads stem={stem} />
                             <RecSaver stem={stem} />
-                            <a onClick={() => me.try_connect_equalizer()}>Frekvenční korekce</a>
+                            {
+                                equalizer ?
+                                <a onClick={() => me.try_connect_equalizer()}>Frekvenční korekce</a>
+                                : null
+                            }
                             <div className='equalizer'><div
                                 style={{ width: '100%', height: '100%' }}
                                 ref={el => (me.equalizer_el = el)}
@@ -112,6 +116,9 @@ export class TrackDetail extends React.Component {
     }
 
     try_connect_equalizer() {
+        if (!equalizer) {
+            return;
+        }
         const me = this;
         if (me.equalizer_el && me.equalizer_el.getBoundingClientRect().height > 0) {
             equalizer.createControl(me.equalizer_el);
@@ -123,7 +130,9 @@ export class TrackDetail extends React.Component {
 
     componentWillUnmount() {
         this.props.playback_off();
-        equalizer.destroyControl();
+        if (equalizer) {
+            equalizer.destroyControl();
+        }
         this.props.set_stem_storable(null);
     }
 

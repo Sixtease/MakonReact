@@ -5,6 +5,7 @@
 import { concat, slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import equalizer_locale_cs from 'lib/canvas-equalizer/locales/cs.json';
+import { can_use_equalizer } from 'lib/Util';
 import Chunks from './AudioChunks';
 
 export const fetching_audio_event = 'fetching-audio';
@@ -17,18 +18,29 @@ if (!format) {
     console.log('no supported format, no audio');
 }
 
-export const equalizer = new CanvasEqualizer(2048, ac, {
-    language: 'cs',
-});
-equalizer.loadLocale('cs', equalizer_locale_cs);
-const splitter = ac.createChannelSplitter(2);
-equalizer.convolver.connect(splitter);
-splitter.connect(ac.destination, 0);
+let sink;
+let eq;
+
+if (can_use_equalizer()) {
+    eq = new CanvasEqualizer(2048, ac, {
+        language: 'cs',
+    });
+    eq.loadLocale('cs', equalizer_locale_cs);
+    const splitter = ac.createChannelSplitter(2);
+    eq.convolver.connect(splitter);
+    splitter.connect(ac.destination, 0);
+    sink = eq.convolver;
+} else {
+    eq = null;
+    sink = ac.destination;
+}
+
+export const equalizer = eq;
 
 function get_source(buffer) {
     const audio_source = ac.createBufferSource();
     audio_source.buffer = buffer;
-    audio_source.connect(equalizer.convolver);
+    audio_source.connect(sink);
     audio_source.addEventListener('ended', () => audio_source.disconnect());
     return audio_source;
 }
@@ -253,4 +265,4 @@ export function load_audio(new_stem) {
 };
 ;;; window.get_audio = get_audio;
 ;;; window.audio_context = ac;
-;;; window.equalizer = equalizer;
+;;; window.equalizer = eq;

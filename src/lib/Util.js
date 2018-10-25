@@ -32,3 +32,15 @@ export function basename(path) {
 export function dirname(path) {
     return path.substr(0, path.lastIndexOf('/'));
 }
+
+export function can_use_equalizer() {
+    try {
+        const ac = new AudioContext();
+        const c = ac.createConvolver();
+        c.buffer = ac.createBuffer(1, 1, ac.sampleRate);
+        c.buffer = ac.createBuffer(1, 1, ac.sampleRate);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
