@@ -54,8 +54,7 @@ export class TrackDetail extends React.Component {
                         <div className='sidebar'>
                             <WordInfo word={marked_word} stem={stem} />
                             <Downloads stem={stem} />
-                            {
-                                equalizer ?
+                            { equalizer ?
                                 <a onClick={() => me.try_connect_equalizer()}>Frekvenční korekce</a>
                                 : null
                             }

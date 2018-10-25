@@ -30,7 +30,8 @@ if (can_use_equalizer()) {
     eq.convolver.connect(splitter);
     splitter.connect(ac.destination, 0);
     sink = eq.convolver;
-} else {
+}
+else {
     eq = null;
     sink = ac.destination;
 }

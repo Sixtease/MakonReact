@@ -1,5 +1,3 @@
-/* global AUDIO_BASE */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get_subs_el } from 'routes/TrackDetail/component';
