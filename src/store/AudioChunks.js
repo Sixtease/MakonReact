@@ -118,7 +118,7 @@ export default class AudioChunks {
             return [];
         }
         let ceil_index;
-        for (let i = floor_index; me.chunks[i][requested]; i++) {
+        for (let i = floor_index; me.chunks[i] && me.chunks[i][requested]; i++) {
             ceil_index = i;
         }
         return me.chunks.slice(floor_index, ceil_index + 1);
