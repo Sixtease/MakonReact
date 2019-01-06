@@ -102,12 +102,12 @@ class MAudio {
         if (start_in <= 0) {
             me.started_at = ac.currentTime;
             chunk.audio_source.start(0, -start_in, duration);
+            me.is_playing = true;
             me.notify_playing();
         }
         else {
             chunk.audio_source.start(start_in + ac.currentTime, 0, duration);
         }
-        me.is_playing = true;
         me.audio_sources.push(chunk.audio_source);
     }
 
