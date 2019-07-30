@@ -16,8 +16,8 @@ class WordInfo extends React.Component {
             }
             const nv = {
                 occurrence: word.occurrence,
-                wordform:   word.wordform,
                 timestamp:  word.timestamp,
+                fonet:      word.fonet,
                 stem,
             };
             nv[key] = new_value;
@@ -44,12 +44,7 @@ class WordInfo extends React.Component {
                         title='normalizovaná podoba slova bez interpunkce a malými písmeny'
                     >forma</dt>
                     <dd>
-                        <Field
-                            component='input'
-                            type='text'
-                            name='wordform'
-                            onBlur={submit('wordform')}
-                        />
+                        {word.wordform}
                     </dd>
 
                     <dt>výslovnost</dt>

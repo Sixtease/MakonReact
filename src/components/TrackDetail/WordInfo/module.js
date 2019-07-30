@@ -20,7 +20,7 @@ export function save_word(form_values) {
             if (res.data && res.data.success) {
                 dispatch({
                     type: 'accepted_save_word',
-                    ...form_values,
+                    ...res.data,
                 });
             }
             else {
