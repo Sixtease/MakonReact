@@ -1,48 +1,46 @@
-import { applyMiddleware, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import makeRootReducer from './reducers';
-import { autostop, init } from './middleware.js';
+import { applyMiddleware, compose, createStore } from "redux";
+import thunk from "redux-thunk";
+import makeRootReducer from "./reducers";
+import { autostop, init } from "./middleware.js";
 
 export default (initialState = {}) => {
-    // ======================================================
-    // Middleware Configuration
-    // ======================================================
-    const middleware = [thunk, autostop, init];
+  // ======================================================
+  // Middleware Configuration
+  // ======================================================
+  const middleware = [thunk, autostop, init];
 
-    // ======================================================
-    // Store Enhancers
-    // ======================================================
-    const enhancers = [];
+  // ======================================================
+  // Store Enhancers
+  // ======================================================
+  const enhancers = [];
 
-    let composeEnhancers = compose;
+  let composeEnhancers = compose;
 
-    if (__DEV__) {
-        const composeWithDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-        if (typeof composeWithDevToolsExtension === 'function') {
-            composeEnhancers = composeWithDevToolsExtension;
-        }
+  if (__DEV__) {
+    const composeWithDevToolsExtension =
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+    if (typeof composeWithDevToolsExtension === "function") {
+      composeEnhancers = composeWithDevToolsExtension;
     }
+  }
 
-    // ======================================================
-    // Store Instantiation and HMR Setup
-    // ======================================================
-    const store = createStore(
-        makeRootReducer(),
-        initialState,
-        composeEnhancers(
-            applyMiddleware(...middleware),
-            ...enhancers
-        )
-    );
-    store.asyncReducers = {};
+  // ======================================================
+  // Store Instantiation and HMR Setup
+  // ======================================================
+  const store = createStore(
+    makeRootReducer(),
+    initialState,
+    composeEnhancers(applyMiddleware(...middleware), ...enhancers)
+  );
+  store.asyncReducers = {};
 
-    if (module.hot) {
-        module.hot.accept('./reducers', () => {
-            const reducers = require('./reducers').default;
-            store.replaceReducer(reducers(store.asyncReducers));
-        });
-    }
+  if (module.hot) {
+    module.hot.accept("./reducers", () => {
+      const reducers = require("./reducers").default;
+      store.replaceReducer(reducers(store.asyncReducers));
+    });
+  }
 
-    ;;; window.store = store;
-    return store;
+  window.store = store;
+  return store;
 };
