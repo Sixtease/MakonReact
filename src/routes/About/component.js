@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export class AboutRouteComponent extends React.Component {
   render() {
@@ -18,7 +18,7 @@ export class AboutRouteComponent extends React.Component {
         <h2>Autor</h2>
         <p>
           Autorem tohoto webu, zde dostupných automatických přepisů, digitálních
-          verzí nahrávek a osobou zodpovědnou za obsah je{" "}
+          verzí nahrávek a osobou zodpovědnou za obsah je{' '}
           <a href="mailto:jan@sixtease.net">Jan Evangelista Oldřich Krůza</a> (
           <a _target="blank" href="http://www.sixtease.net/">
             sixtease.net
@@ -29,10 +29,6 @@ export class AboutRouteComponent extends React.Component {
     );
   }
 }
-
-AboutRouteComponent.contextTypes = {
-  store: PropTypes.object
-};
 
 AboutRouteComponent.propTypes = {
   results: PropTypes.array,

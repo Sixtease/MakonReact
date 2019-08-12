@@ -1,8 +1,6 @@
-/* global AUDIO_BASE */
-/* global SAMPLE_RATE */
-
-import fetch_jsonp from "fetch-jsonp";
-import { format } from "./audio";
+import fetch_jsonp from 'fetch-jsonp';
+import { AUDIO_BASE, SAMPLE_RATE } from '../constants';
+import { format } from './audio';
 
 const AHEAD_SIZE = 60;
 
@@ -19,11 +17,11 @@ export default class AudioChunks {
   load() {
     const me = this;
     me.chunks_promise = new Promise((resolve, reject) => {
-      const url = AUDIO_BASE + "split-meta/" + me.stem + ".jsonp";
+      const url = AUDIO_BASE + 'split-meta/' + me.stem + '.jsonp';
       fetch_jsonp(url, {
         timeout: 300000,
-        jsonpCallback: "jsonp_splits",
-        jsonpCallbackFunction: "jsonp_splits"
+        jsonpCallback: 'jsonp_splits',
+        jsonpCallbackFunction: 'jsonp_splits'
       })
         .catch(reject)
         .then(res => res.json())
@@ -56,7 +54,7 @@ export default class AudioChunks {
     }
     if (!floor_chunk) {
       throw new Error(
-        "could not find floor chunk for stem " + me.stem + ", position " + pos
+        'could not find floor chunk for stem ' + me.stem + ', position ' + pos
       );
     }
     last_floor_index = floor_index;
@@ -101,7 +99,7 @@ export default class AudioChunks {
   load_chunk_ea(chunk) {
     const me = this;
     chunk.url =
-      AUDIO_BASE + ["splits", me.stem, format.suffix, chunk.basename].join("/");
+      AUDIO_BASE + ['splits', me.stem, format.suffix, chunk.basename].join('/');
     chunk.ea_promise = new Promise((resolve, reject) => {
       fetch(chunk.url)
         .then(res => {
@@ -121,7 +119,7 @@ export default class AudioChunks {
   get_ahead_window(pos, requested) {
     const me = this;
     if (!{ promise: true, buffer: true, audio_source: true }[requested]) {
-      throw new Error("unexpected ahead window attribute " + requested);
+      throw new Error('unexpected ahead window attribute ' + requested);
     }
     const { floor_chunk, floor_index } = me.get_floor_chunk(pos);
     if (!floor_chunk[requested]) {

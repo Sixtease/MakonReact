@@ -1,31 +1,30 @@
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
   force_current_frame,
+  init,
   playback_off,
   playback_on,
+  request_track_detail_init,
   set_audio_metadata,
   set_selection,
-  sync_current_time
-} from "./module/action-creators";
-import {
-  get_current_word,
-  get_marked_word,
-  get_selected_words,
-  get_subs_chunks
-} from "./module/selectors";
-import { init, time_to_frame } from "./module/util";
+  sync_current_time,
+} from './module/action-creators';
+import { get_current_word, get_marked_word, get_selected_words, get_subs_chunks } from './module/selectors';
+import { time_to_frame } from './module/util';
 
-import component from "./component";
-import "./style.scss";
+import component from './component';
+import './style.scss';
 
 const map_dispatch_to_props = {
   force_current_frame,
+  init,
   playback_off,
   playback_on,
+  request_track_detail_init,
   set_audio_metadata,
   set_selection,
-  sync_current_time
+  sync_current_time,
 };
 
 const map_state_to_props = state => ({
@@ -39,13 +38,10 @@ const map_state_to_props = state => ({
   sending_subs: state.track_detail.sending_subs,
   sent_word_rectangles: state.track_detail.sent_word_rectangles,
   subs: state.track_detail.subs,
-  subs_chunks: get_subs_chunks(state).chunks
+  subs_chunks: get_subs_chunks(state).chunks,
 });
 
-const get_container = stem =>
-  connect(
-    map_state_to_props,
-    map_dispatch_to_props,
-    (s, d) => ({ ...s, ...d, stem, init })
-  )(withRouter(component));
-export default get_container;
+export default connect(
+  map_state_to_props,
+  map_dispatch_to_props,
+)(withRouter(component));

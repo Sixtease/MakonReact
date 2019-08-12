@@ -1,21 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export class TrackDirCategoryView extends React.Component {
   is_visible() {
     const { cat, visible } = this.props;
     if (!visible || !visible[cat.key]) {
-      return "none";
+      return 'none';
     }
-    return visible[cat.key].visible ? "block" : "none";
+    return visible[cat.key].visible ? 'block' : 'none';
   }
   section_link() {
     var me = this;
     const { cat, current_section } = me.props;
-    const cl = current_section === cat.section ? "is-current" : "";
+    const cl = current_section === cat.section ? 'is-current' : '';
     return (
       <li className={cl}>
-        <a href={"#" + cat.section}>{cat.name}</a>
+        <a href={'#' + cat.section}>{cat.name}</a>
       </li>
     );
   }

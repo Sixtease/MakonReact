@@ -1,8 +1,8 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import qs from "query-string";
-import "./Header.scss";
-import UsernameInput from "components/UsernameInput/index.js";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import qs from 'query-string';
+import './Header.scss';
+import UsernameInput from '../UsernameInput/index.js';
 
 export class Header extends React.Component {
   render() {
@@ -36,7 +36,7 @@ export class Header extends React.Component {
                   name="dotaz"
                   ref={el => {
                     if (el) {
-                      el.value = qs.parse(me.props.location.search).dotaz || "";
+                      el.value = qs.parse(me.props.location.search).dotaz || '';
                     }
                   }}
                 />

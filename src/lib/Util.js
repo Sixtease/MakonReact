@@ -27,10 +27,10 @@ export function demagicize_rects(rects, x_offset, y_offset) {
 }
 
 export function basename(path) {
-  return path.substr(path.lastIndexOf("/") + 1);
+  return path.substr(path.lastIndexOf('/') + 1);
 }
 export function dirname(path) {
-  return path.substr(0, path.lastIndexOf("/"));
+  return path.substr(0, path.lastIndexOf('/'));
 }
 
 export function can_use_equalizer() {

@@ -1,17 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { load_audio, equalizer } from "store/audio";
-import "canvas-equalizer/dist/css/CanvasEqualizer.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { load_audio, equalizer } from '../../store/audio';
+import './CanvasEqualizer.css';
 import {
   ControlBar,
   EditWindow,
   Subs,
   WordInfo,
   Downloads
-} from "components/TrackDetail";
-import { demagicize_rects } from "lib/Util";
+} from '../../components/TrackDetail';
+import { demagicize_rects } from '../../lib/Util';
 
-const SPACE = " ";
+const SPACE = ' ';
 
 const chunk_text_nodes = [];
 export const get_chunk_text_nodes = () => chunk_text_nodes;
@@ -31,7 +31,7 @@ export class TrackDetail extends React.Component {
 
   render() {
     const me = this;
-    const { marked_word, stem } = me.props;
+    const { marked_word } = me.props;
     const subs_offset = me.state.subs_offset;
     const subs_props = {
       chunk_text_nodes,
@@ -41,6 +41,7 @@ export class TrackDetail extends React.Component {
       subs_offset,
       ...me.props
     };
+    const stem = this.get_stem();
 
     return (
       <div>
@@ -62,7 +63,7 @@ export class TrackDetail extends React.Component {
                 ) : null}
                 <div className="equalizer">
                   <div
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: '100%', height: '100%' }}
                     ref={el => (me.equalizer_el = el)}
                   />
                 </div>
@@ -80,8 +81,7 @@ export class TrackDetail extends React.Component {
   }
 
   componentWillMount() {
-    const me = this;
-    me.props.init(me.context.store, me.props.stem, me.props.location.hash);
+    this.props.init(this.get_stem(), this.props.location.hash);
   }
 
   componentDidMount() {
@@ -92,8 +92,8 @@ export class TrackDetail extends React.Component {
       set_selection,
       playback_off,
       playback_on,
-      stem
     } = me.props;
+    const stem = me.get_stem();
     window.scrollTo(0, 0);
     set_selection();
     const audio_promise = load_audio(stem);
@@ -102,7 +102,7 @@ export class TrackDetail extends React.Component {
       audio.ontimeupdate = sync_current_time;
     });
     if (!window.KEY_PLAYBACK_CTRL) {
-      window.KEY_PLAYBACK_CTRL = document.addEventListener("keyup", evt => {
+      window.KEY_PLAYBACK_CTRL = document.addEventListener('keyup', evt => {
         if (evt.ctrlKey && evt.key === SPACE) {
           me._is_playing() ? playback_off() : playback_on();
         }
@@ -165,11 +165,11 @@ export class TrackDetail extends React.Component {
 
     me.last_set_subs_offset = now;
   }
-}
 
-TrackDetail.contextTypes = {
-  store: PropTypes.object
-};
+  get_stem() {
+    return this.props.match.params.id;
+  }
+}
 
 TrackDetail.propTypes = {
   current_frame: PropTypes.number,
@@ -177,6 +177,7 @@ TrackDetail.propTypes = {
   failed_word_rectangles: PropTypes.array,
   force_current_frame: PropTypes.func,
   frame_cnt: PropTypes.number,
+  init: PropTypes.func,
   is_playing: PropTypes.bool,
   marked_word: PropTypes.object,
   playback_off: PropTypes.func,

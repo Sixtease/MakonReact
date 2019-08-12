@@ -1,9 +1,9 @@
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { load_search_results, prev_page, next_page } from "./module.js";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { load_search_results, prev_page, next_page } from './module.js';
 
-import component from "./component.js";
-import "./style.scss";
+import component from './component.js';
+import './style.scss';
 
 const map_dispatch_to_props = {
   load_search_results,

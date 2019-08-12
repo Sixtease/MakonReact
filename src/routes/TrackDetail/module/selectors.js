@@ -1,9 +1,9 @@
 /* global window */
 
-import { createSelector } from "reselect";
-import { get_chunk_text_nodes } from "../component";
-import { frame_to_time } from "./util";
-import { demagicize_rect, demagicize_rects } from "lib/Util";
+import { createSelector } from 'reselect';
+import { get_chunk_text_nodes } from '../component';
+import { frame_to_time } from './util';
+import { demagicize_rect, demagicize_rects } from '../../../lib/Util';
 
 function get_word_chunk_position(word_index, subs_chunks) {
   const chunk_index = subs_chunks.chunk_index_by_word_index[word_index];
@@ -69,7 +69,7 @@ export const get_subs_chunks = createSelector(
     let is_now_humanic = null;
     let wbuf_str_length = 0;
     const flush = function() {
-      const str = wbuf.concat("").join(" ");
+      const str = wbuf.concat('').join(' ');
       chunks.push({
         is_humanic: is_now_humanic,
         str,
@@ -108,7 +108,7 @@ export const get_word_timestamps = createSelector(
 );
 const NULL_CURRENT_WORD = {
   is_null: true,
-  occurrence: "",
+  occurrence: '',
   rects: [],
   start_offset: null,
   end_offset: null

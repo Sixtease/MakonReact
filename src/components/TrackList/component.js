@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import TrackDirCategory from "./TrackDirCategory";
-import stemdir from "../../store/stemdir.json";
-import stemsec from "../../store/stemsec.json";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import TrackDirCategory from './TrackDirCategory';
+import stemdir from '../../store/stemdir.json';
+import stemsec from '../../store/stemsec.json';
 
 export class TrackList extends React.Component {
   render() {
@@ -14,7 +14,7 @@ export class TrackList extends React.Component {
         <div className="col-xs-6 col-sm-4 tracklist-directory">
           <ul
             id="tracklist-directory-top-list"
-            className={is_dir_fixed ? "is-fixed" : ""}
+            className={is_dir_fixed ? 'is-fixed' : ''}
             ref={el => {
               this.tracklist_directory_top_list = el;
             }}
@@ -42,7 +42,7 @@ export class TrackList extends React.Component {
                   this.section_offsets[sec.section] = el.offsetTop;
                 }
               }}
-              className={sec.section === current_section ? "is-current" : ""}
+              className={sec.section === current_section ? 'is-current' : ''}
             >
               {sec.items.map(item => (
                 <Link to={`/zaznam/${item}`} key={item}>

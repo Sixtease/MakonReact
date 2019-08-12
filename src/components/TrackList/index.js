@@ -1,12 +1,12 @@
-import { connect } from "react-redux";
-import component from "./component.js";
+import { connect } from 'react-redux';
+import component from './component.js';
 import {
   set_current_section,
   make_dir_fixed,
   make_dir_static,
   set_offset
-} from "./module.js";
-import "./TrackList.scss";
+} from './module.js';
+import './TrackList.scss';
 
 const map_dispatch_to_props = {
   set_current_section,

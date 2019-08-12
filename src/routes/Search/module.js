@@ -1,6 +1,7 @@
-import axios from "axios";
-import { PAGE_SIZE } from "./constants.js";
-import qs from "query-string";
+import axios from 'axios';
+import qs from 'query-string';
+import { API_BASE } from '../../constants';
+import { PAGE_SIZE } from './constants';
 
 const ACTION_HANDLERS = {
   set_search_results: (state, action) => ({
@@ -15,14 +16,14 @@ const initial_state = {
   total: null
 };
 
-const endpoint = API_BASE + "/search/";
+const endpoint = API_BASE + '/search/';
 
 export function load_search_results(query, from = 0) {
   return dispatch => {
     axios
       .request({
         url: endpoint,
-        method: "get",
+        method: 'get',
         params: {
           query,
           from
@@ -33,7 +34,7 @@ export function load_search_results(query, from = 0) {
           const hitlist = res.data.hits.hits;
           const results = hitlist.map(hit => {
             const id = hit._id;
-            const [stem, time] = id.split("--");
+            const [stem, time] = id.split('--');
             const snip =
               hit.highlight &&
               hit.highlight.occurrences &&
@@ -48,7 +49,7 @@ export function load_search_results(query, from = 0) {
             };
           });
           dispatch({
-            type: "set_search_results",
+            type: 'set_search_results',
             results,
             total: res.data.hits.total
           });

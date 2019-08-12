@@ -1,12 +1,13 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { BrowserRouter, Router } from "react-router-dom";
-import { Provider } from "react-redux";
-import CoreLayout from "../layouts/CoreLayout";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { BrowserRouter, Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import CoreLayout from '../layouts/CoreLayout';
+import { commence_session_init } from './actions';
 
 let previous_location;
 const router_set_state = Router.prototype.setState;
-const ref_path = "/zaznam/";
+const ref_path = '/zaznam/';
 Router.prototype.setState = function(...args) {
   const loc = this.props.history.location;
   if (
@@ -27,12 +28,17 @@ Router.prototype.componentDidMount = function(...args) {
   previous_location = {
     ...this.props.history.location
   };
-  if (typeof router_did_mount === "function") {
+  if (typeof router_did_mount === 'function') {
     return router_did_mount.apply(this, args);
   }
 };
 
 class AppContainer extends Component {
+  constructor(props) {
+    super(props);
+    props.store.dispatch(commence_session_init());
+  }
+
   static propTypes = {
     store: PropTypes.object.isRequired
   };
@@ -47,19 +53,12 @@ class AppContainer extends Component {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <div style={{ height: "100%" }}>
+          <div style={{ height: '100%' }}>
             <CoreLayout />
           </div>
         </BrowserRouter>
       </Provider>
     );
-  }
-
-  componentDidMount() {
-    const { store } = this.props;
-    store.dispatch({
-      type: "commence_session_init"
-    });
   }
 }
 

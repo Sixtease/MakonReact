@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 
 class EditWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       show_filename_input: false,
-      download_filename: "makon.wav"
+      download_filename: 'makon.wav'
     };
   }
 
@@ -26,9 +26,9 @@ class EditWindow extends React.Component {
       playback_off,
       handleSubmit
     } = me.props;
-    let cls = "edit-window";
+    let cls = 'edit-window';
     if (me._is_shown()) {
-      cls += " is-shown";
+      cls += ' is-shown';
     }
     return (
       <div className={cls}>
@@ -51,7 +51,7 @@ class EditWindow extends React.Component {
           onClick={handleSubmit}
           title="odeslat"
         />
-        <span style={{ float: "right" }}>
+        <span style={{ float: 'right' }}>
           {me.state.show_filename_input ? (
             [
               <input
@@ -101,16 +101,16 @@ class EditWindow extends React.Component {
       edit_window_timespan: { start, end }
     } = me.props;
     if (start === null || end === null) {
-      return "makon_nahravka_" + stem + "_usek.wav";
+      return 'makon_nahravka_' + stem + '_usek.wav';
     }
     return (
-      "makon_nahravka_" +
+      'makon_nahravka_' +
       stem +
-      "_usek_od_" +
+      '_usek_od_' +
       start.toFixed(2) +
-      "_do_" +
+      '_do_' +
       end.toFixed(2) +
-      ".wav"
+      '.wav'
     );
   }
 
@@ -154,9 +154,9 @@ class EditWindow extends React.Component {
       ps[0].timestamp !== ns[0].timestamp ||
       ps[ps.length - 1].timestamp !== ns[ns.length - 1].timestamp
     ) {
-      const selw_str = ns.map(w => w.occurrence).join(" ");
+      const selw_str = ns.map(w => w.occurrence).join(' ');
       if (selw_str) {
-        me.props.autofill("edited_subtitles", selw_str);
+        me.props.autofill('edited_subtitles', selw_str);
       }
     }
   }
@@ -169,8 +169,8 @@ class EditWindow extends React.Component {
     });
     me.object_url = null;
     if (!window.KEY_SEND_SUBS_CTRL) {
-      window.KEY_SEND_SUBS_CTRL = document.addEventListener("keyup", evt => {
-        if (evt.ctrlKey && evt.key === "Enter") {
+      window.KEY_SEND_SUBS_CTRL = document.addEventListener('keyup', evt => {
+        if (evt.ctrlKey && evt.key === 'Enter') {
           if (me._is_shown()) {
             me.props.handleSubmit();
           }
@@ -195,7 +195,7 @@ EditWindow.propTypes = {
 
 /* eslint no-class-assign: [0] */
 const component = reduxForm({
-  form: "edit_window"
+  form: 'edit_window'
 })(EditWindow);
 
 export default component;

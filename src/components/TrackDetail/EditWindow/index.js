@@ -1,18 +1,18 @@
-import { connect } from "react-redux";
-import component from "./component";
+import { connect } from 'react-redux';
+import component from './component';
 
 import {
   download_edit_window,
   playback_off,
   playback_on
-} from "routes/TrackDetail/module/action-creators";
+} from '../../../routes/TrackDetail/module/action-creators';
 import {
   get_edit_window_timespan,
   get_selected_words
-} from "routes/TrackDetail/module/selectors";
+} from '../../../routes/TrackDetail/module/selectors';
 
-import { send_subs } from "./module";
-import "./style.scss";
+import { send_subs } from './module';
+import './style.scss';
 
 const map_dispatch_to_props = {
   download_edit_window,

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
-import Phonet from "lib/Phonet";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
+import Phonet from '../../../lib/Phonet';
 
 class WordInfo extends React.Component {
   render() {
@@ -36,7 +36,7 @@ class WordInfo extends React.Component {
               component="input"
               type="text"
               name="occurrence"
-              onBlur={submit("occurrence")}
+              onBlur={submit('occurrence')}
             />
           </dd>
 
@@ -68,8 +68,8 @@ class WordInfo extends React.Component {
       ps.timestamp !== ns.timestamp ||
       ps.fonet !== ns.fonet
     ) {
-      me.props.autofill("occurrence", ns.occurrence);
-      me.props.autofill("wordform", ns.wordform);
+      me.props.autofill('occurrence', ns.occurrence);
+      me.props.autofill('wordform', ns.wordform);
     }
   }
 }
@@ -80,7 +80,7 @@ WordInfo.propTypes = {
 };
 
 const component = reduxForm({
-  form: "word_info"
+  form: 'word_info'
 })(WordInfo);
 
 export default component;

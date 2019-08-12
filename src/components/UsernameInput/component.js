@@ -1,5 +1,5 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 
 export class UsernameInput extends React.Component {
   render() {
@@ -16,9 +16,9 @@ export class UsernameInput extends React.Component {
 
 /* eslint no-class-assign: [0] */
 UsernameInput = reduxForm({
-  form: "username",
-  initialValues: { username: localStorage.getItem("username") },
-  onChange: values => localStorage.setItem("username", values.username)
+  form: 'username',
+  initialValues: { username: localStorage.getItem('username') },
+  onChange: values => localStorage.setItem('username', values.username)
 })(UsernameInput);
 
 export default UsernameInput;

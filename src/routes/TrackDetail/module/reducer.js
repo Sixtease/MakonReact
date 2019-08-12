@@ -1,6 +1,4 @@
-/* global Blob */
-
-import { get_word_rectangles, get_word_index } from "./selectors";
+import { get_word_rectangles, get_word_index } from './selectors';
 
 const ACTION_HANDLERS = {
   set_subs: (state, action) => ({
@@ -144,7 +142,15 @@ const ACTION_HANDLERS = {
   window_download_ready: (state, action) => ({
     ...state,
     download_object_url: action.object_url
-  })
+  }),
+  wait_for_subversions: state => ({
+    ...state,
+    waiting_for_subversions: true,
+  }),
+  set_subversions: state => ({
+    ...state,
+    waiting_for_subversions: false,
+  }),
 };
 
 export const initial_state = {
@@ -159,7 +165,8 @@ export const initial_state = {
   selection_end_chunk_index: null,
   selection_end_icco: null,
   sent_word_rectangles: [],
-  failed_word_rectangles: []
+  failed_word_rectangles: [],
+  waiting_for_subversions: false,
 };
 
 export default function reducer(state = initial_state, action) {

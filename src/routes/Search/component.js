@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ReactMarkdown from "react-markdown";
-import { Link } from "react-router-dom";
-import qs from "query-string";
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
+import { Link } from 'react-router-dom';
+import qs from 'query-string';
 
 export class Search extends React.Component {
   render() {
@@ -33,8 +33,8 @@ export class Search extends React.Component {
         </ol>
         {results && results.length ? (
           <div className="pager">
-            <a onClick={() => prev_page(loc, history)}>předchozí</a> {+from + 1}{" "}
-            - {to} / {total}{" "}
+            <a onClick={() => prev_page(loc, history)}>předchozí</a> {+from + 1}{' '}
+            - {to} / {total}{' '}
             <a onClick={() => next_page(total, loc, history)}>další</a>
           </div>
         ) : null}
@@ -48,10 +48,6 @@ export class Search extends React.Component {
     this.props.load_search_results(q.dotaz, q.from);
   }
 }
-
-Search.contextTypes = {
-  store: PropTypes.object
-};
 
 Search.propTypes = {
   results: PropTypes.array,

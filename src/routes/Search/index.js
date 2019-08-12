@@ -1,10 +1,2 @@
-import { injectReducer } from "../../store/reducers";
-import container from "./container";
-import reducer from "./module";
-
-export default {
-  component: container,
-  init_reducer: store => {
-    injectReducer(store, { key: "search", reducer });
-  }
-};
+import container from './container';
+export const Search = container;

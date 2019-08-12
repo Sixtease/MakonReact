@@ -1,20 +1,18 @@
-import { combineReducers } from "redux";
-import { reducer as formReducer } from "redux-form";
-import { global_reducer } from "./global-reducer";
+import { combineReducers } from 'redux';
+import { reducer as form } from 'redux-form';
+import { global_reducer as global } from './global-reducer';
+import about from '../routes/About/module';
+import search from '../routes/Search/module';
+import track_detail from '../routes/TrackDetail/module/reducer';
+import { reducer as track_dir } from '../components/TrackList/TrackDirCategory/module';
+import { reducer as track_list } from '../components/TrackList/module';
 
-export const makeRootReducer = asyncReducers => {
-  return combineReducers({
-    form: formReducer,
-    global: global_reducer,
-    ...asyncReducers
-  });
-};
-
-export const injectReducer = (store, { key, reducer }) => {
-  if (Object.hasOwnProperty.call(store.asyncReducers, key)) return;
-
-  store.asyncReducers[key] = reducer;
-  store.replaceReducer(makeRootReducer(store.asyncReducers));
-};
-
-export default makeRootReducer;
+export const rootReducer = combineReducers({
+  about,
+  form,
+  global,
+  search,
+  track_detail,
+  track_dir,
+  track_list,
+});

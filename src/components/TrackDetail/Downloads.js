@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { get_subs_el } from "routes/TrackDetail/component";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { get_subs_el } from '../../routes/TrackDetail/component';
 
 const select_transcription = () => {
   const sel = document.getSelection();
@@ -17,11 +17,12 @@ const component = ({ stem }) => (
       <li>
         <a
           href={
-            "http://commondatastorage.googleapis.com/karel-makon-mp3/" +
+            'http://commondatastorage.googleapis.com/karel-makon-mp3/' +
             stem +
-            ".mp3"
+            '.mp3'
           }
           target="_blank"
+          rel="noopener noreferrer"
         >
           {stem}.mp3
         </a>

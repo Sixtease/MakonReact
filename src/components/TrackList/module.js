@@ -1,8 +1,8 @@
-export const SET_CURRENT_SECTION = "SET_CURRENT_SECTION";
-export const MAKE_DIR_FIXED = "MAKE_DIR_FIXED";
-export const MAKE_DIR_STATIC = "MAKE_DIR_STATIC";
-export const SET_OFFSET = "SET_OFFSET";
-export const SCROLLED_TO = "SCROLLED_TO";
+export const SET_CURRENT_SECTION = 'SET_CURRENT_SECTION';
+export const MAKE_DIR_FIXED = 'MAKE_DIR_FIXED';
+export const MAKE_DIR_STATIC = 'MAKE_DIR_STATIC';
+export const SET_OFFSET = 'SET_OFFSET';
+export const SCROLLED_TO = 'SCROLLED_TO';
 
 export function set_current_section(section_id) {
   return {

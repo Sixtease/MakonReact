@@ -1,7 +1,7 @@
-import to_wav from "audiobuffer-to-wav";
-import audio, { audio_sample_rate } from "store/audio";
-import { get_edit_window_timespan, get_selected_words } from "./selectors";
-import { frame_to_time, reflect_time_in_hash } from "./util";
+import to_wav from 'audiobuffer-to-wav';
+import audio, { audio_sample_rate } from '../../../store/audio';
+import { get_edit_window_timespan, get_selected_words } from './selectors';
+import { apply_hash, fetch_subs, frame_to_time, reflect_time_in_hash } from './util';
 
 const sel = document.getSelection();
 export function set_selection() {
@@ -28,7 +28,7 @@ export function set_selection() {
     }
   }
   return {
-    type: "set_selection",
+    type: 'set_selection',
     start_chunk,
     end_chunk,
     start_chunk_index,
@@ -36,31 +36,28 @@ export function set_selection() {
     start_icco,
     end_icco,
     start_global_offset,
-    end_global_offset
+    end_global_offset,
   };
 }
 
 export function playback_on() {
   return (dispatch, get_state) =>
     dispatch({
-      type: "playback_on",
-      selected_words: get_selected_words(get_state())
+      type: 'playback_on',
+      selected_words: get_selected_words(get_state()),
     });
 }
 
 export function playback_off() {
   return {
-    type: "playback_off"
+    type: 'playback_off',
   };
 }
 
 export function set_audio_metadata() {
   return {
-    type: "set_audio_metadata",
-    frame_cnt: (chunks =>
-      chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0)(
-      audio().audio_chunks.chunks
-    )
+    type: 'set_audio_metadata',
+    frame_cnt: (chunks => (chunks ? chunks[chunks.length - 1].to * audio_sample_rate : 0))(audio().audio_chunks.chunks),
   };
 }
 
@@ -68,8 +65,8 @@ export function sync_current_time() {
   const current_time = audio().get_time();
   reflect_time_in_hash(current_time);
   return {
-    type: "sync_current_time",
-    current_time
+    type: 'sync_current_time',
+    current_time,
   };
 }
 
@@ -79,8 +76,8 @@ export function force_current_frame(current_frame) {
 
 export function force_current_time(current_time) {
   return {
-    type: "force_current_time",
-    current_time
+    type: 'force_current_time',
+    current_time,
   };
 }
 
@@ -95,12 +92,28 @@ export function download_edit_window() {
       .get_window(timespan.start, timespan.end)
       .then(window_buffer => {
         const wav = to_wav(window_buffer);
-        const blob = new Blob([wav], { type: "audio/wav" });
+        const blob = new Blob([wav], { type: 'audio/wav' });
         const object_url = URL.createObjectURL(blob);
         dispatch({
-          type: "window_download_ready",
-          object_url
+          type: 'window_download_ready',
+          object_url,
         });
       });
+  };
+}
+
+export function init(stem, hash) {
+  return (dispatch, get_state) => {
+    const state = get_state();
+    fetch_subs(stem, dispatch, state);
+    if (hash) {
+      apply_hash(hash, dispatch);
+    }
+  };
+}
+
+export function request_track_detail_init() {
+  return {
+    type: '',
   };
 }

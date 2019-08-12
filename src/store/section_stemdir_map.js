@@ -1,4 +1,4 @@
-import stemdir from "./stemdir.json";
+import stemdir from './stemdir.json';
 
 let togglable_by_section = {};
 let stack = [];
