@@ -27,6 +27,7 @@ export class TrackDetail extends React.Component {
         left: 0
       }
     };
+    props.init(this.get_stem(), props.location.hash);
   }
 
   render() {
@@ -78,10 +79,6 @@ export class TrackDetail extends React.Component {
   }
   _is_playing() {
     return this.props.is_playing;
-  }
-
-  componentWillMount() {
-    this.props.init(this.get_stem(), this.props.location.hash);
   }
 
   componentDidMount() {

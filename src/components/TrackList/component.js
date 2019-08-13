@@ -6,6 +6,11 @@ import stemdir from '../../store/stemdir.json';
 import stemsec from '../../store/stemsec.json';
 
 export class TrackList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.section_offsets = {};
+  }
+
   render() {
     const context = this.context;
     const { is_dir_fixed, current_section } = this.props;
@@ -54,10 +59,6 @@ export class TrackList extends React.Component {
         </div>
       </div>
     );
-  }
-
-  componentWillMount() {
-    this.section_offsets = {};
   }
 
   componentDidMount() {
