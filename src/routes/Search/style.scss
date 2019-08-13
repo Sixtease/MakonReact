@@ -5,4 +5,12 @@
     p, div {
         display: inline;
     }
+    > li.shows-stem {
+        margin-top: 2em;
+        label {
+            display: block;
+            margin-top: -1.2em;
+            position: absolute;
+        }
+    }
 }
