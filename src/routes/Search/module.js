@@ -18,7 +18,8 @@ const initial_state = {
 
 const endpoint = API_BASE + '/search/';
 
-export function load_search_results(query, from = 0) {
+export function load_search_results(query, ordering = '', from = 0) {
+  const order_by = ordering ? ordering.split(/ /) : [];
   return dispatch => {
     axios
       .request({
@@ -27,6 +28,7 @@ export function load_search_results(query, from = 0) {
         params: {
           query,
           from,
+          order_by,
         },
       })
       .then(res => {
@@ -72,7 +74,7 @@ export function prev_page(loc, history) {
       ...loc,
       search: qs.stringify({ ...q, from: new_from }),
     });
-    load_search_results(q.dotaz, new_from)(dispatch);
+    load_search_results(q.dotaz, q.order_by, new_from)(dispatch);
   };
 }
 
@@ -91,7 +93,18 @@ export function next_page(total, loc, history) {
       ...loc,
       search: qs.stringify({ ...q, from: new_from }),
     });
-    load_search_results(q.dotaz, new_from)(dispatch);
+    load_search_results(q.dotaz, q.order_by, new_from)(dispatch);
+  };
+}
+
+export function set_order_by(order_by, loc, history) {
+  const q = qs.parse(loc.search);
+  return dispatch => {
+    history.push({
+      ...loc,
+      search: qs.stringify({ ...q, order_by, from: 0 }),
+    });
+    load_search_results(q.dotaz, order_by, 0)(dispatch);
   };
 }
 

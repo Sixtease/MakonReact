@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { load_search_results, prev_page, next_page } from './module.js';
+import { load_search_results, prev_page, next_page, set_order_by } from './module.js';
 
 import component from './component.js';
 import './style.scss';
@@ -8,12 +8,13 @@ import './style.scss';
 const map_dispatch_to_props = {
   load_search_results,
   prev_page,
-  next_page
+  next_page,
+  set_order_by,
 };
 
 const map_state_to_props = state => ({
   results: state.search.results,
-  total: state.search.total
+  total: state.search.total,
 });
 
 export default connect(

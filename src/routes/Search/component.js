@@ -12,6 +12,7 @@ export class Search extends React.Component {
     const query = q.dotaz;
     const from = q.from || 0;
     const to = results && results.length ? +from + results.length : null;
+    const ordering = q.order_by;
     let previous_stem;
     function render_stem(current_stem) {
       if (current_stem === previous_stem) {
@@ -23,6 +24,10 @@ export class Search extends React.Component {
     return (
       <div className="search-results">
         dotaz: <code>{query}</code>
+        <select onChange={(evt) => me.props.set_order_by(evt.target.value, loc, history)} defaultValue={ordering || ''}>
+          <option value="">řadit podle relevance</option>
+          <option value="_uid">seskupit podle nahrávek</option>
+        </select>
         <ol start={+from + 1}>
           {results.map(result => {
             const rendered_stem = render_stem(result.stem);
@@ -47,21 +52,21 @@ export class Search extends React.Component {
     );
   }
 
-  constructor(props) {
-    super(props);
-    const q = qs.parse(props.location.search);
-    props.load_search_results(q.dotaz, q.from);
+  componentDidMount() {
+    const q = qs.parse(this.props.location.search);
+    this.props.load_search_results(q.dotaz, q.order_by, q.from);
   }
 }
 
 Search.propTypes = {
-  results: PropTypes.array,
-  load_search_results: PropTypes.func,
-  prev_page: PropTypes.func,
-  next_page: PropTypes.func,
-  total: PropTypes.number,
-  location: PropTypes.object,
   history: PropTypes.object,
+  load_search_results: PropTypes.func,
+  location: PropTypes.object,
+  next_page: PropTypes.func,
+  prev_page: PropTypes.func,
+  results: PropTypes.array,
+  set_order_by: PropTypes.func,
+  total: PropTypes.number,
 };
 
 export default Search;
