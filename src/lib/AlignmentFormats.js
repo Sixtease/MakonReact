@@ -9,33 +9,33 @@ const S = {
 
 function tg_transition(prev_state, line) {
   let match;
-  if ((prev_state === S.init) && (match = /^xmax = (\S+)/.exec(line))) {
+  if (prev_state === S.init && (match = /^xmax = (\S+)/.exec(line))) {
     return {
       state: S.globmax,
       payload: { value: parseFloat(match[1]) },
     };
   }
-  if ((prev_state === S.globmax) && (/^\s+intervals:/.test(line))) {
+  if (prev_state === S.globmax && /^\s+intervals:/.test(line)) {
     return { state: S.before_word };
   }
   if (prev_state === S.before_word || prev_state === S.in_word) {
-    if (match = /^\s+xmin = (\S+)/.exec(line)) {
+    if ((match = /^\s+xmin = (\S+)/.exec(line))) {
       return {
         state: S.in_word,
         payload: { word_start: parseFloat(match[1]) },
       };
     }
-    if (match = /^\s+xmax = (\S+)/.exec(line)) {
+    if ((match = /^\s+xmax = (\S+)/.exec(line))) {
       return {
         state: S.in_word,
         payload: { word_end: parseFloat(match[1]) },
       };
     }
-    if (match = /^\s+text = "(.*)"/.exec(line)) {
+    if ((match = /^\s+text = "(.*)"/.exec(line))) {
       return {
         state: S.in_word,
         payload: { wordform: match[1] },
-      }
+      };
     }
     if (/intervals /.test(line)) {
       return {
@@ -48,23 +48,23 @@ function tg_transition(prev_state, line) {
     }
   }
   if (prev_state === S.before_phone || prev_state === S.in_phone) {
-    if (match = /^\s+xmin = (\S+)/.exec(line)) {
+    if ((match = /^\s+xmin = (\S+)/.exec(line))) {
       return {
         state: S.in_phone,
         payload: { phone_start: parseFloat(match[1]) },
       };
     }
-    if (match = /^\s+xmax = (\S+)/.exec(line)) {
+    if ((match = /^\s+xmax = (\S+)/.exec(line))) {
       return {
         state: S.in_phone,
         payload: { phone_end: parseFloat(match[1]) },
       };
     }
-    if (match = /^\s+text = "(.*)"/.exec(line)) {
+    if ((match = /^\s+text = "(.*)"/.exec(line))) {
       return {
         state: S.in_phone,
         payload: { phoneform: match[1] },
-      }
+      };
     }
     if (/intervals /.test(line)) {
       return {
