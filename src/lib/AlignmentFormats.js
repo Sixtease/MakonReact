@@ -75,7 +75,7 @@ function tg_transition(prev_state, line) {
   }
   return { state: prev_state };
 }
-export function textgrid_to_subs(textgrid, offset, filestem) {
+export function textgrid_to_subs(textgrid, offset, filestem, occurrences) {
   const words = [];
   const textgrid_lines = textgrid.split(/\n/);
   let state = S.init;
@@ -83,15 +83,21 @@ export function textgrid_to_subs(textgrid, offset, filestem) {
   let curword;
   let curword_i = 0;
   let curphone;
-  textgrid_lines.forEach(line => {
+  let subs_length;
+  textgrid_lines.forEach((line) => {
     const tmp = tg_transition(state, line);
     state = tmp.state;
     payload = tmp.payload;
-    if (state === S.before_word && payload) {
+    if (!payload) return;
+    switch (state) {
+    case S.globmax:
+      subs_length = payload.value;
+      break;
+    case S.before_word:
       curword = payload.word;
       words.push(curword);
-    }
-    if (state === S.in_word && payload) {
+      break;
+    case S.in_word:
       if (payload.word_start >= 0) {
         curword.start = payload.word_start;
       }
@@ -104,8 +110,8 @@ export function textgrid_to_subs(textgrid, offset, filestem) {
       if (payload.wordform) {
         curword.wordform = payload.wordform;
       }
-    }
-    if (state === S.before_phone && payload) {
+      break;
+    case S.before_phone:
       if (curphone) {
         if (curphone.end > words[curword_i].end) {
           curword_i++;
@@ -120,8 +126,8 @@ export function textgrid_to_subs(textgrid, offset, filestem) {
         words[curword_i].phones = [];
       }
       curphone = payload.phone;
-    }
-    if (state === S.in_phone && payload) {
+      break;
+    case S.in_phone:
       if (payload.phone_start >= 0) {
         curphone.start = payload.phone_start;
       }
@@ -131,15 +137,29 @@ export function textgrid_to_subs(textgrid, offset, filestem) {
       if (payload.phoneform) {
         curphone.form = payload.phoneform;
       }
+      break;
+    default: // just do nothing
     }
   });
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    const occurrence = occurrences[i];
+    const form = occurrence.replaceAll(/\P{L}+/gu, '').toLowerCase();
+    if (word.wordform === form) {
+      word.occurrence = occurrence;
+    } else {
+      word.occurrence = word.wordform;
+    }
+  }
   return {
     filestem,
-    data: words.map(w => ({
+    start: offset,
+    end: subs_length + offset,
+    data: words.map((w) => ({
       timestamp: w.start + offset,
       length: w.end - w.start,
       wordform: w.wordform,
-      occurrence: w.wordform,
+      occurrence: w.occurrence,
       fonet: w.phones.join(' '),
     })),
   };
