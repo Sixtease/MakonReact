@@ -5,6 +5,7 @@ const AUDIO_BASE_PRD = 'http://commondatastorage.googleapis.com/karel-makon-spli
 module.exports = {
   AUDIO_FORMATS: [{ mime: 'audio/ogg', suffix: 'ogg' }, { mime: 'audio/mpeg', suffix: 'mp3' }],
   SAMPLE_RATE: 24000,
+  ALIGNER_URL: 'http://lindat.mff.cuni.cz/services/aligner/align',
 };
 if (process.env.NODE_ENV === 'production') {
   module.exports.API_BASE = API_BASE_PRD;
