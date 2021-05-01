@@ -14,5 +14,8 @@
     li {
         color: #337ab7;
         list-style-type: circle;
+        label {
+          cursor: pointer;
+        }
     }
 }
