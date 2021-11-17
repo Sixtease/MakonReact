@@ -1,5 +1,5 @@
 const API_BASE_DEV = 'http://localhost:5000';
-const API_BASE_PRD = 'http://rock.positron.cz:8080';
+const API_BASE_PRD = 'http://lindat.mff.cuni.cz/services/aligner/makon';
 const AUDIO_BASE_DEV = 'http://localhost:5000/static/audio/';
 const AUDIO_BASE_PRD = 'http://commondatastorage.googleapis.com/karel-makon-splits/';
 module.exports = {
