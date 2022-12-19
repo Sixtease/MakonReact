@@ -1,21 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { frame_to_time } from '../../routes/TrackDetail/module/util';
-
-function s_to_hms(sec) {
-  const s = sec % 60;
-  const m = Math.floor(sec / 60) % 60;
-  const h = Math.floor(sec / 3600);
-  const elements = [];
-  if (h > 0) {
-    elements.push(h);
-  }
-  if (m > 0 || h > 0) {
-    elements.push(m >= 10 ? m : '0' + m);
-  }
-  elements.push(s > 10 ? s.toFixed(2) : '0' + s.toFixed(2));
-  return elements.join(':');
-}
+import { s_to_hms } from '../../lib/Util';
 
 export class ControlBar extends React.Component {
   render() {

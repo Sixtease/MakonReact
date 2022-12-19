@@ -4,13 +4,15 @@ import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
 import { API_BASE } from '../../../constants';
 import { audio_sample_rate } from '../../../store/audio';
+import { hms_to_s, s_to_hms } from '../../../lib/Util';
 
 export const frame_to_time = frame => frame / audio_sample_rate;
 export const time_to_frame = time => time * audio_sample_rate;
 
 export function reflect_time_in_hash(time) {
+  const hms = s_to_hms(time);
   const old_hash = window.location.hash;
-  const new_hash = '#ts=' + time;
+  const new_hash = '#ts=' + hms;
   if (new_hash !== old_hash) {
     window.location.replace(new_hash);
   }
@@ -40,7 +42,8 @@ export function fetch_subs(stem, dispatch, state) {
 export const apply_hash = (hash, dispatch) => {
   const bare_hash = hash.replace(/^#/, '');
   let query = query_string.parse(bare_hash);
-  const requested_time = query.ts;
+  const hms = query.ts;
+  const requested_time = hms_to_s(hms);
   if (requested_time) {
     dispatch({
       type: 'force_current_time',

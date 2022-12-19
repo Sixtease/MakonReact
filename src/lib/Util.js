@@ -44,3 +44,30 @@ export function can_use_equalizer() {
   }
   return true;
 }
+
+export function s_to_hms(sec) {
+  const s = sec % 60;
+  const m = Math.floor(sec / 60) % 60;
+  const h = Math.floor(sec / 3600);
+  const elements = [];
+  if (h > 0) {
+    elements.push(h);
+  }
+  if (m > 0 || h > 0) {
+    elements.push(m >= 10 ? m : '0' + m);
+  }
+  elements.push(s > 10 ? s.toFixed(2) : '0' + s.toFixed(2));
+  return elements.join(':');
+}
+
+export function hms_to_s(hms) {
+  const fields = hms.split(':');
+  let rv = 0;
+  let m = 1;
+  fields.reverse().forEach((field) => {
+    rv += m * field;
+    m *= 60;
+  });
+  if (isNaN(rv)) return 0;
+  return rv;
+}
