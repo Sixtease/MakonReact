@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { pause, play } from 'glyphicons';
 import { frame_to_time } from '../../routes/TrackDetail/module/util';
 import { s_to_hms } from '../../lib/Util';
 
@@ -17,12 +18,9 @@ export class ControlBar extends React.Component {
     return (
       <div className="control-bar">
         {is_playing ? (
-          <button
-            className="glyphicon glyphicon-pause"
-            onClick={playback_off}
-          />
+          <button onClick={playback_off}>{pause}</button>
         ) : (
-          <button className="glyphicon glyphicon-play" onClick={playback_on} />
+          <button onClick={playback_on}>{play}</button>
         )}
         <code>{s_to_hms(frame_to_time(current_frame))}</code>
         <input

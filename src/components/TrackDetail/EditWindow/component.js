@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { download, ok, play, stop } from 'glyphicons';
 import { Field, reduxForm } from 'redux-form';
 
 class EditWindow extends React.Component {
@@ -35,22 +36,19 @@ class EditWindow extends React.Component {
         <Field component="textarea" name="edited_subtitles" />
         {is_playing ? (
           <button
-            className="glyphicon glyphicon-stop"
             onClick={() => playback_off(audio)}
             title="zastavit"
-          />
+          >{stop}</button>
         ) : (
           <button
-            className="glyphicon glyphicon-play"
             onClick={() => playback_on(audio)}
             title="přehrát"
-          />
+          >{play}</button>
         )}
         <button
-          className="glyphicon glyphicon-ok"
           onClick={handleSubmit}
           title="odeslat"
-        />
+        >{ok}</button>
         <span style={{ float: 'right' }}>
           {me.state.show_filename_input ? (
             [
@@ -68,26 +66,21 @@ class EditWindow extends React.Component {
                   download={me.state.download_filename}
                   key={2}
                 >
-                  <button
-                    className="glyphicon glyphicon-download"
-                    type="button"
-                  />
+                  <button type="button">{download}</button>
                 </a>
               ) : (
                 <button
                   disabled="disabled"
                   key={2}
-                  className="glyphicon glyphicon-download"
                   type="button"
-                />
+                >{download}</button>
               )
             ]
           ) : (
             <button
-              className="glyphicon glyphicon-download"
               onClick={() => me.commence_download()}
               title="stáhnout audio"
-            />
+            >{download}</button>
           )}
         </span>
       </div>
