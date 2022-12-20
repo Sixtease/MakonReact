@@ -51,7 +51,7 @@ export function load_search_results(query, ordering = '', from = 0) {
           dispatch({
             type: 'set_search_results',
             results,
-            total: res.data.hits.total,
+            total: res.data.hits.total.value,
           });
         }
       });
