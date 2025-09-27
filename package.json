@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "audio-buffer-utils": "^5.1.2",
     "audiobuffer-to-wav": "^1.0.0",
     "canvas-equalizer": "^0.2.0",
     "fetch-jsonp": "^1.1.3",

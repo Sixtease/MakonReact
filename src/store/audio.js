@@ -1,8 +1,8 @@
 /* global window */
 
-import { concat, slice } from 'audio-buffer-utils';
 import CanvasEqualizer from 'canvas-equalizer';
 import { AUDIO_FORMATS, SAMPLE_RATE } from '../constants';
+import { concatAudioBuffers, sliceAudioBuffer } from '../lib/audio-buffer';
 import equalizer_locale_cs from '../lib/canvas-equalizer/locales/cs.json';
 import { can_use_equalizer } from '../lib/Util';
 import Chunks from './AudioChunks';
@@ -187,7 +187,7 @@ class MAudio {
 
   get_window(from, to) {
     const me = this;
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const containing_chunks = me.audio_chunks.get_window_chunks(from, to);
       const chunk_promises = containing_chunks.map(c => c.promise);
       Promise.all(chunk_promises).then(() => {
@@ -196,27 +196,32 @@ class MAudio {
           const buf = chunk.buffer;
           const start = from - chunk.from;
           const end = to - chunk.from;
-          resolve(slice(buf, start * buf.sampleRate, end * buf.sampleRate));
+          resolve(sliceAudioBuffer(ac, buf, start * buf.sampleRate, end * buf.sampleRate));
         } else {
           const first_chunk = containing_chunks.shift();
-          const first_buf = slice(
+          const first_buf = sliceAudioBuffer(
+            ac,
             first_chunk.buffer,
             (from - first_chunk.from) * first_chunk.buffer.sampleRate,
             first_chunk.duration * first_chunk.buffer.sampleRate
           );
           const last_chunk = containing_chunks.pop();
-          const last_buf = slice(
+          const last_buf = sliceAudioBuffer(
+            ac,
             last_chunk.buffer,
             0,
             (to - last_chunk.from) * last_chunk.buffer.sampleRate
           );
           resolve(
-            concat(
-              first_buf,
-              ...containing_chunks.map(c =>
-                slice(c.buffer, 0, c.duration * c.buffer.sampleRate)
-              ),
-              last_buf
+            concatAudioBuffers(
+              ac,
+              [
+                first_buf,
+                ...containing_chunks.map(c =>
+                  sliceAudioBuffer(ac, c.buffer, 0, c.duration * c.buffer.sampleRate)
+                ),
+                last_buf,
+              ]
             )
           );
         }
