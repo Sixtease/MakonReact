@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { API_BASE } from '../../../constants';
 
 const endpoint = API_BASE + '/saveword/';
@@ -9,19 +8,15 @@ export function save_word(form_values) {
       type: 'save_word',
       ...form_values
     });
-    axios
-      .request({
-        url: endpoint,
-        method: 'POST',
-        params: {
-          ...form_values
-        }
-      })
-      .then(res => {
-        if (res.data && res.data.success) {
+    fetch(`${endpoint}?${new URLSearchParams(form_values)}`, {
+      method: 'POST'
+    })
+      .then(async res => {
+        const data = await res.json();
+        if (data && data.success) {
           dispatch({
             type: 'accepted_save_word',
-            ...res.data
+            ...data
           });
         } else {
           dispatch({

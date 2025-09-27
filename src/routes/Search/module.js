@@ -1,4 +1,3 @@
-import axios from 'axios';
 import qs from 'query-string';
 import { API_BASE } from '../../constants';
 import { PAGE_SIZE } from './constants';
@@ -21,18 +20,10 @@ const endpoint = API_BASE + '/search/';
 export function load_search_results(query, ordering = '', from = 0) {
   const order_by = ordering ? ordering.split(/ /) : [];
   return dispatch => {
-    axios
-      .request({
-        url: endpoint,
-        method: 'get',
-        params: {
-          query,
-          from,
-          order_by,
-        },
-      })
+    fetch(`${endpoint}?query=${encodeURIComponent(query)}&from=${from}&order_by=${order_by}`)
+      .then(response => response.json())
       .then(res => {
-        if (res && res.data && res.data.hits && res.data.hits.hits) {
+        if (res && res.hits && res.hits.hits) {
           const hitlist = res.data.hits.hits;
           const results = hitlist.map(hit => {
             const id = hit._id;

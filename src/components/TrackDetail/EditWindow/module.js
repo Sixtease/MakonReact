@@ -1,4 +1,3 @@
-import axios from 'axios';
 import to_wav from 'audiobuffer-to-wav';
 import { API_BASE, ALIGNER_URL } from '../../../constants';
 import audio from '../../../store/audio';
@@ -33,15 +32,11 @@ export function send_subs(form_values, dispatch, props) {
     const align_formdata = new FormData();
     align_formdata.append('transcript', form_values.edited_subtitles);
     align_formdata.append('audio', blob);
-    const textgrid_response = await axios.request({
-      url: ALIGNER_URL,
+    const textgrid_response = await fetch(ALIGNER_URL, {
       method: 'POST',
-      data: align_formdata,
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
+      body: align_formdata,
     });
-    if (!textgrid_response) {
+    if (!textgrid_response.ok) {
       dispatch({
         type: 'failed_submission',
         words: selw,
@@ -49,7 +44,8 @@ export function send_subs(form_values, dispatch, props) {
       });
     }
     const occurrences = form_values.edited_subtitles.trim().split(/\s+/);
-    const subs = textgrid_to_subs(textgrid_response.data, timespan.start, props.stem, occurrences);
+    const textgrid_data = await textgrid_response.text();
+    const subs = textgrid_to_subs(textgrid_data, timespan.start, props.stem, occurrences);
 
     const subsub_formdata = new FormData();
     subsub_formdata.append('filestem', props.stem);
@@ -59,26 +55,34 @@ export function send_subs(form_values, dispatch, props) {
     subsub_formdata.append('author', state.form.username.values.username);
     subsub_formdata.append('session', localStorage.getItem('session'));
     subsub_formdata.append('subs', JSON.stringify(subs));
+
     let res;
     try {
-      res = await axios
-        .request({
-          url: endpoint,
-          method: 'POST',
-          data: subsub_formdata,
-        });
+      res = await fetch(endpoint, {
+        method: 'POST',
+        body: subsub_formdata,
+      });
     } catch (e) {
       dispatch({
         type: 'submission_error',
         words: selw,
       });
     }
-    if (res.data && res.data.success) {
-      dispatch({
-        type: 'accepted_submission',
-        replaced_words: selw,
-        accepted_words: res.data.data,
-      });
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data.success) {
+        dispatch({
+          type: 'accepted_submission',
+          replaced_words: selw,
+          accepted_words: data.data,
+        });
+      } else {
+        dispatch({
+          type: 'failed_submission',
+          words: selw,
+          subs_chunks,
+        });
+      }
     } else {
       dispatch({
         type: 'failed_submission',
