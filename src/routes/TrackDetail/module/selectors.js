@@ -1,5 +1,3 @@
-/* global window */
-
 import { createSelector } from 'reselect';
 import { get_chunk_text_nodes } from '../component';
 import { frame_to_time } from './util';

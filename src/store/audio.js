@@ -1,4 +1,3 @@
-/* global window */
 
 import CanvasEqualizer from 'canvas-equalizer';
 import { AUDIO_FORMATS, SAMPLE_RATE } from '../constants';

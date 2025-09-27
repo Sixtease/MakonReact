@@ -1,5 +1,3 @@
-/* global window */
-
 import fetch_jsonp from 'fetch-jsonp';
 import query_string from 'query-string';
 import { API_BASE } from '../../../constants';
