@@ -51,11 +51,11 @@ export class TrackDetail extends React.Component {
         <h1>{stem}</h1>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-xs-8 col-md-9">
+            <div className="col-sm-8 col-md-9">
               <p />
               <Subs {...subs_props} />
             </div>
-            <div className="col-xs-4 col-md-3">
+            <div className="col-sm-4 col-md-3">
               <div className="sidebar">
                 <WordInfo word={marked_word} stem={stem} />
                 <Downloads stem={stem} />
