@@ -1,4 +1,3 @@
-import qs from 'query-string';
 import { API_BASE } from '../../constants';
 import { PAGE_SIZE } from './constants';
 
@@ -24,7 +23,7 @@ export function load_search_results(query, ordering = '', from = 0) {
       .then(response => response.json())
       .then(res => {
         if (res && res.hits && res.hits.hits) {
-          const hitlist = res.data.hits.hits;
+          const hitlist = res.hits.hits;
           const results = hitlist.map(hit => {
             const id = hit._id;
             const [stem, time] = id.split('--');
@@ -42,7 +41,7 @@ export function load_search_results(query, ordering = '', from = 0) {
           dispatch({
             type: 'set_search_results',
             results,
-            total: res.data.hits.total.value,
+            total: res.hits.total.value,
           });
         }
       });
@@ -50,9 +49,9 @@ export function load_search_results(query, ordering = '', from = 0) {
 }
 
 export function prev_page(loc, history) {
-  const q = qs.parse(loc.search);
+  const q = new URLSearchParams(loc.search);
   return dispatch => {
-    const from = +(q.from || 0);
+    const from = +(q.get('from') || 0);
     if (from === 0) {
       return;
     }
@@ -63,14 +62,14 @@ export function prev_page(loc, history) {
     });
     history.push({
       ...loc,
-      search: qs.stringify({ ...q, from: new_from }),
+      search: `?${new URLSearchParams({ ...Object.fromEntries(q.entries()), from: new_from }).toString()}`,
     });
-    load_search_results(q.dotaz, q.order_by, new_from)(dispatch);
+    load_search_results(q.get('dotaz'), q.get('order_by'), new_from)(dispatch);
   };
 }
 
 export function next_page(total, loc, history) {
-  const q = qs.parse(loc.search);
+  const q = Object.fromEntries(new URLSearchParams(loc.search).entries());
   return dispatch => {
     const new_from = +(q.from || 0) + PAGE_SIZE;
     if (new_from >= total) {
@@ -82,18 +81,18 @@ export function next_page(total, loc, history) {
     });
     history.push({
       ...loc,
-      search: qs.stringify({ ...q, from: new_from }),
+      search: `?${new URLSearchParams({ ...q, from: new_from }).toString()}`,
     });
     load_search_results(q.dotaz, q.order_by, new_from)(dispatch);
   };
 }
 
 export function set_order_by(order_by, loc, history) {
-  const q = qs.parse(loc.search);
+  const q = Object.fromEntries(new URLSearchParams(loc.search).entries());
   return dispatch => {
     history.push({
       ...loc,
-      search: qs.stringify({ ...q, order_by, from: 0 }),
+      search: `?${new URLSearchParams({ ...q, order_by, from: 0 }).toString()}`,
     });
     load_search_results(q.dotaz, order_by, 0)(dispatch);
   };

@@ -4,17 +4,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
-import qs from 'query-string';
 
 export class Search extends React.Component {
   render() {
     const me = this;
     const { location: loc, results, total, prev_page, next_page, history } = me.props;
-    const q = qs.parse(me.props.location.search);
-    const query = q.dotaz;
-    const from = q.from || 0;
+    const q = new URLSearchParams(me.props.location.search);
+    const query = q.get('dotaz');
+    const from = q.get('from') || 0;
     const to = results && results.length ? +from + results.length : null;
-    const ordering = q.order_by;
+    const ordering = q.get('order_by');
     let previous_stem;
     function render_stem(current_stem) {
       if (current_stem === previous_stem) {
@@ -38,7 +37,7 @@ export class Search extends React.Component {
               <li key={result.id} className={li_class}>
                 {rendered_stem}
                 <Link to={`/zaznam/${result.stem}#ts=${result.time}`}>
-                  <ReactMarkdown source={result.snip} />
+                  <ReactMarkdown>{result.snip}</ReactMarkdown>
                 </Link>
               </li>
             );
@@ -55,8 +54,8 @@ export class Search extends React.Component {
   }
 
   componentDidMount() {
-    const q = qs.parse(this.props.location.search);
-    this.props.load_search_results(q.dotaz, q.order_by, q.from);
+    const q = new URLSearchParams(this.props.location.search);
+    this.props.load_search_results(q.get('dotaz'), q.get('order_by'), q.get('from'));
   }
 }
 

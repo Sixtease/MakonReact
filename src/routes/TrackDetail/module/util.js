@@ -1,5 +1,4 @@
 import fetch_jsonp from 'fetch-jsonp';
-import query_string from 'query-string';
 import { API_BASE } from '../../../constants';
 import { audio_sample_rate } from '../../../store/audio';
 import { hms_to_s, s_to_hms } from '../../../lib/Util';
@@ -39,8 +38,8 @@ export function fetch_subs(stem, dispatch, state) {
 
 export const apply_hash = (hash, dispatch) => {
   const bare_hash = hash.replace(/^#/, '');
-  let query = query_string.parse(bare_hash);
-  const hms = query.ts;
+  let query = new URLSearchParams(bare_hash);
+  const hms = query.get('ts');
   const requested_time = hms_to_s(hms);
   if (requested_time) {
     dispatch({
