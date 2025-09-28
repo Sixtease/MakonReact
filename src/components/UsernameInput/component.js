@@ -18,7 +18,7 @@ export class UsernameInput extends React.Component {
 UsernameInput = reduxForm({
   form: 'username',
   initialValues: { username: localStorage.getItem('username') },
-  onChange: values => localStorage.setItem('username', values.username)
+  onChange: values => localStorage.setItem('username', values.username || '')
 })(UsernameInput);
 
 export default UsernameInput;
