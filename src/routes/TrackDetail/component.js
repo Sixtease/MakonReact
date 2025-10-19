@@ -48,7 +48,8 @@ export class TrackDetail extends React.Component {
 
     return (
       <div>
-        <h1>{stem}</h1>
+        <p className="pre-heading">Záznam přednášky Karla Makoně s označením:</p>
+        <h1 className="has-pre-heading">{stem}</h1>
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-8 col-md-9">

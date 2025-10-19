@@ -25,7 +25,7 @@ class WordInfo extends React.Component {
     };
     return (
       <div className="save-word">
-        <h1>Vybrané slovo</h1>
+        <h2>Vybrané slovo</h2>
 
         <dl>
           <dt title="podoba slova na dané pozici, i s případnou interpunkcí nebo velkým písmenem">

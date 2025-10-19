@@ -26,7 +26,7 @@ h1, h2, h3, h4, nav>ul {
 h1 {
   font-size: 3em;
 }
-h4 {
+h2 {
   font-size: 2em;
 }
 
@@ -50,4 +50,12 @@ a, .clickable {
 
 .unclickable {
     cursor: inherit;
+}
+
+body .core-layout__viewport {
+    padding-top: 1rem;
+}
+
+nav.navbar {
+    margin-bottom: 0;
 }

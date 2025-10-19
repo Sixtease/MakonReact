@@ -14,7 +14,7 @@ const select_transcription = () => {
 
 const component = ({ stem }) => (
   <div>
-    <h1>Stáhnout</h1>
+    <h2>Stáhnout</h2>
     <ul>
       <li>
         <a

@@ -80,3 +80,12 @@
     width: calc(100% - 5px);
     height: 200px;
 }
+.pre-heading {
+    font-family: "VT323", monospace;
+    letter-spacing: 0.5px;
+    margin-bottom: 0;
+    font-size: 1.2em;
+}
+.has-pre-heading {
+    margin-top: 0;
+}
