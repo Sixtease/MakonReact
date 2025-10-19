@@ -12,6 +12,15 @@ export class AboutRouteComponent extends React.Component {
           světa a znovuzrození z vody a z ducha a pokusil se předat návod na
           napodobení svojí zkušenosti a dosažení věčného života ostatním.
         </p>
+        <p>
+          Psané dílo Karla Makoně je k dispozici na stránce <a href="http://makon.cz/">makon.cz</a>.
+          K dispozici jsou též kvalifikační práce o Karlu Makoňovi, kde je k nalezení i seznam další literatury k tématu:
+          <ul>
+            <li><a target="_blank" href="https://dspace.cuni.cz/handle/20.500.11956/174057">Informatická práce o zpracovávání nahrávek na tomto webu</a></li>
+            <li><a target="_blank" href="https://dspace.cuni.cz/handle/20.500.11956/177483">Teologická práce o poselství Karla Makoně</a></li>
+          </ul>
+        </p>
+
         <h2>Cíle</h2>
         <p>Cílem projektu je zachování a zužitkování odkazu Karla Makoně.</p>
 
@@ -20,7 +29,7 @@ export class AboutRouteComponent extends React.Component {
           Autorem tohoto webu, zde dostupných automatických přepisů, digitálních
           verzí nahrávek a osobou zodpovědnou za obsah je{' '}
           <a href="mailto:jan@sixtease.net">Jan Evangelista Oldřich Krůza</a> (
-          <a _target="blank" href="http://www.sixtease.net/">
+          <a target="_blank" href="https://www.sixtease.net/">
             sixtease.net
           </a>
           ).

@@ -7,7 +7,7 @@ module.exports = {
   SAMPLE_RATE: 24000,
   ALIGNER_URL: 'https://lindat.mff.cuni.cz/services/aligner/align',
 };
-if (process.env.NODE_ENV === 'production') {
+if (true) {
   module.exports.API_BASE = API_BASE_PRD;
   module.exports.AUDIO_BASE = AUDIO_BASE_PRD;
 } else {
