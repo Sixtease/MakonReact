@@ -45,6 +45,8 @@
                 "key": "kazety/ostatní",
                 "items": [
                     { "name": "Jablonec", "section": "kazety-ostatni-jablonec" },
+                    { "name": "Plzeň",    "section": "kazety-ostatni-plzen"    },
+                    { "name": "Žďár",     "section": "kazety-ostatni-zdar"     },
                     { "name": "X",        "section": "kazety-ostatni-x"        },
                     { "name": "ostatní",  "section": "kazety-ostatni-ostatni"  }
                 ]
