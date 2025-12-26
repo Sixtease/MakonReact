@@ -29,7 +29,7 @@ export function TextyDocument(props) {
 
   return (
     <div className="texty-document">
-      <h1>{doc}</h1>
+      <h1>{bookId}</h1>
       <div className="texty-document__nav">
         {prevLink ? (
           <Link to={prevLink} className="nav-link prev">

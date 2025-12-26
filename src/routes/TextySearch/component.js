@@ -11,7 +11,6 @@ export class TextySearch extends React.Component {
     const query = q.get('dotaz');
     const from = q.get('from') || 0;
     const to = results && results.length ? +from + results.length : null;
-    const ordering = q.get('order_by');
 
     const query_param = query ? `?dotaz=${encodeURIComponent(query)}` : '';
 
@@ -28,15 +27,11 @@ export class TextySearch extends React.Component {
             Hledat v nahrávkách
           </Link>
         </div>
-        <select onChange={(evt) => me.props.set_order_by(evt.target.value, loc, history)} defaultValue={ordering || ''}>
-          <option value="">řadit podle relevance</option>
-          <option value="_uid">seskupit podle nahrávek</option>
-        </select>
         <ol start={+from + 1}>
           {results.map(result => (
-            <li key={result.id}>
+            <li key={result.id} className="shows-stem">
+              <label>{result.title || result.book}</label>
               <Link to={result.url}>
-                <strong>{result.title || result.book}</strong>
                 <ReactMarkdown>{result.snip}</ReactMarkdown>
               </Link>
             </li>
