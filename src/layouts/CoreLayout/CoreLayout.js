@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import { HomeView } from '../../routes/Home/';
 import { TrackDetail } from '../../routes/TrackDetail';
 import { Search } from '../../routes/Search';
+import { TextySearch } from '../../routes/TextySearch';
 import { About } from '../../routes/About';
 import './CoreLayout.scss';
 import '../../styles/core.scss';
@@ -19,6 +20,7 @@ export function CoreLayout(props) {
             <Route path="/" exact={true} component={HomeView} />
             <Route path="/zaznam/:id" exact={true} component={TrackDetail} />
             <Route path="/vyhledavani/" component={Search} />
+            <Route path="/vyhledavani-texty/" component={TextySearch} />
             <Route path="/o-projektu/" component={About} />
           </div>
         </div>

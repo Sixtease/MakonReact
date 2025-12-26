@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 
-export class Search extends React.Component {
+export class TextySearch extends React.Component {
   render() {
     const me = this;
     const { location: loc, results, total, prev_page, next_page, history } = me.props;
@@ -14,36 +12,25 @@ export class Search extends React.Component {
     const from = q.get('from') || 0;
     const to = results && results.length ? +from + results.length : null;
     const ordering = q.get('order_by');
-    let previous_stem;
-    function render_stem(current_stem) {
-      if (current_stem === previous_stem) {
-        return null;
-      }
-      previous_stem = current_stem;
-      return <label>{current_stem}</label>;
-    }
+
     return (
       <div className="search-results">
         <div className="search-switch">
-          dotaz: <code>{query}</code> | <Link to="/vyhledavani-texty/">Hledat v knihách</Link>
+          dotaz: <code>{query}</code> | <Link to="/vyhledavani/">Hledat v nahrávkách</Link>
         </div>
         <select onChange={(evt) => me.props.set_order_by(evt.target.value, loc, history)} defaultValue={ordering || ''}>
           <option value="">řadit podle relevance</option>
           <option value="_uid">seskupit podle nahrávek</option>
         </select>
         <ol start={+from + 1}>
-          {results.map(result => {
-            const rendered_stem = render_stem(result.stem);
-            const li_class = rendered_stem === null ? '' : 'shows-stem';
-            return (
-              <li key={result.id} className={li_class}>
-                {rendered_stem}
-                <Link to={`/zaznam/${result.stem}#ts=${result.time}`}>
-                  <ReactMarkdown>{result.snip}</ReactMarkdown>
-                </Link>
-              </li>
-            );
-          })}
+          {results.map(result => (
+            <li key={result.id}>
+              <a href={result.url} target="_blank" rel="noopener noreferrer">
+                <strong>{result.title || result.book}</strong>
+                <ReactMarkdown>{result.snip}</ReactMarkdown>
+              </a>
+            </li>
+          ))}
         </ol>
         {results && results.length ? (
           <div className="pager">
@@ -57,13 +44,13 @@ export class Search extends React.Component {
 
   componentDidMount() {
     const q = new URLSearchParams(this.props.location.search);
-    this.props.load_search_results(q.get('dotaz'), q.get('order_by'), q.get('from'));
+    this.props.load_texty_results(q.get('dotaz'), q.get('order_by'), q.get('from'));
   }
 }
 
-Search.propTypes = {
+TextySearch.propTypes = {
   history: PropTypes.object,
-  load_search_results: PropTypes.func,
+  load_texty_results: PropTypes.func,
   location: PropTypes.object,
   next_page: PropTypes.func,
   prev_page: PropTypes.func,
@@ -72,4 +59,4 @@ Search.propTypes = {
   total: PropTypes.number,
 };
 
-export default Search;
+export default TextySearch;
