@@ -1,0 +1,19 @@
+.texty-document {
+  padding: 1rem;
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__frame {
+    width: 100%;
+    min-height: 80vh;
+    border: 1px solid #ccc;
+  }
+
+}

@@ -1,0 +1,658 @@
+{
+  "BLAHOS1": {
+    "succ": "BLAHOS2"
+  },
+  "BLAHOS2": {
+    "pred": "BLAHOS1"
+  },
+  "CESTA1": {
+    "succ": "CESTA2"
+  },
+  "CESTA2": {
+    "pred": "CESTA1",
+    "succ": "CESTA3"
+  },
+  "CESTA3": {
+    "pred": "CESTA2",
+    "succ": "CESTA4"
+  },
+  "CESTA4": {
+    "pred": "CESTA3"
+  },
+  "FIORE1": {
+    "succ": "FIORE2"
+  },
+  "FIORE2": {
+    "pred": "FIORE1",
+    "succ": "FIORE3"
+  },
+  "FIORE3": {
+    "pred": "FIORE2",
+    "succ": "FIORE4"
+  },
+  "FIORE4": {
+    "pred": "FIORE3"
+  },
+  "HERBERT1": {
+    "succ": "HERBERT2"
+  },
+  "HERBERT2": {
+    "pred": "HERBERT1"
+  },
+  "HOVORY1": {
+    "succ": "HOVORY2"
+  },
+  "HOVORY2": {
+    "pred": "HOVORY1",
+    "succ": "HOVORY3"
+  },
+  "HOVORY3": {
+    "pred": "HOVORY2"
+  },
+  "KONCENT1": {
+    "succ": "KONCENT2"
+  },
+  "KONCENT2": {
+    "pred": "KONCENT1"
+  },
+  "KRIST1": {
+    "succ": "KRIST2"
+  },
+  "KRIST2": {
+    "pred": "KRIST1"
+  },
+  "M2_A1": {
+    "succ": "M2_A2"
+  },
+  "M2_A2": {
+    "pred": "M2_A1",
+    "succ": "M2_A3"
+  },
+  "M2_A3": {
+    "pred": "M2_A2",
+    "succ": "M2_A4"
+  },
+  "M2_A4": {
+    "pred": "M2_A3",
+    "succ": "M2_A5"
+  },
+  "M2_A5": {
+    "pred": "M2_A4",
+    "succ": "M2_A6"
+  },
+  "M2_A6": {
+    "pred": "M2_A5",
+    "succ": "M2_A7"
+  },
+  "M2_A7": {
+    "pred": "M2_A6",
+    "succ": "M2_A8"
+  },
+  "M2_A8": {
+    "pred": "M2_A7",
+    "succ": "M2_A9"
+  },
+  "M2_A9": {
+    "pred": "M2_A8",
+    "succ": "M2_B1"
+  },
+  "M2_B1": {
+    "pred": "M2_A9",
+    "succ": "M2_B2"
+  },
+  "M2_B2": {
+    "pred": "M2_B1",
+    "succ": "M2_B3"
+  },
+  "M2_B3": {
+    "pred": "M2_B2",
+    "succ": "M2_B4"
+  },
+  "M2_B4": {
+    "pred": "M2_B3",
+    "succ": "M2_B5"
+  },
+  "M2_B5": {
+    "pred": "M2_B4",
+    "succ": "M2_B6"
+  },
+  "M2_B6": {
+    "pred": "M2_B5",
+    "succ": "M2_B7"
+  },
+  "M2_B7": {
+    "pred": "M2_B6",
+    "succ": "M2_B8"
+  },
+  "M2_B8": {
+    "pred": "M2_B7",
+    "succ": "M2_B9"
+  },
+  "M2_B9": {
+    "pred": "M2_B8",
+    "succ": "M2_C1"
+  },
+  "M2_C1": {
+    "pred": "M2_B9",
+    "succ": "M2_C2"
+  },
+  "M2_C2": {
+    "pred": "M2_C1",
+    "succ": "M2_C3"
+  },
+  "M2_C3": {
+    "pred": "M2_C2",
+    "succ": "M2_C4"
+  },
+  "M2_C4": {
+    "pred": "M2_C3",
+    "succ": "M2_C5"
+  },
+  "M2_C5": {
+    "pred": "M2_C4",
+    "succ": "M2_C6"
+  },
+  "M2_C6": {
+    "pred": "M2_C5",
+    "succ": "M2_C7"
+  },
+  "M2_C7": {
+    "pred": "M2_C6",
+    "succ": "M2_C8"
+  },
+  "M2_C8": {
+    "pred": "M2_C7",
+    "succ": "M2_C9"
+  },
+  "M2_C9": {
+    "pred": "M2_C8",
+    "succ": "M2_D1"
+  },
+  "M2_D1": {
+    "pred": "M2_C9",
+    "succ": "M2_D2"
+  },
+  "M2_D2": {
+    "pred": "M2_D1",
+    "succ": "M2_D3"
+  },
+  "M2_D3": {
+    "pred": "M2_D2",
+    "succ": "M2_D4"
+  },
+  "M2_D4": {
+    "pred": "M2_D3",
+    "succ": "M2_D5"
+  },
+  "M2_D5": {
+    "pred": "M2_D4",
+    "succ": "M2_D6"
+  },
+  "M2_D6": {
+    "pred": "M2_D5",
+    "succ": "M2_D7"
+  },
+  "M2_D7": {
+    "pred": "M2_D6",
+    "succ": "M2_D8"
+  },
+  "M2_D8": {
+    "pred": "M2_D7",
+    "succ": "M2_D9"
+  },
+  "M2_D9": {
+    "pred": "M2_D8",
+    "succ": "M2_E1"
+  },
+  "M2_E1": {
+    "pred": "M2_D9",
+    "succ": "M2_E2"
+  },
+  "M2_E2": {
+    "pred": "M2_E1",
+    "succ": "M2_E3"
+  },
+  "M2_E3": {
+    "pred": "M2_E2",
+    "succ": "M2_E4"
+  },
+  "M2_E4": {
+    "pred": "M2_E3",
+    "succ": "M2_E5"
+  },
+  "M2_E5": {
+    "pred": "M2_E4",
+    "succ": "M2_E6"
+  },
+  "M2_E6": {
+    "pred": "M2_E5",
+    "succ": "M2_E7"
+  },
+  "M2_E7": {
+    "pred": "M2_E6",
+    "succ": "M2_E8"
+  },
+  "M2_E8": {
+    "pred": "M2_E7",
+    "succ": "M2_E9"
+  },
+  "M2_E9": {
+    "pred": "M2_E8",
+    "succ": "M3_A"
+  },
+  "M3_A": {
+    "pred": "M2_E9",
+    "succ": "M3_B"
+  },
+  "M3_B": {
+    "pred": "M3_A",
+    "succ": "M3_C"
+  },
+  "M3_C": {
+    "pred": "M3_B",
+    "succ": "M3_D"
+  },
+  "M3_D": {
+    "pred": "M3_C",
+    "succ": "M3_E"
+  },
+  "M3_E": {
+    "pred": "M3_D",
+    "succ": "M3_PO1"
+  },
+  "M3_PO1": {
+    "pred": "M3_E",
+    "succ": "M3_PO2"
+  },
+  "M3_PO2": {
+    "pred": "M3_PO1",
+    "succ": "M3_PO3"
+  },
+  "M3_PO3": {
+    "pred": "M3_PO2"
+  },
+  "MISRAKI1": {
+    "succ": "MISRAKI2"
+  },
+  "MISRAKI2": {
+    "pred": "MISRAKI1"
+  },
+  "MOODY1": {
+    "succ": "MOODY2"
+  },
+  "MOODY2": {
+    "pred": "MOODY1"
+  },
+  "MOUDR1": {
+    "succ": "MOUDR2"
+  },
+  "MOUDR2": {
+    "pred": "MOUDR1"
+  },
+  "MYST_1A": {
+    "succ": "MYST_1B"
+  },
+  "MYST_1B": {
+    "pred": "MYST_1A"
+  },
+  "OTAZ_A1": {
+    "succ": "OTAZ_A2"
+  },
+  "OTAZ_A2": {
+    "pred": "OTAZ_A1",
+    "succ": "OTAZ_A3"
+  },
+  "OTAZ_A3": {
+    "pred": "OTAZ_A2",
+    "succ": "OTAZ_A4"
+  },
+  "OTAZ_A4": {
+    "pred": "OTAZ_A3",
+    "succ": "OTAZ_A5"
+  },
+  "OTAZ_A5": {
+    "pred": "OTAZ_A4",
+    "succ": "OTAZ_A6"
+  },
+  "OTAZ_A6": {
+    "pred": "OTAZ_A5",
+    "succ": "OTAZ_A7"
+  },
+  "OTAZ_A7": {
+    "pred": "OTAZ_A6",
+    "succ": "OTAZ_A8"
+  },
+  "OTAZ_A8": {
+    "pred": "OTAZ_A7",
+    "succ": "OTAZ_A9"
+  },
+  "OTAZ_A9": {
+    "pred": "OTAZ_A8",
+    "succ": "OTAZ_B1"
+  },
+  "OTAZ_B1": {
+    "pred": "OTAZ_A9",
+    "succ": "OTAZ_B2"
+  },
+  "OTAZ_B2": {
+    "pred": "OTAZ_B1",
+    "succ": "OTAZ_B3"
+  },
+  "OTAZ_B3": {
+    "pred": "OTAZ_B2",
+    "succ": "OTAZ_B4"
+  },
+  "OTAZ_B4": {
+    "pred": "OTAZ_B3",
+    "succ": "OTAZ_B5"
+  },
+  "OTAZ_B5": {
+    "pred": "OTAZ_B4"
+  },
+  "POHAD_1": {
+    "succ": "POHAD_2"
+  },
+  "POHAD_2": {
+    "pred": "POHAD_1",
+    "succ": "POHAD_3"
+  },
+  "POHAD_3": {
+    "pred": "POHAD_2"
+  },
+  "POST_A1": {
+    "succ": "POST_A2"
+  },
+  "POST_A2": {
+    "pred": "POST_A1",
+    "succ": "POST_A3"
+  },
+  "POST_A3": {
+    "pred": "POST_A2",
+    "succ": "POST_A4"
+  },
+  "POST_A4": {
+    "pred": "POST_A3",
+    "succ": "POST_A5"
+  },
+  "POST_A5": {
+    "pred": "POST_A4",
+    "succ": "POST_A6"
+  },
+  "POST_A6": {
+    "pred": "POST_A5",
+    "succ": "POST_A7"
+  },
+  "POST_A7": {
+    "pred": "POST_A6",
+    "succ": "POST_A8"
+  },
+  "POST_A8": {
+    "pred": "POST_A7",
+    "succ": "POST_A9"
+  },
+  "POST_A9": {
+    "pred": "POST_A8",
+    "succ": "POST_B1"
+  },
+  "POST_B1": {
+    "pred": "POST_A9",
+    "succ": "POST_B2"
+  },
+  "POST_B2": {
+    "pred": "POST_B1"
+  },
+  "SJ_A1": {
+    "succ": "SJ_A2"
+  },
+  "SJ_A2": {
+    "pred": "SJ_A1",
+    "succ": "SJ_A3"
+  },
+  "SJ_A3": {
+    "pred": "SJ_A2",
+    "succ": "SJ_A4"
+  },
+  "SJ_A4": {
+    "pred": "SJ_A3",
+    "succ": "SJ_A5"
+  },
+  "SJ_A5": {
+    "pred": "SJ_A4",
+    "succ": "SJ_A6"
+  },
+  "SJ_A6": {
+    "pred": "SJ_A5",
+    "succ": "SJ_A7"
+  },
+  "SJ_A7": {
+    "pred": "SJ_A6",
+    "succ": "SJ_A8"
+  },
+  "SJ_A8": {
+    "pred": "SJ_A7",
+    "succ": "SJ_A9"
+  },
+  "SJ_A9": {
+    "pred": "SJ_A8",
+    "succ": "SJ_B1"
+  },
+  "SJ_B1": {
+    "pred": "SJ_A9",
+    "succ": "SJ_B2"
+  },
+  "SJ_B2": {
+    "pred": "SJ_B1",
+    "succ": "SJ_B3"
+  },
+  "SJ_B3": {
+    "pred": "SJ_B2",
+    "succ": "SJ_B4"
+  },
+  "SJ_B4": {
+    "pred": "SJ_B3",
+    "succ": "SJ_B5"
+  },
+  "SJ_B5": {
+    "pred": "SJ_B4",
+    "succ": "SJ_B6"
+  },
+  "SJ_B6": {
+    "pred": "SJ_B5",
+    "succ": "SJ_B7"
+  },
+  "SJ_B7": {
+    "pred": "SJ_B6",
+    "succ": "SJ_B8"
+  },
+  "SJ_B8": {
+    "pred": "SJ_B7",
+    "succ": "SJ_B9"
+  },
+  "SJ_B9": {
+    "pred": "SJ_B8",
+    "succ": "SJ_C1"
+  },
+  "SJ_C1": {
+    "pred": "SJ_B9",
+    "succ": "SJ_C2"
+  },
+  "SJ_C2": {
+    "pred": "SJ_C1"
+  },
+  "ST_1": {
+    "succ": "ST_2"
+  },
+  "ST_2": {
+    "pred": "ST_1",
+    "succ": "ST_3"
+  },
+  "ST_3": {
+    "pred": "ST_2",
+    "succ": "ST_4"
+  },
+  "ST_4": {
+    "pred": "ST_3",
+    "succ": "ST_K1"
+  },
+  "ST_K1": {
+    "pred": "ST_4",
+    "succ": "ST_K2"
+  },
+  "ST_K2": {
+    "pred": "ST_K1",
+    "succ": "ST_K3"
+  },
+  "ST_K3": {
+    "pred": "ST_K2",
+    "succ": "ST_K4"
+  },
+  "ST_K4": {
+    "pred": "ST_K3",
+    "succ": "THOMAS"
+  },
+  "THOMAS": {
+    "pred": "ST_K4"
+  },
+  "ULOHY_1": {
+    "succ": "ULOHY_2"
+  },
+  "ULOHY_2": {
+    "pred": "ULOHY_1",
+    "succ": "ULOHY_3"
+  },
+  "ULOHY_3": {
+    "pred": "ULOHY_2"
+  },
+  "UMENI_1": {
+    "succ": "UMENI_2"
+  },
+  "UMENI_2": {
+    "pred": "UMENI_1",
+    "succ": "UMENI_3"
+  },
+  "UMENI_3": {
+    "pred": "UMENI_2",
+    "succ": "UMENI_4"
+  },
+  "UMENI_4": {
+    "pred": "UMENI_3"
+  },
+  "UNK_A1": {
+    "succ": "UNK_A2"
+  },
+  "UNK_A2": {
+    "pred": "UNK_A1",
+    "succ": "UNK_A3"
+  },
+  "UNK_A3": {
+    "pred": "UNK_A2",
+    "succ": "UNK_A4"
+  },
+  "UNK_A4": {
+    "pred": "UNK_A3",
+    "succ": "UNK_A5"
+  },
+  "UNK_A5": {
+    "pred": "UNK_A4",
+    "succ": "UNK_A6"
+  },
+  "UNK_A6": {
+    "pred": "UNK_A5",
+    "succ": "UNK_A7"
+  },
+  "UNK_A7": {
+    "pred": "UNK_A6",
+    "succ": "UNK_A8"
+  },
+  "UNK_A8": {
+    "pred": "UNK_A7",
+    "succ": "UNK_A9"
+  },
+  "UNK_A9": {
+    "pred": "UNK_A8",
+    "succ": "UNK_B1"
+  },
+  "UNK_B1": {
+    "pred": "UNK_A9",
+    "succ": "UNK_B2"
+  },
+  "UNK_B2": {
+    "pred": "UNK_B1"
+  },
+  "VEC_FI_1": {
+    "succ": "VEC_FI_2"
+  },
+  "VEC_FI_2": {
+    "pred": "VEC_FI_1",
+    "succ": "VEC_FI_3"
+  },
+  "VEC_FI_3": {
+    "pred": "VEC_FI_2",
+    "succ": "VEC_FI_4"
+  },
+  "VEC_FI_4": {
+    "pred": "VEC_FI_3",
+    "succ": "VEC_FI_5"
+  },
+  "VEC_FI_5": {
+    "pred": "VEC_FI_4",
+    "succ": "VEC_FI_6"
+  },
+  "VEC_FI_6": {
+    "pred": "VEC_FI_5"
+  },
+  "ZAHR1": {
+    "succ": "ZAHR2"
+  },
+  "ZAHR2": {
+    "pred": "ZAHR1",
+    "succ": "ZAHRPOZN"
+  },
+  "ZAHRPOZN": {
+    "pred": "ZAHR2"
+  },
+  "ZEN1": {
+    "succ": "ZEN2"
+  },
+  "ZEN2": {
+    "pred": "ZEN1",
+    "succ": "ZEN3"
+  },
+  "ZEN3": {
+    "pred": "ZEN2",
+    "succ": "ZEN4"
+  },
+  "ZEN4": {
+    "pred": "ZEN3",
+    "succ": "ZEN5"
+  },
+  "ZEN5": {
+    "pred": "ZEN4"
+  },
+  "ZK": {
+    "succ": "ZKN_1"
+  },
+  "ZKN_1": {
+    "pred": "ZK",
+    "succ": "ZKN_2"
+  },
+  "ZKN_2": {
+    "pred": "ZKN_1",
+    "succ": "ZKN_3"
+  },
+  "ZKN_3": {
+    "pred": "ZKN_2",
+    "succ": "ZKN_4"
+  },
+  "ZKN_4": {
+    "pred": "ZKN_3",
+    "succ": "ZKN_5"
+  },
+  "ZKN_5": {
+    "pred": "ZKN_4",
+    "succ": "ZKN_6"
+  },
+  "ZKN_6": {
+    "pred": "ZKN_5"
+  }
+}

@@ -1,4 +1,4 @@
-import { API_BASE, TEXTY_BASE } from '../../constants';
+import { API_BASE } from '../../constants';
 import { PAGE_SIZE } from '../Search/constants';
 
 const ACTION_HANDLERS = {
@@ -15,7 +15,6 @@ const initial_state = {
 };
 
 const endpoint = API_BASE + '/search/texty';
-const texty_base = TEXTY_BASE.replace(/\/$/, '');
 
 export function load_texty_results(query, ordering = '', from = 0) {
   const order_by = ordering ? ordering.split(/ /) : [];
@@ -29,7 +28,9 @@ export function load_texty_results(query, ordering = '', from = 0) {
             const source = hit._source || {};
             const anchor = source.web_anchor || '';
             const normalized_anchor = anchor.startsWith('/') ? anchor : `/${anchor}`;
-            const url = `${texty_base}${normalized_anchor}`;
+            const [pathPart, hashPart] = normalized_anchor.split('#');
+            const docSlug = pathPart ? pathPart.replace(/^\//, '') : '';
+            const url = docSlug ? `/texty/${docSlug}${hashPart ? `?p=${hashPart}` : ''}` : normalized_anchor;
             const snip =
               hit.highlight && hit.highlight.body && hit.highlight.body.length > 0
                 ? hit.highlight.body[0]

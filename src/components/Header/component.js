@@ -7,7 +7,7 @@ export class Header extends React.Component {
   render() {
     const me = this;
     const { location } = this.props;
-    const search_path = location && location.pathname && location.pathname.startsWith('/vyhledavani-texty')
+    const search_path = location && location.pathname && /texty/.test(location.pathname)
       ? '/vyhledavani-texty/'
       : '/vyhledavani/';
     return (

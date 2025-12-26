@@ -35,10 +35,10 @@ export class TextySearch extends React.Component {
         <ol start={+from + 1}>
           {results.map(result => (
             <li key={result.id}>
-              <a href={result.url} target="_blank" rel="noopener noreferrer">
+              <Link to={result.url}>
                 <strong>{result.title || result.book}</strong>
                 <ReactMarkdown>{result.snip}</ReactMarkdown>
-              </a>
+              </Link>
             </li>
           ))}
         </ol>
