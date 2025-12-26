@@ -13,10 +13,20 @@ export class TextySearch extends React.Component {
     const to = results && results.length ? +from + results.length : null;
     const ordering = q.get('order_by');
 
+    const query_param = query ? `?dotaz=${encodeURIComponent(query)}` : '';
+
     return (
       <div className="search-results">
         <div className="search-switch">
-          dotaz: <code>{query}</code> | <Link to="/vyhledavani/">Hledat v nahrávkách</Link>
+          dotaz: <code>{query}</code> |{' '}
+          <Link
+            to={{
+              pathname: '/vyhledavani/',
+              search: query_param,
+            }}
+          >
+            Hledat v nahrávkách
+          </Link>
         </div>
         <select onChange={(evt) => me.props.set_order_by(evt.target.value, loc, history)} defaultValue={ordering || ''}>
           <option value="">řadit podle relevance</option>

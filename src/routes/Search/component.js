@@ -22,10 +22,20 @@ export class Search extends React.Component {
       previous_stem = current_stem;
       return <label>{current_stem}</label>;
     }
+    const query_param = query ? `?dotaz=${encodeURIComponent(query)}` : '';
+
     return (
       <div className="search-results">
         <div className="search-switch">
-          dotaz: <code>{query}</code> | <Link to="/vyhledavani-texty/">Hledat v knihách</Link>
+          dotaz: <code>{query}</code> |{' '}
+          <Link
+            to={{
+              pathname: '/vyhledavani-texty/',
+              search: query_param,
+            }}
+          >
+            Hledat v knihách
+          </Link>
         </div>
         <select onChange={(evt) => me.props.set_order_by(evt.target.value, loc, history)} defaultValue={ordering || ''}>
           <option value="">řadit podle relevance</option>

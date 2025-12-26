@@ -6,6 +6,10 @@ import UsernameInput from '../UsernameInput/index.js';
 export class Header extends React.Component {
   render() {
     const me = this;
+    const { location } = this.props;
+    const search_path = location && location.pathname && location.pathname.startsWith('/vyhledavani-texty')
+      ? '/vyhledavani-texty/'
+      : '/vyhledavani/';
     return (
       <div className="row">
         <div className="col-xs-12">
@@ -22,11 +26,7 @@ export class Header extends React.Component {
                 </NavLink>
               </li>
             </ul>
-            <form
-              className="navbar-form navbar-left"
-              action="/vyhledavani/"
-              method="get"
-            >
+            <form className="navbar-form navbar-left" action={search_path} method="get">
               <div className="form-group">
                 <input
                   type="text"
