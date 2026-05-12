@@ -1,5 +1,5 @@
-import { SET_CURRENT_SECTION } from '../module.js';
-import section_stemdir_map from '../../../store/section_stemdir_map.js';
+import { SET_CURRENT_SECTION } from '../module';
+import section_stemdir_map from '../../../store/section_stemdir_map';
 
 export const VISIBILITY_TOGGLE = 'VISIBILITY_TOGGLE';
 export const VISIBLE = true;

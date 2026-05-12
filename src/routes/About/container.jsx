@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import {} from './module.js';
+import {} from './module';
 
-import component from './component.js';
+import component from './component';
 import './style.scss';
 
 const map_dispatch_to_props = {};

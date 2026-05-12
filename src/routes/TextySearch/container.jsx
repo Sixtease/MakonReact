@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { load_texty_results, prev_page, next_page, set_order_by } from './module.js';
+import { load_texty_results, prev_page, next_page, set_order_by } from './module';
 
-import component from './component.js';
+import component from './component';
 import '../Search/style.scss';
 
 const map_dispatch_to_props = {

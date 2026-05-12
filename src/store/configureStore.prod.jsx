@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { autostop, sync_audio } from './middleware.js';
+import { autostop, sync_audio } from './middleware';
 import { rootReducer } from './reducers';
 
 const configureStore = preloadedState =>

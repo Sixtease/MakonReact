@@ -1,3 +1,3 @@
-import Header from './component.js';
+import Header from './component';
 
 export default Header;

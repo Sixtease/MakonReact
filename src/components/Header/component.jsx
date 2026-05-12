@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.scss';
-import UsernameInput from '../UsernameInput/index.js';
+import UsernameInput from '../UsernameInput/index';
 
 export class Header extends React.Component {
   render() {
