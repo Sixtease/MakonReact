@@ -1,0 +1,17 @@
+[
+    {
+      "maxAgeSeconds": 3600,
+      "method": [
+        "GET"
+      ],
+      "origin": [
+        "https://radio.makon.cz",
+        "https://localhost:3000",
+        "http://radio.makon.cz",
+        "http://localhost:3000"
+      ],
+      "responseHeader": [
+        "Content-Type"
+      ]
+    }
+  ]
