@@ -7,5 +7,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.jsx',
     globals: true,
+    exclude: ['e2e/**', 'node_modules/**', '.worktrees/**'],
   },
 });

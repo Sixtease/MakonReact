@@ -244,7 +244,7 @@ At minimum, verify:
 - `npm run build` succeeds.
 - `npm run test` succeeds.
 - `npm run test:e2e` succeeds in Chromium.
-- Audio/subtitle sync E2E verifies visible current-word progression during playback.
+- Audio subtitle sync E2E verifies visible current-word progression during playback.
 - `npm audit` is materially reduced and no longer dominated by `react-scripts`.
 - App starts under Vite.
 - Header search still submits to the correct search route.
