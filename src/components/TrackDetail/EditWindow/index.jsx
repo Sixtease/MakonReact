@@ -14,12 +14,12 @@ import {
 import { send_subs } from './module';
 import './style.scss';
 
-const map_dispatch_to_props = {
-  download_edit_window,
-  onSubmit: send_subs,
-  playback_on,
-  playback_off
-};
+const map_dispatch_to_props = (dispatch, ownProps) => ({
+  download_edit_window: () => dispatch(download_edit_window()),
+  onSubmit: values => dispatch(send_subs(values, ownProps)),
+  playback_on: payload => dispatch(playback_on(payload)),
+  playback_off: payload => dispatch(playback_off(payload)),
+});
 
 const map_state_to_props = state => ({
   download_object_url: state.track_detail.download_object_url,

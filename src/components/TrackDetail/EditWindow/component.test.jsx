@@ -1,7 +1,6 @@
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, screen } from '@testing-library/react';
 import EditWindow from './component';
 import { renderWithProviders } from '../../../test/renderWithProviders';
 
@@ -14,7 +13,20 @@ function selectedWords(words) {
 
 describe('EditWindow', () => {
   it('autofills textarea from selected words', () => {
-    renderWithProviders(
+    const { rerender } = renderWithProviders(
+      <EditWindow
+        selected_words={[]}
+        edit_window_timespan={{ start: 0, end: 1 }}
+        is_playing={false}
+        playback_on={vi.fn()}
+        playback_off={vi.fn()}
+        download_edit_window={vi.fn()}
+        onSubmit={vi.fn()}
+        stem="abc"
+      />
+    );
+
+    rerender(
       <EditWindow
         selected_words={selectedWords(['jedna', 'dve'])}
         edit_window_timespan={{ start: 0, end: 1 }}
@@ -30,7 +42,7 @@ describe('EditWindow', () => {
     expect(screen.getByRole('textbox')).toHaveValue('jedna dve');
   });
 
-  it('submits edited subtitles', async () => {
+  it('submits edited subtitles', () => {
     const onSubmit = vi.fn();
 
     renderWithProviders(
@@ -47,10 +59,11 @@ describe('EditWindow', () => {
     );
 
     const textarea = screen.getByRole('textbox');
-    await userEvent.clear(textarea);
-    await userEvent.type(textarea, 'upraveny text');
-    await userEvent.click(screen.getByTitle('odeslat'));
+    fireEvent.change(textarea, { target: { value: 'upraveny text' } });
+    fireEvent.click(screen.getByTitle('odeslat'));
 
-    expect(onSubmit).toHaveBeenCalledWith({ edited_subtitles: 'upraveny text' });
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    const [values] = onSubmit.mock.calls[0];
+    expect(values).toEqual(expect.objectContaining({ edited_subtitles: 'upraveny text' }));
   });
 });

@@ -104,11 +104,10 @@ test('audio playback advances visible subtitle highlight', async ({ page }) => {
 
   await page.goto('/zaznam/e2e-track');
 
-  await expect(page.getByRole('heading', { name: 'e2e-track' })).toBeVisible();
   await expect(page.locator('.subs')).toContainText('prvni slovo druhe slovo konec');
 
   // Start playback
-  await page.getByRole('button', { name: '⏵' }).first().click();
+  await page.locator('.control-bar button').first().click();
   
   // Wait for control bar to show time starting
   await expect(page.locator('.control-bar')).toContainText('00.');

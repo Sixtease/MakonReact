@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { download, ok, play, stop } from 'glyphicons';
-import { Field, reduxForm } from 'redux-form';
+import { Check, Download, Play, Square } from 'lucide-react';
 
 class EditWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      edited_subtitles: '',
       show_filename_input: false,
-      download_filename: 'makon.wav'
+      download_filename: 'makon.wav',
     };
   }
 
@@ -19,68 +19,83 @@ class EditWindow extends React.Component {
   }
 
   render() {
-    const me = this;
     const {
       is_playing,
       audio,
       playback_on,
       playback_off,
-      handleSubmit
-    } = me.props;
+      onSubmit,
+    } = this.props;
     let cls = 'edit-window';
-    if (me._is_shown()) {
+    if (this._is_shown()) {
       cls += ' is-shown';
     }
     return (
       <div className={cls}>
-        <Field component="textarea" name="edited_subtitles" />
+        <textarea
+          name="edited_subtitles"
+          value={this.state.edited_subtitles}
+          onChange={this.onEditedSubtitlesChange}
+        />
         {is_playing ? (
           <button
             onClick={() => playback_off(audio)}
             title="zastavit"
-          >{stop}</button>
+          >
+            <Square size={16} />
+          </button>
         ) : (
           <button
             onClick={() => playback_on(audio)}
             title="přehrát"
-          >{play}</button>
+          >
+            <Play size={16} />
+          </button>
         )}
         <button
-          onClick={handleSubmit}
+          onClick={() => onSubmit({ edited_subtitles: this.state.edited_subtitles })}
           title="odeslat"
-        >{ok}</button>
+        >
+          <Check size={16} />
+        </button>
         <span style={{ float: 'right' }}>
-          {me.state.show_filename_input ? (
+          {this.state.show_filename_input ? (
             [
               <input
                 type="text"
-                value={me.state.download_filename}
+                value={this.state.download_filename}
                 onChange={evt =>
-                  me.setState({ download_filename: evt.target.value })
+                  this.setState({ download_filename: evt.target.value })
                 }
                 key={1}
               />,
-              me.props.download_object_url ? (
+              this.props.download_object_url ? (
                 <a
-                  href={me.props.download_object_url}
-                  download={me.state.download_filename}
+                  href={this.props.download_object_url}
+                  download={this.state.download_filename}
                   key={2}
                 >
-                  <button type="button">{download}</button>
+                  <button type="button">
+                    <Download size={16} />
+                  </button>
                 </a>
               ) : (
                 <button
                   disabled="disabled"
                   key={2}
                   type="button"
-                >{download}</button>
+                >
+                  <Download size={16} />
+                </button>
               )
             ]
           ) : (
             <button
-              onClick={() => me.commence_download()}
+              onClick={() => this.commence_download()}
               title="stáhnout audio"
-            >{download}</button>
+            >
+              <Download size={16} />
+            </button>
           )}
         </span>
       </div>
@@ -107,33 +122,38 @@ class EditWindow extends React.Component {
     );
   }
 
+  onEditedSubtitlesChange = evt => {
+    this.setState({ edited_subtitles: evt.target.value });
+  };
+
   commence_download() {
-    const me = this;
-    me.object_url = me.props.download_edit_window();
-    me.setState({
+    this.object_url = this.props.download_edit_window();
+    this.setState({
       show_filename_input: true
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const me = this;
-    const ps = me.props.selected_words;
-    const ns = nextProps.selected_words;
+  componentDidUpdate(prevProps) {
+    const ps = prevProps.selected_words;
+    const ns = this.props.selected_words;
 
     if (
-      nextProps.edit_window_timespan.start !== null &&
-      nextProps.edit_window_timespan.end !== null
+      this.props.edit_window_timespan.start !== null &&
+      this.props.edit_window_timespan.end !== null &&
+      (
+        prevProps.edit_window_timespan.start !== this.props.edit_window_timespan.start ||
+        prevProps.edit_window_timespan.end !== this.props.edit_window_timespan.end
+      )
     ) {
-      me.setState({ download_filename: me.suggest_filename() });
+      this.setState({ download_filename: this.suggest_filename() });
     }
 
     if (
-      me.props.edit_window_timespan.start !==
-        nextProps.edit_window_timespan.start ||
-      me.props.edit_window_timespan.end !== nextProps.edit_window_timespan.end
+      prevProps.edit_window_timespan.start !== this.props.edit_window_timespan.start ||
+      prevProps.edit_window_timespan.end !== this.props.edit_window_timespan.end
     ) {
-      me.setState({ show_filename_input: false });
-      me.object_url = null;
+      this.setState({ show_filename_input: false });
+      this.object_url = null;
     }
 
     if (!(ps && ps.length) && !(ns && ns.length)) {
@@ -148,24 +168,23 @@ class EditWindow extends React.Component {
       ps[ps.length - 1].timestamp !== ns[ns.length - 1].timestamp
     ) {
       const selw_str = ns.map(w => w.occurrence).join(' ');
-      if (selw_str) {
-        me.props.autofill('edited_subtitles', selw_str);
+      if (selw_str && selw_str !== this.state.edited_subtitles) {
+        this.setState({ edited_subtitles: selw_str });
       }
     }
   }
 
   componentDidMount() {
-    const me = this;
-    me.setState({
+    this.setState({
       show_filename_input: false,
-      download_filename: me.suggest_filename()
+      download_filename: this.suggest_filename()
     });
-    me.object_url = null;
+    this.object_url = null;
     if (!window.KEY_SEND_SUBS_CTRL) {
       window.KEY_SEND_SUBS_CTRL = document.addEventListener('keyup', evt => {
         if (evt.ctrlKey && evt.key === 'Enter') {
-          if (me._is_shown()) {
-            me.props.handleSubmit();
+          if (this._is_shown()) {
+            this.props.onSubmit({ edited_subtitles: this.state.edited_subtitles });
           }
         }
       });
@@ -175,20 +194,13 @@ class EditWindow extends React.Component {
 
 EditWindow.propTypes = {
   audio: PropTypes.object,
-  autofill: PropTypes.func,
   download_edit_window: PropTypes.func,
   download_object_url: PropTypes.string,
   edit_window_timespan: PropTypes.object,
-  handleSubmit: PropTypes.func,
   is_playing: PropTypes.bool,
+  onSubmit: PropTypes.func,
   playback_off: PropTypes.func,
   playback_on: PropTypes.func,
   selected_words: PropTypes.array
 };
-
-/* eslint no-class-assign: [0] */
-const component = reduxForm({
-  form: 'edit_window'
-})(EditWindow);
-
-export default component;
+export default EditWindow;

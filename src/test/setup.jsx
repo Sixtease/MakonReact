@@ -1,4 +1,35 @@
+import { vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
+import React from 'react';
+
+vi.mock('canvas-equalizer', () => {
+  class CanvasEqualizerMock {
+    constructor() {
+      this.convolver = {
+        connect: vi.fn(),
+      };
+    }
+  }
+
+  return {
+    default: CanvasEqualizerMock,
+  };
+});
+
+vi.mock(
+  'lucide-react',
+  () => {
+    const Icon = ({ children, ...props }) =>
+      React.createElement('svg', props, children);
+    return {
+      Check: Icon,
+      Download: Icon,
+      Play: Icon,
+      Square: Icon,
+    };
+  },
+  { virtual: true }
+);
 
 beforeEach(() => {
   localStorage.clear();

@@ -1,28 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
 import Phonet from '../../../lib/Phonet';
 
 class WordInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      occurrence: props.word?.occurrence || '',
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevWord = prevProps.word;
+    const nextWord = this.props.word;
+    if (!(nextWord && nextWord.occurrence)) {
+      return;
+    }
+    if (
+      !prevWord ||
+      prevWord.occurrence !== nextWord.occurrence ||
+      prevWord.timestamp !== nextWord.timestamp ||
+      prevWord.fonet !== nextWord.fonet
+    ) {
+      this.setState({ occurrence: nextWord.occurrence });
+    }
+  }
+
+  onOccurrenceChange = evt => {
+    this.setState({ occurrence: evt.target.value });
+  };
+
+  onOccurrenceBlur = () => {
+    const { word, stem, save_word } = this.props;
+    const { occurrence } = this.state;
+    if (!word || occurrence === word.occurrence) {
+      return;
+    }
+    save_word({
+      occurrence,
+      timestamp: word.timestamp,
+      fonet: word.fonet,
+      stem,
+    });
+  };
+
   render() {
-    const me = this;
-    const { word, stem, save_word } = me.props;
+    const { word } = this.props;
     if (word === null) {
       return null;
     }
-    const submit = key => (evt, new_value) => {
-      if (new_value === word[key]) {
-        return;
-      }
-      const nv = {
-        occurrence: word.occurrence,
-        timestamp: word.timestamp,
-        fonet: word.fonet,
-        stem
-      };
-      nv[key] = new_value;
-      save_word(nv);
-    };
     return (
       <div className="save-word">
         <h2>Vybrané slovo</h2>
@@ -32,11 +58,12 @@ class WordInfo extends React.Component {
             výskyt
           </dt>
           <dd>
-            <Field
-              component="input"
+            <input
               type="text"
               name="occurrence"
-              onBlur={submit('occurrence')}
+              value={this.state.occurrence}
+              onChange={this.onOccurrenceChange}
+              onBlur={this.onOccurrenceBlur}
             />
           </dd>
 
@@ -54,33 +81,12 @@ class WordInfo extends React.Component {
       </div>
     );
   }
-
-  componentWillReceiveProps(nextProps) {
-    const me = this;
-    const ps = me.props.word;
-    const ns = nextProps.word;
-    if (!(ns && ns.occurrence)) {
-      return;
-    }
-    if (
-      !ps ||
-      ps.occurrence !== ns.occurrence ||
-      ps.timestamp !== ns.timestamp ||
-      ps.fonet !== ns.fonet
-    ) {
-      me.props.autofill('occurrence', ns.occurrence);
-      me.props.autofill('wordform', ns.wordform);
-    }
-  }
 }
 
 WordInfo.propTypes = {
   word: PropTypes.object,
-  save_word: PropTypes.func
+  save_word: PropTypes.func,
+  stem: PropTypes.string,
 };
 
-const component = reduxForm({
-  form: 'word_info'
-})(WordInfo);
-
-export default component;
+export default WordInfo;

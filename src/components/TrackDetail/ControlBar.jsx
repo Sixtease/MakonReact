@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pause, play } from 'glyphicons';
+import { Pause, Play } from 'lucide-react';
 import { frame_to_time } from '../../routes/TrackDetail/module/util';
 import { s_to_hms } from '../../lib/Util';
 
@@ -18,9 +18,13 @@ export class ControlBar extends React.Component {
     return (
       <div className="control-bar">
         {is_playing ? (
-          <button onClick={playback_off}>{pause}</button>
+          <button onClick={playback_off}>
+            <Pause size={16} />
+          </button>
         ) : (
-          <button onClick={playback_on}>{play}</button>
+          <button onClick={playback_on}>
+            <Play size={16} />
+          </button>
         )}
         <code>{s_to_hms(frame_to_time(current_frame))}</code>
         <input

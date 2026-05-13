@@ -2,6 +2,7 @@ import to_wav from 'audiobuffer-to-wav';
 import { API_BASE, ALIGNER_URL } from '../../../constants';
 import audio from '../../../store/audio';
 import { textgrid_to_subs } from '../../../lib/AlignmentFormats';
+import { get_username } from '../../../lib/username';
 import {
   get_edit_window_timespan,
   get_selected_words,
@@ -10,7 +11,7 @@ import {
 
 const endpoint = API_BASE + '/subsubmit/';
 
-export function send_subs(form_values, dispatch, props) {
+export function send_subs(form_values, props) {
   return async (dispatch, get_state) => {
     const state = get_state();
     const selw = get_selected_words(state);
@@ -52,7 +53,7 @@ export function send_subs(form_values, dispatch, props) {
     subsub_formdata.append('start', timespan.start);
     subsub_formdata.append('end', timespan.end);
     subsub_formdata.append('trans', form_values.edited_subtitles);
-    subsub_formdata.append('author', state.form.username.values.username);
+    subsub_formdata.append('author', get_username());
     subsub_formdata.append('session', localStorage.getItem('session'));
     subsub_formdata.append('subs', JSON.stringify(subs));
 

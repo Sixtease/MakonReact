@@ -1,24 +1,31 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { get_username, set_username } from '../../lib/username';
 
 export class UsernameInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: get_username(),
+    };
+  }
+
+  onChange = evt => {
+    const username = evt.target.value;
+    this.setState({ username });
+    set_username(username);
+  };
+
   render() {
     return (
-      <Field
-        component="input"
+      <input
         type="text"
         name="username"
+        value={this.state.username}
+        onChange={this.onChange}
         placeholder="vaše jméno"
       />
     );
   }
 }
-
-/* eslint no-class-assign: [0] */
-UsernameInput = reduxForm({
-  form: 'username',
-  initialValues: { username: localStorage.getItem('username') },
-  onChange: values => localStorage.setItem('username', values.username || '')
-})(UsernameInput);
 
 export default UsernameInput;

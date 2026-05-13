@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as form } from 'redux-form';
 import { global_reducer as global } from './global-reducer';
 import about from '../routes/About/module';
 import search from '../routes/Search/module';
@@ -10,7 +9,6 @@ import { reducer as track_list } from '../components/TrackList/module';
 
 export const rootReducer = combineReducers({
   about,
-  form,
   global,
   search,
   texty_search,

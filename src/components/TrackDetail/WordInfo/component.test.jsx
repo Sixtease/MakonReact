@@ -1,12 +1,11 @@
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, screen } from '@testing-library/react';
 import WordInfo from './component';
 import { renderWithProviders } from '../../../test/renderWithProviders';
 
 describe('WordInfo', () => {
-  it('saves changed occurrence on blur', async () => {
+  it('saves changed occurrence on blur', () => {
     const save_word = vi.fn();
     const word = {
       occurrence: 'puvodni',
@@ -15,12 +14,15 @@ describe('WordInfo', () => {
       timestamp: 1.2,
     };
 
-    renderWithProviders(<WordInfo word={word} stem="abc" save_word={save_word} />);
+    const { rerender } = renderWithProviders(
+      <WordInfo word={null} stem="abc" save_word={save_word} />
+    );
+
+    rerender(<WordInfo word={word} stem="abc" save_word={save_word} />);
 
     const input = screen.getByRole('textbox');
-    await userEvent.clear(input);
-    await userEvent.type(input, 'nove');
-    input.blur();
+    fireEvent.change(input, { target: { value: 'nove' } });
+    fireEvent.blur(input);
 
     expect(save_word).toHaveBeenCalledWith({
       occurrence: 'nove',
@@ -39,9 +41,12 @@ describe('WordInfo', () => {
       timestamp: 1.2,
     };
 
-    renderWithProviders(<WordInfo word={word} stem="abc" save_word={save_word} />);
+    const { rerender } = renderWithProviders(
+      <WordInfo word={null} stem="abc" save_word={save_word} />
+    );
+    rerender(<WordInfo word={word} stem="abc" save_word={save_word} />);
 
-    screen.getByRole('textbox').blur();
+    fireEvent.blur(screen.getByRole('textbox'));
 
     expect(save_word).not.toHaveBeenCalled();
   });

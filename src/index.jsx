@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'normalize.css/normalize.css';
 import AppContainer from './containers/AppContainer';
 import configureStore from './store/configureStore';
 
