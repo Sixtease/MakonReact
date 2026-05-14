@@ -44,6 +44,25 @@ test('audio playback advances visible subtitle highlight', async ({ page }) => {
         };
       }
 
+      createConvolver() {
+        return {
+          connect() {},
+          buffer: null,
+        };
+      }
+
+      createBuffer() {
+        const channels = new Map();
+        return {
+          getChannelData(channelIndex) {
+            if (!channels.has(channelIndex)) {
+              channels.set(channelIndex, new Float32Array(2048));
+            }
+            return channels.get(channelIndex);
+          },
+        };
+      }
+
       decodeAudioData(_encodedAudio, callback) {
         callback({
           sampleRate: this.sampleRate,
@@ -103,8 +122,13 @@ test('audio playback advances visible subtitle highlight', async ({ page }) => {
   });
 
   await page.goto('/zaznam/e2e-track');
+  await expect(page.getByRole('heading', { name: 'e2e-track' })).toBeVisible({
+    timeout: 10000
+  });
 
-  await expect(page.locator('.subs')).toContainText('prvni slovo druhe slovo konec');
+  await expect(page.locator('.subs')).toContainText('prvni slovo druhe slovo konec', {
+    timeout: 10000
+  });
 
   // Start playback
   await page.locator('.control-bar button').first().click();

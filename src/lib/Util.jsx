@@ -34,15 +34,7 @@ export function dirname(path) {
 }
 
 export function can_use_equalizer() {
-  try {
-    const ac = new AudioContext();
-    const c = ac.createConvolver();
-    c.buffer = ac.createBuffer(1, 1, ac.sampleRate);
-    c.buffer = ac.createBuffer(1, 1, ac.sampleRate);
-  } catch (e) {
-    return false;
-  }
-  return true;
+  return typeof AudioContext !== 'undefined';
 }
 
 export function s_to_hms(sec) {

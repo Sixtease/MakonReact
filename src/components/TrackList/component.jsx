@@ -12,7 +12,6 @@ export class TrackList extends React.Component {
   }
 
   render() {
-    const context = this.context;
     const { is_dir_fixed, current_section } = this.props;
     return (
       <div className="row tracklist">
@@ -28,9 +27,7 @@ export class TrackList extends React.Component {
               return (
                 <TrackDirCategory
                   cat={cat1}
-                  par={context.store}
                   key={cat1.name}
-                  context={context}
                 />
               );
             })}
@@ -99,10 +96,6 @@ export class TrackList extends React.Component {
     set_current_section(current_section.section);
   }
 }
-
-TrackList.contextTypes = {
-  store: PropTypes.object
-};
 
 TrackList.propTypes = {
   is_dir_fixed: PropTypes.bool,

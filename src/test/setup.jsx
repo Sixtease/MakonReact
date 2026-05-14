@@ -9,6 +9,12 @@ vi.mock('canvas-equalizer', () => {
         connect: vi.fn(),
       };
     }
+
+    loadLocale() {}
+
+    createControl() {}
+
+    destroyControl() {}
   }
 
   return {

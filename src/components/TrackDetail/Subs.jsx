@@ -19,7 +19,6 @@ const component = ({
     <p ref={set_subs_el} onMouseUp={set_selection}>
       {subs_chunks.map((chunk, i) => {
         const attr = {
-          key: 'chunk-' + i,
           'data-char_offset': chunk.char_offset,
           'data-chunk_index': i,
           className: chunk.is_humanic ? 'is-humanic' : 'is-automatic',
@@ -27,7 +26,9 @@ const component = ({
             chunk_text_nodes[i] = el ? el.childNodes[0] : null;
           },
         };
-        return chunk.is_humanic ? <b {...attr}>{chunk.str}</b> : <span {...attr}>{chunk.str}</span>;
+        return chunk.is_humanic
+          ? <b key={'chunk-' + i} {...attr}>{chunk.str}</b>
+          : <span key={'chunk-' + i} {...attr}>{chunk.str}</span>;
       })}
     </p>
     <div className="sub-rects">

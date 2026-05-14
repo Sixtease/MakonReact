@@ -9,34 +9,40 @@ import Chunks from './AudioChunks';
 export const fetching_audio_event = 'fetching-audio';
 export const fetched_audio_event = 'fetched-audio';
 export const decoded_audio_event = 'decoded-audio';
-export const ac = new AudioContext({ sampleRate: SAMPLE_RATE });
-export const audio_sample_rate = ac.sampleRate;
+let ac = null;
+let sink = null;
+export let equalizer = null;
+export const audio_sample_rate = SAMPLE_RATE;
 export const format = (audio_el =>
   AUDIO_FORMATS.find(f => audio_el.canPlayType(f.mime)))(new Audio());
 if (!format) {
   console.log('no supported format, no audio'); // eslint-disable-line no-console
 }
 
-let sink;
-let eq;
-
-if (can_use_equalizer()) {
-  eq = new CanvasEqualizer(2048, ac, {
-    language: 'cs'
-  });
-  eq.loadLocale('cs', equalizer_locale_cs);
-  const splitter = ac.createChannelSplitter(2);
-  eq.convolver.connect(splitter);
-  splitter.connect(ac.destination, 0);
-  sink = eq.convolver;
-} else {
-  eq = null;
-  sink = ac.destination;
+function ensure_runtime() {
+  if (ac) {
+    return;
+  }
+  ac = new AudioContext({ sampleRate: SAMPLE_RATE });
+  if (can_use_equalizer()) {
+    equalizer = new CanvasEqualizer(2048, ac, {
+      language: 'cs'
+    });
+    equalizer.loadLocale('cs', equalizer_locale_cs);
+    const splitter = ac.createChannelSplitter(2);
+    equalizer.convolver.connect(splitter);
+    splitter.connect(ac.destination, 0);
+    sink = equalizer.convolver;
+  } else {
+    equalizer = null;
+    sink = ac.destination;
+  }
+  window.audio_context = ac;
+  window.equalizer = equalizer;
 }
 
-export const equalizer = eq;
-
 function get_source(buffer) {
+  ensure_runtime();
   const audio_source = ac.createBufferSource();
   audio_source.buffer = buffer;
   audio_source.connect(sink);
@@ -56,6 +62,7 @@ class MAudio {
   }
 
   init(stem) {
+    ensure_runtime();
     const previous_stem = this.stem;
     this.stem = stem;
     if (previous_stem) {
@@ -69,7 +76,6 @@ class MAudio {
     this.audio_chunks = new Chunks(stem);
     this.audio_chunks.chunks_promise.then(() => {
       this.chunks_loaded = true;
-      this.audio_chunks.ensure_ahead_window(this.time);
     });
   }
 
@@ -83,6 +89,7 @@ class MAudio {
   }
 
   schedule(chunk) {
+    ensure_runtime();
     const me = this;
     const time = me.get_time();
     if (time > chunk.to || (me.stop_pos && me.stop_pos < chunk.from)) {
@@ -117,6 +124,7 @@ class MAudio {
   }
 
   play(opt = {}) {
+    ensure_runtime();
     const me = this;
     if (opt.delete_stop_pos !== false) {
       me.stop_pos = null;
@@ -139,6 +147,7 @@ class MAudio {
   }
 
   pause() {
+    ensure_runtime();
     const me = this;
     me.time += ac.currentTime - me.started_at;
     me.is_playing = false;
@@ -158,6 +167,7 @@ class MAudio {
   }
 
   set_time(new_time) {
+    ensure_runtime();
     if (new_time < 0 || isNaN(new_time)) {
       throw new Error(
         'can only set time to non-negative number, not ' + new_time
@@ -185,6 +195,7 @@ class MAudio {
   }
 
   get_window(from, to) {
+    ensure_runtime();
     const me = this;
     return new Promise((resolve) => {
       const containing_chunks = me.audio_chunks.get_window_chunks(from, to);
@@ -259,18 +270,25 @@ class MAudio {
   }
 }
 
-const audio = new MAudio();
-export default function get_audio() {
+let audio = null;
+
+function ensure_audio() {
+  if (!audio) {
+    audio = new MAudio();
+  }
   return audio;
 }
+
+export default function get_audio() {
+  return ensure_audio();
+}
 export function load_audio(new_stem) {
+  const runtime_audio = ensure_audio();
   if (new_stem && new_stem !== audio.stem) {
-    audio.init(new_stem);
-    return audio.load();
+    runtime_audio.init(new_stem);
+    return runtime_audio.load();
   } else {
-    return Promise.resolve(audio);
+    return Promise.resolve(runtime_audio);
   }
 }
 window.get_audio = get_audio;
-window.audio_context = ac;
-window.equalizer = eq;

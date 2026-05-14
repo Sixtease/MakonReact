@@ -44,16 +44,12 @@ export const get_word_rectangles = (words, subs, subs_chunks) => {
 
 export const get_subs = state => state.track_detail.subs;
 const get_current_time = state => state.track_detail.current_time;
-const get_selection_boundaries = state => ({
-  start: {
-    chunk_index: state.track_detail.selection_start_chunk_index,
-    icco: state.track_detail.selection_start_icco
-  },
-  end: {
-    chunk_index: state.track_detail.selection_end_chunk_index,
-    icco: state.track_detail.selection_end_icco
-  }
-});
+const get_selection_start_chunk_index = state =>
+  state.track_detail.selection_start_chunk_index;
+const get_selection_start_icco = state => state.track_detail.selection_start_icco;
+const get_selection_end_chunk_index = state =>
+  state.track_detail.selection_end_chunk_index;
+const get_selection_end_icco = state => state.track_detail.selection_end_icco;
 export const get_subs_chunks = createSelector(
   [get_subs],
   subs => {
@@ -274,10 +270,30 @@ const get_word_index_by_position = (word_position, subs, subs_chunks, i) => {
 };
 // TODO: simplify
 export const get_selected_word_indices = createSelector(
-  [get_subs, get_subs_chunks, get_selection_boundaries],
-  (subs, subs_chunks, selection_boundaries) => {
-    const start = selection_boundaries.start;
-    const end = selection_boundaries.end;
+  [
+    get_subs,
+    get_subs_chunks,
+    get_selection_start_chunk_index,
+    get_selection_start_icco,
+    get_selection_end_chunk_index,
+    get_selection_end_icco
+  ],
+  (
+    subs,
+    subs_chunks,
+    start_chunk_index,
+    start_icco,
+    end_chunk_index,
+    end_icco
+  ) => {
+    const start = {
+      chunk_index: start_chunk_index,
+      icco: start_icco
+    };
+    const end = {
+      chunk_index: end_chunk_index,
+      icco: end_icco
+    };
     if (
       start.chunk_index === null ||
       end.chunk_index === null ||
@@ -361,13 +377,8 @@ export const get_edit_window_timespan = createSelector(
   }
 );
 export const get_marked_word = createSelector(
-  [
-    get_subs,
-    get_subs_chunks,
-    get_selection_boundaries,
-    get_selected_word_indices
-  ],
-  (subs, subs_chunks, selection_boundaries, selected_word_indices) => {
+  [get_subs, get_subs_chunks, get_selected_word_indices],
+  (subs, subs_chunks, selected_word_indices) => {
     if (selected_word_indices && selected_word_indices.only >= 0) {
       const marked_word = subs[selected_word_indices.only];
       const { text_node, icco } = get_word_chunk_position(
