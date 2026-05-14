@@ -13,7 +13,12 @@ import {
 } from '../../components/TrackDetail';
 import { demagicize_rects } from '../../lib/Util';
 
-const SPACE = ' ';
+function is_ctrl_space_event(evt) {
+  return (
+    evt.ctrlKey &&
+    (evt.code === 'Space' || evt.key === ' ' || evt.key === 'Spacebar')
+  );
+}
 
 const chunk_text_nodes = [];
 export const get_chunk_text_nodes = () => chunk_text_nodes;
@@ -102,11 +107,13 @@ export class TrackDetail extends React.Component {
       audio.ontimeupdate = sync_current_time;
     });
     if (!window.KEY_PLAYBACK_CTRL) {
-      window.KEY_PLAYBACK_CTRL = document.addEventListener('keyup', evt => {
-        if (evt.ctrlKey && evt.key === SPACE) {
+      window.KEY_PLAYBACK_CTRL = evt => {
+        if (is_ctrl_space_event(evt)) {
+          evt.preventDefault();
           me._is_playing() ? playback_off() : playback_on();
         }
-      });
+      };
+      document.addEventListener('keydown', window.KEY_PLAYBACK_CTRL);
     }
 
     me.set_subs_offset();
@@ -126,6 +133,10 @@ export class TrackDetail extends React.Component {
 
   componentWillUnmount() {
     this.props.playback_off();
+    if (window.KEY_PLAYBACK_CTRL) {
+      document.removeEventListener('keydown', window.KEY_PLAYBACK_CTRL);
+      window.KEY_PLAYBACK_CTRL = null;
+    }
     if (equalizer) {
       equalizer.destroyControl();
     }
