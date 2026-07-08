@@ -79,7 +79,8 @@
                     { "name": "R", "section": "kotouc-pismeno-R" },
                     { "name": "S", "section": "kotouc-pismeno-S" },
                     { "name": "T", "section": "kotouc-pismeno-T" },
-                    { "name": "U", "section": "kotouc-pismeno-U" }
+                    { "name": "U", "section": "kotouc-pismeno-U" },
+                    { "name": "Plzeň", "section": "kotouc-pismena-plzen" }
                 ]
             },
             {
