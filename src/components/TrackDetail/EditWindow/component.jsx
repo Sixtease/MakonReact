@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Check, Download, Play, Square } from 'lucide-react';
 
+function is_ctrl_enter_event(evt) {
+  return evt.ctrlKey && evt.key === 'Enter';
+}
+
 class EditWindow extends React.Component {
   constructor(props) {
     super(props);
@@ -181,13 +185,20 @@ class EditWindow extends React.Component {
     });
     this.object_url = null;
     if (!window.KEY_SEND_SUBS_CTRL) {
-      window.KEY_SEND_SUBS_CTRL = document.addEventListener('keyup', evt => {
-        if (evt.ctrlKey && evt.key === 'Enter') {
-          if (this._is_shown()) {
-            this.props.onSubmit({ edited_subtitles: this.state.edited_subtitles });
-          }
+      window.KEY_SEND_SUBS_CTRL = evt => {
+        if (is_ctrl_enter_event(evt) && this._is_shown()) {
+          evt.preventDefault();
+          this.props.onSubmit({ edited_subtitles: this.state.edited_subtitles });
         }
-      });
+      };
+      document.addEventListener('keydown', window.KEY_SEND_SUBS_CTRL);
+    }
+  }
+
+  componentWillUnmount() {
+    if (window.KEY_SEND_SUBS_CTRL) {
+      document.removeEventListener('keydown', window.KEY_SEND_SUBS_CTRL);
+      window.KEY_SEND_SUBS_CTRL = null;
     }
   }
 }

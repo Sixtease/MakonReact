@@ -66,4 +66,23 @@ describe('EditWindow', () => {
     const [values] = onSubmit.mock.calls[0];
     expect(values).toEqual(expect.objectContaining({ edited_subtitles: 'upraveny text' }));
   });
+
+  it('submits with Ctrl+Enter when shown', () => {
+    const onSubmit = vi.fn();
+    renderWithProviders(
+      <EditWindow
+        selected_words={selectedWords(['jedna'])}
+        edit_window_timespan={{ start: 0, end: 1 }}
+        is_playing={false}
+        playback_on={vi.fn()}
+        playback_off={vi.fn()}
+        download_edit_window={vi.fn()}
+        onSubmit={onSubmit}
+        stem="abc"
+      />
+    );
+
+    fireEvent.keyDown(document, { ctrlKey: true, key: 'Enter' });
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
 });
